@@ -1,0 +1,26 @@
+{
+  "run_id": "230f639881",
+  "execution_scope": "development_auto_checks_official_capture_replay",
+  "passed": true,
+  "checks_passed": 93,
+  "checks_total": 93,
+  "region_cases": 4,
+  "independent_isolation_labels": 0,
+  "executions": 12,
+  "sk_excluded_cases": 4,
+  "quality_mutation_cases": 4,
+  "locked_evaluation": false,
+  "user_review": false,
+  "model_called": false,
+  "comparisons": {
+    "R": "executed",
+    "S": "not_executed_missing_model_credentials_and_configuration",
+    "A": "not_executed_missing_model_credentials_and_configuration"
+  },
+  "result_path": "/Users/yunjongseo/Documents/ChatGPT/빅콘테스트/output/donghaeng_execution_20261005/evaluation/results/230f639881",
+  "limitations": [
+    "규칙 분기의 차이를 실제 모델 적응 성능으로 해석하지 않음",
+    "날씨·휴일 맥락 커넥터 미연결로 활동 변화 원인 미확정",
+    "독립 고립 라벨·외적 타당도·미래 예측·예방 효과 미검증"
+  ]
+}

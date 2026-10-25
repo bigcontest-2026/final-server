@@ -1,0 +1,343 @@
+{
+  "agent_service_live_integration": false,
+  "environment": [
+    "annotated-types==0.8.0",
+    "attrs==26.1.0",
+    "cloudpickle==3.1.2",
+    "colorama==0.4.6",
+    "-e git+https://github.com/bigcontest-2026/model.git@382839ff0fc3ced80f790b5733cf8f841567f5ae#egg=donghaeng_model",
+    "et_xmlfile==2.0.0",
+    "iniconfig==2.3.1",
+    "joblib==1.6.0",
+    "jsonschema==4.26.0",
+    "jsonschema-specifications==2025.9.1",
+    "narwhals==2.27.1",
+    "numpy==2.5.4",
+    "openpyxl==3.1.5",
+    "packaging==26.3",
+    "pandas==3.0.6",
+    "pluggy==1.6.0",
+    "pydantic==2.14.1",
+    "pydantic_core==2.50.1",
+    "Pygments==2.21.0",
+    "pytest==9.1.1",
+    "python-dateutil==2.9.0.post0",
+    "referencing==0.37.0",
+    "rpds-py==2026.9.1",
+    "scikit-learn==1.9.1",
+    "scipy==1.18.1",
+    "six==1.17.0",
+    "threadpoolctl==3.7.0",
+    "typing-inspection==0.4.4",
+    "typing_extensions==4.16.0",
+    "tzdata==2026.5"
+  ],
+  "external_context_code_sha256": {
+    "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\C1_commercial_baseline\\c1_baseline.py": "df24471745aef28941b0baa3e02c70b0897074c59f6d15ff2ff6d1b827b0ac73"
+  },
+  "final_code_sha256": {
+    "configs/example.json": "b1151bcb415a363639bbe0ea5e75df84dd328fac4e1f0d00c95454649effa8be",
+    "configs/local.json": "c0dbc66064fcf23310eb37fc28f442a894ac4fe94c70ec210098e86c6573735d",
+    "schemas/behavior.schema.json": "e3b755c7e852610640bf7afefed925e6fbe9773d9680f3272572b6f00d14d718",
+    "schemas/historical.schema.json": "53e2c724f3cbf941cff7083156c76ea669a75d011a93e42cb683566bc2e44093",
+    "schemas/survey_area_index.schema.json": "cceb985f5e2ef5d75e86ac15ad5e1ccbad06511d2c3c640662e4046ee1f37fcb",
+    "schemas/v3_behavior.schema.json": "de62985d56679577a6d754972acfad81fb115d5d432a340ce7d1525328b8f6a2",
+    "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/common.py": "c4bb7d6f2e2fefab008daa57047e09dced5810cd7d2e1aecfb2433062fce5cb9",
+    "src/context.py": "1aac7e0f5435b7f035b336834c8b180488d8ba9a732057e40230c46952e5b9a6",
+    "src/coverage.py": "22094029fa35c0302908a550b7eca7997871d2f387c831cf45cc8b4f0fa08a23",
+    "src/data_audit.py": "8a21630363a03699abc32f60e77ef2dcc558cbc062ecf83d43e44c9bedbcd7fe",
+    "src/geography.py": "48713ceaf9a28fea0fda654fa9df5d5abd604e9b75d41f728ed84f3a5e15cef9",
+    "src/package.py": "326155a8b69da3af4dfd28db2a9dc7668050aba721f620d74e737423b40c0faf",
+    "src/pipeline.py": "76525acafe087c041df81167190a1d99ddd16845d1bc8516720904995a203405",
+    "src/population_inputs.py": "b80c22dd69e118de9cf0106375248710e72ae6ef5c7d581b4dbe63c6e0eed964",
+    "src/query.py": "45c500afda7e9694cc4dfeb22e91f2e7bbcb6aa2afb385395090643058c179fe",
+    "src/review_v3.py": "6bcaeef0974b65cc0f55fcb2dedc06a596abc733253a6396786c9ffd49ae5fb2",
+    "src/run.py": "ea4321431c6699723102b99c01fa8e892123982271665e5d18aeb9731871f8fc",
+    "src/survey_area_index.py": "50ffff18f574a5e9a2f4600b9c83863e8c93fdc2a2b2089ac201570fb8480eef"
+  },
+  "handoff_code_sha256": {
+    "schemas/behavior.schema.json": "e3b755c7e852610640bf7afefed925e6fbe9773d9680f3272572b6f00d14d718",
+    "schemas/historical.schema.json": "53e2c724f3cbf941cff7083156c76ea669a75d011a93e42cb683566bc2e44093",
+    "schemas/survey_area_index.schema.json": "cceb985f5e2ef5d75e86ac15ad5e1ccbad06511d2c3c640662e4046ee1f37fcb",
+    "schemas/v3_behavior.schema.json": "de62985d56679577a6d754972acfad81fb115d5d432a340ce7d1525328b8f6a2",
+    "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/common.py": "c4bb7d6f2e2fefab008daa57047e09dced5810cd7d2e1aecfb2433062fce5cb9",
+    "src/context.py": "1aac7e0f5435b7f035b336834c8b180488d8ba9a732057e40230c46952e5b9a6",
+    "src/coverage.py": "957e6a4f87e731cf07f0785495020cf78467077df59440bfd06abd271c6f442a",
+    "src/data_audit.py": "8a21630363a03699abc32f60e77ef2dcc558cbc062ecf83d43e44c9bedbcd7fe",
+    "src/geography.py": "48713ceaf9a28fea0fda654fa9df5d5abd604e9b75d41f728ed84f3a5e15cef9",
+    "src/legacy_seoul.py": "58a55e2414a5128319ce356911dca49d651a64af1ccff1cc89eb8b645b4fab0e",
+    "src/package.py": "2ce3ca9846008f3471278141060f0c7f8de223b4ddacc5b343cc16b533d9efd3",
+    "src/pipeline.py": "76525acafe087c041df81167190a1d99ddd16845d1bc8516720904995a203405",
+    "src/population_inputs.py": "b80c22dd69e118de9cf0106375248710e72ae6ef5c7d581b4dbe63c6e0eed964",
+    "src/query.py": "3e69fad01920748dded2e8a791ef35023f878e3eaefb24e0358caa6fc922bfa9",
+    "src/review_v3.py": "6bcaeef0974b65cc0f55fcb2dedc06a596abc733253a6396786c9ffd49ae5fb2",
+    "src/run.py": "bd689b3379a6da2c4e79e6d585eaf175bc9d397a2591ae336efe4ec9999d208b",
+    "src/survey_area_index.py": "50ffff18f574a5e9a2f4600b9c83863e8c93fdc2a2b2089ac201570fb8480eef"
+  },
+  "inputs": {
+    "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\data-set\\2026빅콘테스트_신한카드_데이터_레이아웃.zip": "5dd537389bbda489e8ac7c771e1ab56ed2f7d9d0fb325ecd300768f2061aa8b6",
+    "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\data-set\\sk_merge_csv_with_hangjangdong.csv": "8cd33ae39f7f337dc792da34c689191ffe84e983fa176ec78e6a5944f896b5d5"
+  },
+  "is_synthetic": false,
+  "outputs": {
+    "behavior_evidence.jsonl": "4272904f48751dbda8ee3f8604427adc4abe8c2eb5890c91abab25b818895620",
+    "historical_reference.jsonl": "862d43c0199e558649a162990bd8bd33207947ecbc8071cbb1838cec5b8aaa5b",
+    "monthly_observations.jsonl": "ff421284e07a2371e9e2862524c54b0f02db8755baea2ca5f9b80ca3fa3dcf13",
+    "region_summary.json": "34d17029226f8677b9a448db79e0788f6770eec1a3620353dcbd255cd7c79355",
+    "dong_skt_evidence.jsonl": "9831ef9a9931e087deee54a36bc13276dfc1d63e38e3f55244c628310700121f",
+    "survey_mois_reference/DATA_DICTIONARY.md": "10c63c3d5fcae8acd37d6449ba2fe920d15be7a93525972b792e41b2aa7eb3e4",
+    "survey_mois_reference/README.md": "938260773028b3a3e4c8aa8bf13110e0e5ee689a430652a46822f1de97166c1c",
+    "survey_mois_reference/dong_month_reference.csv": "c3d5903478b57541e84dee29fdf3d4476d36f8237374875b631748ac2cbe3c60",
+    "survey_mois_reference/dong_month_six_group_population.csv": "883cf51579e3728d69729e9db9f7fef94fcd28ad70cdfe6a33dc6dd58b57dfe1",
+    "survey_mois_reference/manifest.json": "fabac9d4a713fc58e5be38173622f1c062e15a75e8b3d89e19d666e4e3b0d87a",
+    "survey_mois_reference/national_item_profile.csv": "7934f019b2e4b13171185c8f1da7ab514a36a349b1676d27a6ee818d233ec9ec",
+    "survey_mois_reference/national_overall_reference.csv": "fe1c4f3ec5f2424adef838e68dc4c9baada3a6e5fc2c1566484f2247003c4093",
+    "survey_mois_reference/national_six_group_profile.csv": "3c38911bc334f013d8c07332593c3e9fbabf1323bb993cc92f5fe1f28dbafcdd",
+    "survey_mois_reference/region_month_summary.csv": "89c8d449fa8d2f7f86391f64a21cf329f2a7ea37d41d0a3a8749afe9f3da63bf"
+  },
+  "pipeline_execution_code_sha256": {
+    "configs/example.json": "b1151bcb415a363639bbe0ea5e75df84dd328fac4e1f0d00c95454649effa8be",
+    "configs/local.json": "c0dbc66064fcf23310eb37fc28f442a894ac4fe94c70ec210098e86c6573735d",
+    "schemas/behavior.schema.json": "e3b755c7e852610640bf7afefed925e6fbe9773d9680f3272572b6f00d14d718",
+    "schemas/historical.schema.json": "53e2c724f3cbf941cff7083156c76ea669a75d011a93e42cb683566bc2e44093",
+    "schemas/survey_area_index.schema.json": "cceb985f5e2ef5d75e86ac15ad5e1ccbad06511d2c3c640662e4046ee1f37fcb",
+    "schemas/v3_behavior.schema.json": "de62985d56679577a6d754972acfad81fb115d5d432a340ce7d1525328b8f6a2",
+    "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/common.py": "c4bb7d6f2e2fefab008daa57047e09dced5810cd7d2e1aecfb2433062fce5cb9",
+    "src/context.py": "1aac7e0f5435b7f035b336834c8b180488d8ba9a732057e40230c46952e5b9a6",
+    "src/coverage.py": "22094029fa35c0302908a550b7eca7997871d2f387c831cf45cc8b4f0fa08a23",
+    "src/data_audit.py": "8a21630363a03699abc32f60e77ef2dcc558cbc062ecf83d43e44c9bedbcd7fe",
+    "src/geography.py": "48713ceaf9a28fea0fda654fa9df5d5abd604e9b75d41f728ed84f3a5e15cef9",
+    "src/package.py": "326155a8b69da3af4dfd28db2a9dc7668050aba721f620d74e737423b40c0faf",
+    "src/pipeline.py": "76525acafe087c041df81167190a1d99ddd16845d1bc8516720904995a203405",
+    "src/population_inputs.py": "b80c22dd69e118de9cf0106375248710e72ae6ef5c7d581b4dbe63c6e0eed964",
+    "src/query.py": "45c500afda7e9694cc4dfeb22e91f2e7bbcb6aa2afb385395090643058c179fe",
+    "src/review_v3.py": "6bcaeef0974b65cc0f55fcb2dedc06a596abc733253a6396786c9ffd49ae5fb2",
+    "src/run.py": "ea4321431c6699723102b99c01fa8e892123982271665e5d18aeb9731871f8fc",
+    "src/survey_area_index.py": "50ffff18f574a5e9a2f4600b9c83863e8c93fdc2a2b2089ac201570fb8480eef"
+  },
+  "provenance": {
+    "analysis_period": [
+      "202507",
+      "202512"
+    ],
+    "config_sha256": "c0dbc66064fcf23310eb37fc28f442a894ac4fe94c70ec210098e86c6573735d",
+    "inputs": {
+      "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\data-set\\2026빅콘테스트_신한카드_데이터_레이아웃.zip": "5dd537389bbda489e8ac7c771e1ab56ed2f7d9d0fb325ecd300768f2061aa8b6",
+      "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\data-set\\sk_merge_csv_with_hangjangdong.csv": "8cd33ae39f7f337dc792da34c689191ffe84e983fa176ec78e6a5944f896b5d5"
+    },
+    "model_version": "final_activity_evidence_v1",
+    "run_id": "final_20261016_171617_226469",
+    "source_code_sha256": {
+      "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\C3_Shinhan_baseline\\c3_baseline.py": "713bcf50d07922dc96e08471744dea3b045850b2c212e945dfbd6f4dc8f08038",
+      "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\C3_Shinhan_baseline\\calendar_2025_H2.csv": "2ff6d11be30eebd96195eddb248df6ff8a649635bb44014ae90982cb0df7d954",
+      "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\C3_Shinhan_baseline\\config_c3.json": "4a0f0590689680e952a061d62d74aa6c0bd7105ec7c0c4a0f3deb454dee4baa8",
+      "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\isolation-index\\v1\\src\\calculate_regional_signals.py": "ccadda1700eed05a050c7fea5bd2737b7955584f6d967eb69c4413d9f057d246",
+      "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\isolation-index\\v1\\src\\project_paths.py": "20c242432c1bb358f883447f02f7b003dba97e215072c8105fcbc31a08b2b4f5",
+      "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\isolation-index\\v2\\src\\validate_baselines.py": "9303806b0628f4aa5e9de4edde0cc1a8a988f48f743188e553b4167ec948bd83",
+      "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\isolation-index\\v3\\behavior\\src\\compare_step7_anomalies.py": "22998f28b33d4a1c50f3af885ac735734f5ba93c8000438cdfbe97e9b20dd5e5"
+    },
+    "source_release_dates_verified": false
+  },
+  "python": "3.14.7",
+  "region_aliases": {},
+  "regions": {
+    "11680": "강남구",
+    "51110": "춘천시"
+  },
+  "revalidation_source": {
+    "manifest_sha256": "09f90c1e569232d5bec7513be99314ca5c4e8ea66299e5b7f00cbfa7361263e0",
+    "run_id": "final_20261016_171617_226469"
+  },
+  "run_id": "revalidated_20261016_172441_931042",
+  "source_commits": {
+    "agent": "fd108b78c97b56ac758e2a93eddd687141dc6552",
+    "index2_main_verified": "19b0ec61e88b0d3dc513a935c49dc2de50b7b3fd",
+    "isolation-index": "cd1acaca965a5b509501ecfba46082b21758d289",
+    "isolation-index2": "19b0ec61e88b0d3dc513a935c49dc2de50b7b3fd",
+    "local_index2_checkout": "89687761a242a4aa5072df0730c4aca535c07e5d",
+    "model": "4d1a7a6bd804826067361d80a115449c95330972",
+    "service": "2ccb9297232942a029a4a0a97f54a91a881fcbfe"
+  },
+  "source_commits_note": "Main snapshots are inventory; standalone experiment execution is identified by actual code hashes.",
+  "status": "completed",
+  "validation": {
+    "C3_common_24_threshold_sensitivity": {
+      "10.0": {
+        "candidates": 0,
+        "rows": 24,
+        "withheld": 0
+      },
+      "20.0": {
+        "candidates": 0,
+        "rows": 24,
+        "withheld": 0
+      },
+      "5.0": {
+        "candidates": 2,
+        "rows": 24,
+        "withheld": 0
+      }
+    },
+    "C3_monthly_recalculation_rows": 880,
+    "behavior_recalculation_rows": 100,
+    "behavior_rows": 100,
+    "card_profile": {
+      "member": "신한카드_빅콘테스트2026_데이터2.txt",
+      "rows": 1806800
+    },
+    "comparison": {
+      "False/False": 7,
+      "True/False": 17
+    },
+    "core_reproducibility": "same_saved_observations_exact_output",
+    "dong_rows": 2820,
+    "external_context": [
+      {
+        "evidence": "external_context/c1/agent_evidence.jsonl",
+        "experiment": "C1",
+        "limitations": [
+          "Seoul_only",
+          "no_monthly_replication"
+        ],
+        "main_model_join": false,
+        "region_codes": [
+          "11110",
+          "11140",
+          "11170",
+          "11200",
+          "11215",
+          "11230",
+          "11260",
+          "11290",
+          "11305",
+          "11320",
+          "11350",
+          "11380",
+          "11410",
+          "11440",
+          "11470",
+          "11500",
+          "11530",
+          "11545",
+          "11560",
+          "11590",
+          "11620",
+          "11650",
+          "11680",
+          "11710",
+          "11740"
+        ],
+        "status": "reexecuted_from_real_JSON",
+        "time_granularity": "quarter"
+      },
+      {
+        "artifact_hashes_verified": 18,
+        "evidence": "external_context/m1/agent_evidence.jsonl",
+        "experiment": "M1",
+        "limitations": [
+          "week_dates_unverified_no_month_join",
+          "overlapping_group_margins"
+        ],
+        "main_model_join": false,
+        "reexecuted": false,
+        "source_identity": [
+          [
+            "in",
+            "4a7685513639281f0923fd9dcf9c8bc54f1d754aaefa85a6d616d0a2c4808f80"
+          ],
+          [
+            "out",
+            "310b8c62f63e77a34b9e5389bbc7fb33de3e2261f628de26738e1fea5ac15e41"
+          ]
+        ],
+        "status": "preserved_completed_run_hash_verified"
+      },
+      {
+        "artifact_hashes_verified": 15,
+        "evidence": "external_context/m2/agent_evidence.jsonl",
+        "experiment": "M2",
+        "limitations": [
+          "week_dates_unverified_no_month_join",
+          "overlapping_group_margins"
+        ],
+        "main_model_join": false,
+        "reexecuted": false,
+        "source_identity": [
+          [
+            "in",
+            "4a7685513639281f0923fd9dcf9c8bc54f1d754aaefa85a6d616d0a2c4808f80"
+          ],
+          [
+            "out",
+            "310b8c62f63e77a34b9e5389bbc7fb33de3e2261f628de26738e1fea5ac15e41"
+          ]
+        ],
+        "status": "preserved_completed_run_hash_verified"
+      },
+      {
+        "experiment": "M3",
+        "full_results_sha256": "43b2d304f2ca9c9f9ca156860b122ab813b3848d2eb71c20eecfe2659b07ee2f",
+        "main_model_join": false,
+        "preserved_run_status": "completed",
+        "raw_files_hash_verified": 18,
+        "raw_zip_sha256": "77427046fafc04f4c747b770aa1aec3ad570c997a7e1ab4e41b031b144190712",
+        "reason": "official_BLOCK_to_region_mapping_unverified",
+        "reexecuted": false,
+        "status": "not_comparable"
+      },
+      {
+        "age_group": "20~39세",
+        "evidence": "external_context/legacy_seoul/agent_evidence.jsonl",
+        "experiment": "LEGACY_SEOUL",
+        "main_model_join": false,
+        "period": "2025-12",
+        "records": 417,
+        "service_snapshot_sha256": "174bc8d1af8a0f74b48918fabdc7534cc8714319491341c721ae88f88e71f9b7",
+        "status": "preserved_snapshot_exact_match"
+      }
+    ],
+    "full_raw_input_repeat": false,
+    "historical_join_rows": 24,
+    "historical_rows": 880,
+    "historical_schema_records": 880,
+    "monthly_rows": 120,
+    "no_future_values_in_C3_reference": true,
+    "operational_alert_allowed": false,
+    "original_team_outputs_reproduced": false,
+    "quality_status": "hold",
+    "raw_C3_month_count_matches": 48,
+    "robust_candidates": 2,
+    "rule_candidates": 47,
+    "skt_profile": {
+      "groups": 120,
+      "input": "sk_merge_csv_with_hangjangdong.csv",
+      "input_rows": 562389,
+      "monthly_selected_rows": {
+        "202507": 92071,
+        "202508": 93256,
+        "202509": 93250,
+        "202510": 95168,
+        "202511": 93476,
+        "202512": 90462
+      },
+      "selected_rows": 557683
+    },
+    "source_release_dates_verified": false,
+    "spatial_mapping_verified": false,
+    "status": "passed",
+    "survey_frozen_documentation_verified": 2,
+    "survey_frozen_outputs_verified": 6,
+    "survey_newline_policy": "LF_canonical_matches_frozen_SHA256",
+    "validation_run_id": "revalidated_20261016_172441_931042"
+  },
+  "validation_scope": "saved_observations_and_preserved_context_not_full_raw_repeat",
+  "distribution": {
+    "kind": "serving_subset",
+    "source_run_id": "revalidated_20261016_172441_931042",
+    "source_manifest_sha256": "37312a2420e122f3542ad70abd148b4c0f3f7f7b3528acb9790d3233ed89aa5f",
+    "excluded": "Large external context and training/reproduction artifacts; required model query outputs unchanged."
+  }
+}

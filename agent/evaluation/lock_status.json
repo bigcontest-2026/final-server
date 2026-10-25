@@ -1,0 +1,11 @@
+{
+  "status": "lock_pending",
+  "planned_case_count": 24,
+  "executed_locked_cases": 0,
+  "reason": [
+    "user_oracle_review_pending",
+    "model_credentials_and_budget_missing",
+    "independent_source_and_region_families_to_finalize"
+  ],
+  "developer_checks_are_locked_evaluation": false
+}

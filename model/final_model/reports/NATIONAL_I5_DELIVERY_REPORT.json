@@ -1,0 +1,57 @@
+{
+  "actual_local_HTTP_agent_graph_brief_value_match": true,
+  "all_repo_tests": {
+    "failed": 0,
+    "passed": 129,
+    "skipped": 18,
+    "total": 147
+  },
+  "external_LLM_called": false,
+  "final_http_graph_tests": {
+    "failed": 0,
+    "passed": 5,
+    "skipped": 0,
+    "total": 5
+  },
+  "manifest_sha256": "bed8f7e11e08c494374ff73bc0fc4ecabfe31f5bb7393ebdb01d180cf291d0b4",
+  "months": [
+    "202507",
+    "202508",
+    "202509",
+    "202510",
+    "202511",
+    "202512"
+  ],
+  "national_bundle": "survey_area_index_20261016_180747_534427",
+  "official_all_39_fields_reconciled": true,
+  "operational_alert_allowed": false,
+  "production_lockfile_environment_tested": false,
+  "provinces_per_month": 17,
+  "quality_status": "hold",
+  "remote_production_deployed": false,
+  "report_date_kst": "2026-10-17",
+  "scored_dong_month_rows": 21698,
+  "sgg_month_rows": 1584,
+  "skips_reason": "17 local official-capture resource tests and 1 Windows symlink-privilege test",
+  "source_code_sha256": {
+    "agent/src/donghaeng_agent/contracts.py": "43bc96dcdefc50b4c6bc01ec87d82e1d5dd39da11921c92c2b53c0ac76ecfa0f",
+    "agent/src/donghaeng_agent/graph.py": "53e52483d0592720beb1e3ddde548dd53a5118452e1562a3580409818828ccfa",
+    "agent/src/donghaeng_agent/tools.py": "68cc72d93353dbcf9d425f68c37483295a1fe6df83bc7ac2fa3ebef2200c96f6",
+    "model/final_model/src/national_population.py": "e077c61bf56c343c4826696370db103e7a5b532159df234e26ef26ecf82a3d82",
+    "model/final_model/src/survey_area_index.py": "54d3a32a9e877e5f8d4652378cdb8875f73da619f3dbc6c40731c14d1ade20ac",
+    "model/src/donghaeng_model/snapshot.py": "39465c16e538b0b975919ceecfe8f1f1c52e25eaf68843387961fe1c4554f5c0",
+    "service/backend/app/config.py": "cc0f06ba14d061bf90bc853de074949f5de0e84c2fe62bacfb7fa939f9ebbeb3",
+    "service/backend/app/main.py": "4d7b871b6d9c90ed418e9387b781b89ffbdccdc8f8bf4447ec3c8db18ed82f5f"
+  },
+  "source_page": "https://jumin.mois.go.kr/ageStatMonth.do",
+  "status": "passed",
+  "test_runtime_versions": {
+    "fastapi": "0.143.3",
+    "httpx": "0.28.1",
+    "langgraph": "1.2.15",
+    "pydantic": "2.14.1"
+  },
+  "two_region_max_score_error": 7.105427357601002e-15,
+  "two_region_regression_rows": 282,
+  "zero_adult_dong_month_rows": 16
+}

@@ -1,0 +1,4 @@
+* text=auto
+bundles/** -text -diff
+model/data/i5/national_2025/** -text -diff
+agent/resources/support/welfare_catalog_20260819.csv -text -diff

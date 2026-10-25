@@ -1,0 +1,5 @@
+# Install from service/backend with sibling model/ and agent/ checkouts.
+# The package pyprojects own their runtime dependency contracts.
+-r requirements.txt
+-e ../../model
+-e ../../agent

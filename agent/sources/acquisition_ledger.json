@@ -1,0 +1,318 @@
+{
+  "checked_at": "2026-10-05T00:54:09.039531+09:00",
+  "transport": "public_web_or_public_file",
+  "detail_api_called": false,
+  "detail_api_success": false,
+  "supports_verified": 4,
+  "catalog_acquired": true,
+  "attempts": [
+    {
+      "id": "bigcontest_home",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://www.bigcontest.or.kr/",
+        "final_url": "https://www.bigcontest.or.kr/",
+        "retrieved_at": "2026-10-04T15:38:07.834082+00:00",
+        "http_status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "size": 69811,
+        "sha256": "de4d22dc3e3bd75b41f94e5cc8dcafb5371f8ac4221abecd97563c5fc11e5907"
+      }
+    },
+    {
+      "id": "bigcontest_topic_download_response",
+      "validation_status": "error_html_not_pdf",
+      "metadata": {
+        "url": "https://www.bigcontest.or.kr/bbs/download.php?bo_table=2026&wr_id=33&no=0&nonce=a1acb36bacafd15bc024|1791135623|e31dd1718548df0a407044d2b0bb59874703f2fb",
+        "retrieved_at": "2026-10-04T15:42:44.901284+00:00",
+        "http_status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "size": 3814,
+        "sha256": "6647be0dd9f0d093a6f398dc9ee38273613e0e442ae41945d680e661f9934ba7",
+        "pdf_magic": false
+      }
+    },
+    {
+      "id": "catalog_schema_download_response",
+      "validation_status": "wrong_png_not_csv",
+      "metadata": {
+        "url": "https://www.data.go.kr/cmm/cmm/fileDownload.do?atchFileId=FILE_000000003642569&fileDetailSn=1&insertDataPrcus=N",
+        "final_url": "https://www.data.go.kr/cmm/cmm/fileDownload.do?atchFileId=FILE_000000003642569&fileDetailSn=1&insertDataPrcus=N",
+        "retrieved_at": "2026-10-04T15:39:22.508480+00:00",
+        "http_status": 200,
+        "content_type": "application/octet-stream; charset=UTF-8",
+        "content_disposition": "attachment; filename=\"11.png\"",
+        "size": 50069,
+        "sha256": "d04a910d5ee44a79ad86855ccfbd49f5f691806326b6d60535fcda5750df1916",
+        "validation_status": "not_csv_wrong_file_schema_url",
+        "actual_filename": "11.png",
+        "record_path": "output/donghaeng_execution_20261005/sources/official_raw/catalog_schema_download_response.png"
+      }
+    },
+    {
+      "id": "chuncheon_bomnae_411",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://bomnae.chuncheon.go.kr/contentView?contentNo=2327&no=411",
+        "final_url": "https://bomnae.chuncheon.go.kr/contentView?contentNo=2327&no=411",
+        "retrieved_at": "2026-10-04T15:38:07.990822+00:00",
+        "http_status": 200,
+        "content_type": "text/html;charset=UTF-8",
+        "size": 78225,
+        "sha256": "6ca7d2398f4d201ba23e9958efb2a8dd1bccba36ae57eb7d2855734864700d94"
+      }
+    },
+    {
+      "id": "chuncheon_bomnae_429",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://bomnae.chuncheon.go.kr/contentView?contentNo=2845&no=429",
+        "final_url": "https://bomnae.chuncheon.go.kr/contentView?contentNo=2845&no=429",
+        "retrieved_at": "2026-10-04T15:40:22.350382+00:00",
+        "http_status": 200,
+        "content_type": "text/html;charset=UTF-8",
+        "size": 112291,
+        "sha256": "a5703e2734d425e8c61dd2738cd053a760dae6de9096b89c4e966dea46f327ed"
+      }
+    },
+    {
+      "id": "chuncheon_bomnae_copyright",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://bomnae.chuncheon.go.kr/copyright",
+        "retrieved_at": "2026-10-04T15:47:12.438657+00:00",
+        "http_status": 200,
+        "sha256": "b585bf2f3df868bcf5a2eae602c8e632e09ff1c006b623f8e2b6e3fe342dc2a1"
+      }
+    },
+    {
+      "id": "chuncheon_city_mental_health",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://www.chuncheon.go.kr/health/business/mental/mental-health/",
+        "retrieved_at": "2026-10-04T15:47:12.341594+00:00",
+        "http_status": 200,
+        "sha256": "041cb0d0e48d91d68e6db741c3315aa83c26d55a1e1652920f31d7aea2a68d17"
+      }
+    },
+    {
+      "id": "chuncheon_current_bomnae",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://bomnae.chuncheon.go.kr/",
+        "final_url": "https://bomnae.chuncheon.go.kr/",
+        "retrieved_at": "2026-10-04T15:39:24.466137+00:00",
+        "http_status": 200,
+        "content_type": "text/html;charset=UTF-8",
+        "content_disposition": null,
+        "size": 144726,
+        "sha256": "a24b07f7c8e870739ffe4493ea563d1e5c8199a6bbf279f5bcc9171cbf586dc4"
+      }
+    },
+    {
+      "id": "chuncheon_health_link",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://www.chuncheon.go.kr/health/",
+        "final_url": "https://www.chuncheon.go.kr/health/",
+        "retrieved_at": "2026-10-04T15:40:22.948811+00:00",
+        "http_status": 200,
+        "content_type": "text/html;charset=UTF-8",
+        "size": 225855,
+        "sha256": "669ceb4837ba249b1f31f64d23afacf039d50f937e883098cf49c42288039104"
+      }
+    },
+    {
+      "id": "chuncheon_mhc",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://www.chmhc.org/sub.php?ardtab=2&menukey=41",
+        "final_url": "https://www.chmhc.org/sub.php?ardtab=2&menukey=41",
+        "retrieved_at": "2026-10-04T15:40:22.171681+00:00",
+        "http_status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "size": 37586,
+        "sha256": "ba3bf511f8f09877bf67cbb87c512fa7beab71fab4e581e47aec61d8a6327e3b"
+      }
+    },
+    {
+      "id": "contest_notice_list",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://www.bigcontest.or.kr/theme/basic/notice_2026.php?page=1",
+        "retrieved_at": "2026-10-04T15:47:12.561716+00:00",
+        "http_status": 200,
+        "sha256": "dc87b0fcb9f41083f3493a421e597f779f9ed62f2ae398bea786073ed6c3f26d"
+      }
+    },
+    {
+      "id": "datago_file_detail_script",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://www.data.go.kr/js/biz/datset/script_fileDetail.js",
+        "retrieved_at": "2026-10-04T15:41:36.220948+00:00",
+        "http_status": 200,
+        "sha256": "c0a16f78770cdc96f2698b1f13425696bd38b295dcda4b2a17f832bc65b6ce33"
+      }
+    },
+    {
+      "id": "seoul_copyright",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://www.seoul.go.kr/helper/copyright.do",
+        "retrieved_at": "2026-10-04T15:41:36.315071+00:00",
+        "http_status": 200,
+        "sha256": "a8e5c2045281ad328c99049b32b279fddbffd9478e1a84e926109f90f5f882e0"
+      }
+    },
+    {
+      "id": "seoul_family_closed",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://youth.seoul.go.kr/infoData/sprtInfo/view.do?key=2309130006&sprtInfoId=69709",
+        "final_url": "https://youth.seoul.go.kr/infoData/sprtInfo/view.do?key=2309130006&sprtInfoId=69709",
+        "retrieved_at": "2026-10-04T15:40:21.999729+00:00",
+        "http_status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "size": 163933,
+        "sha256": "8785957d27db37670b30f394ab7249b7da5493bf2e11a1ebc84f8926ad404929"
+      }
+    },
+    {
+      "id": "seoul_isolated_household",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://news.seoul.go.kr/welfare/archives/569275",
+        "final_url": "https://news.seoul.go.kr/welfare/archives/569275",
+        "retrieved_at": "2026-10-04T15:38:07.737576+00:00",
+        "http_status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "size": 130863,
+        "sha256": "594fefcd1bf0c40351e9a90642c93e1d2d4bf6056caa657569bf568e70e3fb8b"
+      }
+    },
+    {
+      "id": "seoul_youth_application",
+      "validation_status": "login_required_reception_unknown",
+      "metadata": {
+        "url": "https://youth.seoul.go.kr/isltYouthSprt/step0.do?key=2311050002",
+        "final_url": "https://youth.seoul.go.kr/isltYouthSprt/step0.do?key=2311050002",
+        "retrieved_at": "2026-10-04T15:40:21.502626+00:00",
+        "http_status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "size": 677,
+        "sha256": "fd745cc5752ce1752a9449c669ee019dc0399a1bbea20946a937cb7c46c96a05"
+      }
+    },
+    {
+      "id": "seoul_youth_full",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://youth.seoul.go.kr/youthConts.do?key=2310100062&sc_pbancSeCd=008&sc_bbsStngSn=2212200001&sc_bbsCtgrySn=2310200007&sc_qnaCtgryCd=&sc_faqCtgryCd=013",
+        "final_url": "https://youth.seoul.go.kr/youthConts.do?key=2310100062&sc_pbancSeCd=008&sc_bbsStngSn=2212200001&sc_bbsCtgrySn=2310200007&sc_qnaCtgryCd=&sc_faqCtgryCd=013",
+        "retrieved_at": "2026-10-04T15:40:21.447311+00:00",
+        "http_status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "size": 168527,
+        "sha256": "0746b9fbaf1df751eefc34213485131c00769cf25f1316e42050c3453508cb21"
+      }
+    },
+    {
+      "id": "seoul_youth_isolation",
+      "validation_status": "html_redirect_not_detail",
+      "metadata": {
+        "url": "https://youth.seoul.go.kr/youthConts.do?key=2310100062",
+        "final_url": "https://youth.seoul.go.kr/youthConts.do?key=2310100062",
+        "retrieved_at": "2026-10-04T15:38:07.589839+00:00",
+        "http_status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "size": 393,
+        "sha256": "b425ae27e295719358ef854f4d87ad0cb44744aa42c002a20e40746336b17702"
+      }
+    },
+    {
+      "id": "welfare_catalog",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://www.data.go.kr/data/15083323/fileData.do",
+        "final_url": "https://www.data.go.kr/data/15083323/fileData.do",
+        "retrieved_at": "2026-10-04T15:38:07.516327+00:00",
+        "http_status": 200,
+        "content_type": "text/html;charset=UTF-8",
+        "size": 209743,
+        "sha256": "709ac0d00fd2262be823ba2f5202eb11a21da782b84180aed7f043be794a0820"
+      }
+    },
+    {
+      "id": "welfare_catalog_20260819",
+      "validation_status": "csv_acquired_461_rows_validated",
+      "metadata": {
+        "url": "https://www.data.go.kr/cmm/cmm/fileDownload.do?atchFileId=FILE_000000007633462&fileDetailSn=1&insertDataPrcus=N",
+        "final_url": "https://www.data.go.kr/cmm/cmm/fileDownload.do?atchFileId=FILE_000000007633462&fileDetailSn=1&insertDataPrcus=N",
+        "retrieved_at": "2026-10-04T15:42:44.844402+00:00",
+        "http_status": 200,
+        "content_type": "application/octet-stream; charset=UTF-8",
+        "content_disposition": "attachment; filename=\"íêµ­ì¬íë³´ì¥ì ë³´ì_ë³µì§ìë¹ì¤ì ë³´_20260819.csv\"",
+        "size": 247773,
+        "sha256": "218902df578697931ef53bc359ef057a3f1fec4caa521690b7a4e89c40bf8442"
+      }
+    },
+    {
+      "id": "youth_2024_detail",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://youth.seoul.go.kr/infoData/sprtInfo/view.do?key=2309130006&sprtInfoId=52408",
+        "final_url": "https://youth.seoul.go.kr/infoData/sprtInfo/view.do?key=2309130006&sprtInfoId=52408",
+        "retrieved_at": "2026-10-04T15:39:23.697810+00:00",
+        "http_status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "content_disposition": null,
+        "size": 172770,
+        "sha256": "f089bd636b5015e3120f63880b82754cf14e889142e5d739db8bb1eb9b2ddfc7"
+      }
+    },
+    {
+      "id": "youth_main",
+      "validation_status": "bytes_acquired",
+      "metadata": {
+        "url": "https://youth.seoul.go.kr/mainA.do",
+        "final_url": "https://youth.seoul.go.kr/mainA.do",
+        "retrieved_at": "2026-10-04T15:39:23.119665+00:00",
+        "http_status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "content_disposition": null,
+        "size": 181288,
+        "sha256": "d672e2e172378b1f7a52549710f2f9c9d718c3e44ab82d026d3883ef338da994"
+      }
+    },
+    {
+      "id": "youth_retry",
+      "validation_status": "html_redirect_not_detail",
+      "metadata": {
+        "url": "https://youth.seoul.go.kr/youthConts.do?key=2310100062",
+        "final_url": "https://youth.seoul.go.kr/youthConts.do?key=2310100062",
+        "retrieved_at": "2026-10-04T15:39:23.182976+00:00",
+        "http_status": 200,
+        "content_type": "text/html; charset=UTF-8",
+        "content_disposition": null,
+        "size": 393,
+        "sha256": "b425ae27e295719358ef854f4d87ad0cb44744aa42c002a20e40746336b17702"
+      }
+    }
+  ],
+  "local_existing_topic_pdf": {
+    "path": "tmp/history_audit/contest_topic_260907.pdf",
+    "sha256": "27762a32e84a0996f9e54ce8499541dbfe3ceb547bc408a0237253d22a8f0ae9",
+    "pages_read": [
+      8,
+      9,
+      10
+    ],
+    "fresh_download_verified": false
+  },
+  "public_faq_search": {
+    "scope": "official home, public 2026 notice list, official-domain web searches",
+    "relevant_public_faq_found": false,
+    "meaning": "searched scope found no current clarification; not proof none exists"
+  }
+}

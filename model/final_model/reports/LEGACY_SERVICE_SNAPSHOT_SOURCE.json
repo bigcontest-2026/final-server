@@ -1,0 +1,10 @@
+{
+  "repository": "bigcontest-2026/service",
+  "path": "shared/research/isolation_snapshot.json",
+  "ref_at_lookup": "main",
+  "git_blob": "12ca3d1039a4ef3d7f9c1eac9c85da2c9e59047f",
+  "sha256": "174bc8d1af8a0f74b48918fabdc7534cc8714319491341c721ae88f88e71f9b7",
+  "retrieved_date_kst": "2026-10-17",
+  "source_url": "https://github.com/bigcontest-2026/service/blob/main/shared/research/isolation_snapshot.json",
+  "comparison_scope": "repository_snapshot_not_live_deployment"
+}

@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "C3 original monthly evidence (preserved contract)",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_id",
+    "dataset",
+    "view",
+    "region",
+    "age",
+    "sex",
+    "month",
+    "calendar_type",
+    "review_flag",
+    "count",
+    "amount",
+    "daily_support",
+    "source_fingerprint",
+    "config_sha256",
+    "future_values_used",
+    "is_demo",
+    "reference_start",
+    "reference_end",
+    "period_start",
+    "period_end"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "c3.agent.v1"
+    },
+    "record_id": {
+      "type": "string",
+      "pattern": "^C3:"
+    },
+    "dataset": {
+      "const": "data2"
+    },
+    "view": {
+      "enum": [
+        "age",
+        "age_sex",
+        "age_residence"
+      ]
+    },
+    "region": {
+      "type": "string",
+      "minLength": 1
+    },
+    "age": {
+      "enum": [
+        "20",
+        "30"
+      ]
+    },
+    "sex": {
+      "enum": [
+        "ALL",
+        "남성",
+        "여성"
+      ]
+    },
+    "month": {
+      "enum": [
+        "2025-10",
+        "2025-11",
+        "2025-12"
+      ]
+    },
+    "calendar_type": {
+      "enum": [
+        "all",
+        "weekday",
+        "weekend",
+        "holiday"
+      ]
+    },
+    "review_flag": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "future_values_used": {
+      "const": false
+    },
+    "is_demo": {
+      "const": false
+    },
+    "source_fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "config_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "reference_start": {
+      "const": "2025-07-01"
+    },
+    "reference_end": {
+      "const": "2025-09-30"
+    },
+    "count": {
+      "$ref": "#/$defs/metric"
+    },
+    "amount": {
+      "$ref": "#/$defs/metric"
+    },
+    "daily_support": {
+      "type": "object"
+    },
+    "period_start": {
+      "type": "string"
+    },
+    "period_end": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "metric": {
+      "type": "object",
+      "required": [
+        "reported_sum",
+        "comparable_sum",
+        "baseline_sum",
+        "change_pct",
+        "coverage",
+        "comparable_days",
+        "decline_flag",
+        "withheld_reasons",
+        "unit"
+      ],
+      "properties": {
+        "reported_sum": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "comparable_sum": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "baseline_sum": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "change_pct": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "coverage": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "comparable_days": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "decline_flag": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "withheld_reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unit": {
+          "enum": [
+            "source_amount_unit",
+            "transactions"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "withheld_reasons": {
+                "minItems": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "decline_flag": {
+                "const": null
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

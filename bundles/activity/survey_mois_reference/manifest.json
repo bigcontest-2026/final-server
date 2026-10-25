@@ -1,0 +1,93 @@
+{
+  "index_version": "I5_2025_final_v1",
+  "data_version": "2025_final_v1_export_1",
+  "generated_at_kst": "2026-10-13T00:48:53+09:00",
+  "files": {
+    "dong_month_reference.csv": {
+      "rows": 282,
+      "sha256": "c3d5903478b57541e84dee29fdf3d4476d36f8237374875b631748ac2cbe3c60"
+    },
+    "dong_month_six_group_population.csv": {
+      "rows": 1692,
+      "sha256": "883cf51579e3728d69729e9db9f7fef94fcd28ad70cdfe6a33dc6dd58b57dfe1"
+    },
+    "national_item_profile.csv": {
+      "rows": 72,
+      "sha256": "7934f019b2e4b13171185c8f1da7ab514a36a349b1676d27a6ee818d233ec9ec"
+    },
+    "national_overall_reference.csv": {
+      "rows": 8,
+      "sha256": "fe1c4f3ec5f2424adef838e68dc4c9baada3a6e5fc2c1566484f2247003c4093"
+    },
+    "national_six_group_profile.csv": {
+      "rows": 6,
+      "sha256": "3c38911bc334f013d8c07332593c3e9fbabf1323bb993cc92f5fe1f28dbafcdd"
+    },
+    "region_month_summary.csv": {
+      "rows": 12,
+      "sha256": "89c8d449fa8d2f7f86391f64a21cf329f2a7ea37d41d0a3a8749afe9f3da63bf"
+    }
+  },
+  "documentation": {
+    "README.md": {
+      "sha256": "938260773028b3a3e4c8aa8bf13110e0e5ee689a430652a46822f1de97166c1c"
+    },
+    "DATA_DICTIONARY.md": {
+      "sha256": "10c63c3d5fcae8acd37d6449ba2fe920d15be7a93525972b792e41b2aa7eb3e4"
+    }
+  },
+  "source": {
+    "survey_csv_name": "2025_복지_사회참여_문화와여가_소득과소비_노동_20261012_33970.csv",
+    "survey_csv_sha256": "6dcb621f593640882362c4ba57789ee60cb544d7114e2258a30361ef18d6565d",
+    "survey_step6_manifest_sha256": "1bae4efa536958f8e9c2e8030d98ae2fb73ff4a5fad16e01560b0ddd9f506234",
+    "mois_zip_name": "BigContest2026-20261010T153525Z-1-001.zip",
+    "mois_zip_sha256": "aa80838094e94f2f2bb479b27070241b01541e84c721bd026b83afde564a94e7",
+    "mois_master_member": "BigContest2026/03_master/MOIS/MOIS_행정동_통합본_202507-202512.csv",
+    "mois_master_sha256": "64da63c750e938bf5b90c563dc006a472d5828a1c917fc2cefd559e0be94afd5",
+    "mois_step6_manifest_sha256": "a9461332a525d1d22a1206db1f0f87f1d09275b11c508fcef6b9d20ea4ec6743"
+  },
+  "code_and_config": {
+    "generator_sha256": "348c74282bbbcfe87f766da2f9b276429898d4a8388635fecb5cb1a4eeb2fed8",
+    "survey_final_code_sha256": "c96a2deff5ad915f1a4413845257336a3298f4e36826c3ac81d3f3a52d822483",
+    "survey_step3_code_sha256": "1a2cff01414d63df5363fb9bc872848e4bf6886406bb3a64e7ee6914d43cc8d4",
+    "survey_final_config_sha256": "7840d59c3c78f49b446d65f66e429351c835a7be3c11c3f6878fd5e2f9d810b9",
+    "survey_step3_config_sha256": "648272f2eda1e18fbd83951c467bc99522b9a92898c935541dc546f5ff252e0e",
+    "mois_code_sha256": "7660c72abb36ff961a16b0a7534c8c943aac45afe5345344601f6a607531e4e7",
+    "mois_config_sha256": "2943b7d04c98dd63e3e5c8c1a56a7111889be0e155c6c05630db5582c7ceda50"
+  },
+  "validation": {
+    "row_counts": {
+      "national_six_group_profile.csv": 6,
+      "national_item_profile.csv": 72,
+      "dong_month_six_group_population.csv": 1692,
+      "dong_month_reference.csv": 282,
+      "region_month_summary.csv": 12,
+      "national_overall_reference.csv": 8
+    },
+    "smallest_published_population_or_household_count": 14,
+    "six_group_share_sum": "passed",
+    "i5_five_domain_identity": "passed",
+    "source_csv_value_equality": "passed",
+    "composition_formula": "passed",
+    "disaggregated_one_person_households_removed": true,
+    "complete_cases": 31817,
+    "item_binary_min_unweighted_count": 16,
+    "source_name": "2025_복지_사회참여_문화와여가_소득과소비_노동_20261012_33970.csv",
+    "source_sha256": "6dcb621f593640882362c4ba57789ee60cb544d7114e2258a30361ef18d6565d",
+    "mois_original_12_monthly_files": "all_monthly_originals_and_district_totals_match",
+    "mois_district_month_totals_checked": 12
+  },
+  "sharing_review": {
+    "scope": "only six-group national survey and dong/month aggregate MOIS",
+    "small_cell_policy": "published integer population and household cells >=10; survey vulnerable/nonvulnerable unweighted n>=10",
+    "excluded": [
+      "person responses",
+      "household identifiers",
+      "source ZIP",
+      "single-age columns",
+      "sex-age one-person household cells"
+    ],
+    "bundle_readme": "No explicit redistribution prohibition found in supplied bundle README; source terms should be rechecked before redistribution outside the project team.",
+    "agent_use": "reference only; not local isolation prevalence, probability or independent risk evidence"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "scope": "historical official acquisition, rights and verification records; source bytes unchanged",
+  "source_directory": "/Users/yunjongseo/Documents/ChatGPT/빅콘테스트/output/donghaeng_execution_20261005/sources",
+  "excluded": [
+    "official_raw/"
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "c1c8101ecef6950d44d1e7d93570d53c1f33227e6c6638a59d88fb73439b8364",
+      "bytes": 136
+    },
+    {
+      "path": "B4_공식지원_취득검증.md",
+      "sha256": "8d20e78d75543ba474e9d2a837ea388a238649ba63818ab6aadc12f385a79a5e",
+      "bytes": 5260
+    },
+    {
+      "path": "acquire_official_sources.py",
+      "sha256": "d9ee835d2b16f4f3285c32bed26305106eae53419c3e5f1be8e12f0d3265be21",
+      "bytes": 5317
+    },
+    {
+      "path": "acquisition_ledger.json",
+      "sha256": "29d31dca600f066bf18e68cbf2ad05e6b47ff969bd66e98ece59f5d68c115c21",
+      "bytes": 13121
+    },
+    {
+      "path": "build_support_manifest.py",
+      "sha256": "9bef70c5ea83022ddaba0fe1cb5f22ed351c81b1f318707e7a7d919c72bb35ad",
+      "bytes": 12971
+    },
+    {
+      "path": "contest_topic_existing_p8_p10.txt",
+      "sha256": "ccf9d3a3fa49a61bb704cba98bedeb4eb7d9f13e01084385b558c8c8d9059eb3",
+      "bytes": 3878
+    },
+    {
+      "path": "rights_manifest.json",
+      "sha256": "905c9174f39eaf918dea8f955aa05650b5445ecb029c14c18aa2251605e9c384",
+      "bytes": 4136
+    },
+    {
+      "path": "support_source_verification.json",
+      "sha256": "bcf38f220f0c068a571d37bd4ec6781d5904d68f0846a618a56fbe43907480fa",
+      "bytes": 2955
+    },
+    {
+      "path": "welfare_catalog_audit.json",
+      "sha256": "1a43095e0878309100456fbadd0edf9cbbe2905ad08a35acda264a74b6987075",
+      "bytes": 687
+    },
+    {
+      "path": "공식요건_모델링_대응표.md",
+      "sha256": "aa79c046d8c91d00b0691010cdeb24e0ffd303a8fa36fef86877e03a61b3f870",
+      "bytes": 4138
+    }
+  ]
+}

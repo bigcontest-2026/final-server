@@ -1,0 +1,92 @@
+[
+  {
+    "groups": 10,
+    "joint_decline_candidates": 9,
+    "month": "202508",
+    "operational_alert_allowed": false,
+    "quality_status": "hold",
+    "region_code": "11680",
+    "robust_candidates": 0
+  },
+  {
+    "groups": 10,
+    "joint_decline_candidates": 0,
+    "month": "202508",
+    "operational_alert_allowed": false,
+    "quality_status": "hold",
+    "region_code": "51110",
+    "robust_candidates": 0
+  },
+  {
+    "groups": 10,
+    "joint_decline_candidates": 0,
+    "month": "202509",
+    "operational_alert_allowed": false,
+    "quality_status": "hold",
+    "region_code": "11680",
+    "robust_candidates": 0
+  },
+  {
+    "groups": 10,
+    "joint_decline_candidates": 1,
+    "month": "202509",
+    "operational_alert_allowed": false,
+    "quality_status": "hold",
+    "region_code": "51110",
+    "robust_candidates": 0
+  },
+  {
+    "groups": 10,
+    "joint_decline_candidates": 10,
+    "month": "202510",
+    "operational_alert_allowed": false,
+    "quality_status": "hold",
+    "region_code": "11680",
+    "robust_candidates": 0
+  },
+  {
+    "groups": 10,
+    "joint_decline_candidates": 5,
+    "month": "202510",
+    "operational_alert_allowed": false,
+    "quality_status": "hold",
+    "region_code": "51110",
+    "robust_candidates": 2
+  },
+  {
+    "groups": 10,
+    "joint_decline_candidates": 0,
+    "month": "202511",
+    "operational_alert_allowed": false,
+    "quality_status": "hold",
+    "region_code": "11680",
+    "robust_candidates": 0
+  },
+  {
+    "groups": 10,
+    "joint_decline_candidates": 7,
+    "month": "202511",
+    "operational_alert_allowed": false,
+    "quality_status": "hold",
+    "region_code": "51110",
+    "robust_candidates": 0
+  },
+  {
+    "groups": 10,
+    "joint_decline_candidates": 5,
+    "month": "202512",
+    "operational_alert_allowed": false,
+    "quality_status": "hold",
+    "region_code": "11680",
+    "robust_candidates": 0
+  },
+  {
+    "groups": 10,
+    "joint_decline_candidates": 10,
+    "month": "202512",
+    "operational_alert_allowed": false,
+    "quality_status": "hold",
+    "region_code": "51110",
+    "robust_candidates": 0
+  }
+]

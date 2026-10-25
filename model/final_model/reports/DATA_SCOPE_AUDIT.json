@@ -1,0 +1,602 @@
+{
+  "c1": {
+    "file": "서울시 상권분석서비스(추정매출-자치구).json",
+    "quarters": [
+      "20211",
+      "20212",
+      "20213",
+      "20214",
+      "20221",
+      "20222",
+      "20223",
+      "20224",
+      "20231",
+      "20232",
+      "20233",
+      "20234",
+      "20241",
+      "20242",
+      "20243",
+      "20244",
+      "20251",
+      "20252",
+      "20253",
+      "20254",
+      "20261",
+      "20262"
+    ],
+    "regions": [
+      "11110",
+      "11140",
+      "11170",
+      "11200",
+      "11215",
+      "11230",
+      "11260",
+      "11290",
+      "11305",
+      "11320",
+      "11350",
+      "11380",
+      "11410",
+      "11440",
+      "11470",
+      "11500",
+      "11530",
+      "11545",
+      "11560",
+      "11590",
+      "11620",
+      "11650",
+      "11680",
+      "11710",
+      "11740"
+    ]
+  },
+  "card": [
+    {
+      "archive": "2026빅콘테스트_신한카드_데이터_레이아웃.zip",
+      "member": "신한카드_빅콘테스트2026_데이터1.txt",
+      "months": [
+        "202507",
+        "202508",
+        "202509",
+        "202510",
+        "202511",
+        "202512"
+      ],
+      "region_rows": {
+        "강원 춘천시": 382982,
+        "서울 강남구": 661728
+      }
+    },
+    {
+      "archive": "2026빅콘테스트_신한카드_데이터_레이아웃.zip",
+      "member": "신한카드_빅콘테스트2026_데이터2.txt",
+      "months": [
+        "202507",
+        "202508",
+        "202509",
+        "202510",
+        "202511",
+        "202512"
+      ],
+      "region_rows": {
+        "강원 춘천시": 440611,
+        "서울 강남구": 1366189
+      }
+    }
+  ],
+  "data_root": "C:\\Users\\jssh2\\OneDrive\\Desktop\\bigcontest-2026\\data-set",
+  "files": [
+    {
+      "bytes": 33678913,
+      "name": "2026빅콘테스트_sk통신인구_데이터_레이아웃.zip",
+      "sha256": "77427046fafc04f4c747b770aa1aec3ad570c997a7e1ab4e41b031b144190712"
+    },
+    {
+      "bytes": 31454218,
+      "name": "2026빅콘테스트_신한카드_데이터_레이아웃.zip",
+      "sha256": "5dd537389bbda489e8ac7c771e1ab56ed2f7d9d0fb325ecd300768f2061aa8b6"
+    },
+    {
+      "bytes": 267854883,
+      "name": "sk_merge_csv_with_hangjangdong.csv",
+      "sha256": "8cd33ae39f7f337dc792da34c689191ffe84e983fa176ec78e6a5944f896b5d5"
+    },
+    {
+      "bytes": 7850651,
+      "name": "모바일 인구이동 데이터셋.zip",
+      "sha256": "ef2b96c0e7135306e1d61035cfe8f3600a0234898ed437e93635e5185e841b26"
+    },
+    {
+      "bytes": 48328771,
+      "name": "서울시 상권분석서비스(추정매출-자치구).json",
+      "sha256": "fb60d9602c8527e8caf5c2cd5fa687b5f0ef4e5e4464c50648a72d274670ad98"
+    }
+  ],
+  "skt_merge": {
+    "columns": [
+      "STD_YM",
+      "BLOCK_CD",
+      "X_COORD",
+      "Y_COORD",
+      "MAN_FLOW_POP_CNT_10G",
+      "MAN_FLOW_POP_CNT_20G",
+      "MAN_FLOW_POP_CNT_30G",
+      "MAN_FLOW_POP_CNT_40G",
+      "MAN_FLOW_POP_CNT_50G",
+      "MAN_FLOW_POP_CNT_60GU",
+      "WMAN_FLOW_POP_CNT_10G",
+      "WMAN_FLOW_POP_CNT_20G",
+      "WMAN_FLOW_POP_CNT_30G",
+      "WMAN_FLOW_POP_CNT_40G",
+      "WMAN_FLOW_POP_CNT_50G",
+      "WMAN_FLOW_POP_CNT_60GU",
+      "TMST_00",
+      "TMST_01",
+      "TMST_02",
+      "TMST_03",
+      "TMST_04",
+      "TMST_05",
+      "TMST_06",
+      "TMST_07",
+      "TMST_08",
+      "TMST_09",
+      "TMST_10",
+      "TMST_11",
+      "TMST_12",
+      "TMST_13",
+      "TMST_14",
+      "TMST_15",
+      "TMST_16",
+      "TMST_17",
+      "TMST_18",
+      "TMST_19",
+      "TMST_20",
+      "TMST_21",
+      "TMST_22",
+      "TMST_23",
+      "FLOW_POP_CNT_MON",
+      "FLOW_POP_CNT_TUS",
+      "FLOW_POP_CNT_WED",
+      "FLOW_POP_CNT_THU",
+      "FLOW_POP_CNT_FRI",
+      "FLOW_POP_CNT_SAT",
+      "FLOW_POP_CNT_SUN",
+      "boundary_version",
+      "administrative_dong_code",
+      "administrative_dong_name",
+      "administrative_dong_full_name",
+      "sgg_code",
+      "sgg_name",
+      "sido_name",
+      "sgis_administrative_dong_code",
+      "administrative_match_status",
+      "administrative_match_count",
+      "boundary_distance_m",
+      "within_25m_of_boundary",
+      "source_dong_prefix_agrees",
+      "source_district_prefix_agrees",
+      "longitude_assumed_5179",
+      "latitude_assumed_5179",
+      "candidate_nearest_dong_code",
+      "candidate_nearest_dong_name",
+      "candidate_nearest_distance_m"
+    ],
+    "geographic_completeness_verified": false,
+    "region_months": [
+      {
+        "month": "202507",
+        "observed_dongs": 1,
+        "region_code": "11170",
+        "rows": 50
+      },
+      {
+        "month": "202507",
+        "observed_dongs": 1,
+        "region_code": "11200",
+        "rows": 4
+      },
+      {
+        "month": "202507",
+        "observed_dongs": 6,
+        "region_code": "11650",
+        "rows": 249
+      },
+      {
+        "month": "202507",
+        "observed_dongs": 22,
+        "region_code": "11680",
+        "rows": 14762
+      },
+      {
+        "month": "202507",
+        "observed_dongs": 6,
+        "region_code": "11710",
+        "rows": 134
+      },
+      {
+        "month": "202507",
+        "observed_dongs": 2,
+        "region_code": "41131",
+        "rows": 55
+      },
+      {
+        "month": "202507",
+        "observed_dongs": 3,
+        "region_code": "41820",
+        "rows": 93
+      },
+      {
+        "month": "202507",
+        "observed_dongs": 25,
+        "region_code": "51110",
+        "rows": 77309
+      },
+      {
+        "month": "202507",
+        "observed_dongs": 4,
+        "region_code": "51720",
+        "rows": 119
+      },
+      {
+        "month": "202507",
+        "observed_dongs": 2,
+        "region_code": "51790",
+        "rows": 63
+      },
+      {
+        "month": "202507",
+        "observed_dongs": 1,
+        "region_code": "51800",
+        "rows": 3
+      },
+      {
+        "month": "202508",
+        "observed_dongs": 1,
+        "region_code": "11170",
+        "rows": 50
+      },
+      {
+        "month": "202508",
+        "observed_dongs": 1,
+        "region_code": "11200",
+        "rows": 4
+      },
+      {
+        "month": "202508",
+        "observed_dongs": 6,
+        "region_code": "11650",
+        "rows": 253
+      },
+      {
+        "month": "202508",
+        "observed_dongs": 22,
+        "region_code": "11680",
+        "rows": 14809
+      },
+      {
+        "month": "202508",
+        "observed_dongs": 6,
+        "region_code": "11710",
+        "rows": 135
+      },
+      {
+        "month": "202508",
+        "observed_dongs": 2,
+        "region_code": "41131",
+        "rows": 53
+      },
+      {
+        "month": "202508",
+        "observed_dongs": 3,
+        "region_code": "41820",
+        "rows": 96
+      },
+      {
+        "month": "202508",
+        "observed_dongs": 25,
+        "region_code": "51110",
+        "rows": 78447
+      },
+      {
+        "month": "202508",
+        "observed_dongs": 4,
+        "region_code": "51720",
+        "rows": 120
+      },
+      {
+        "month": "202508",
+        "observed_dongs": 2,
+        "region_code": "51790",
+        "rows": 70
+      },
+      {
+        "month": "202508",
+        "observed_dongs": 1,
+        "region_code": "51800",
+        "rows": 3
+      },
+      {
+        "month": "202509",
+        "observed_dongs": 1,
+        "region_code": "11170",
+        "rows": 50
+      },
+      {
+        "month": "202509",
+        "observed_dongs": 1,
+        "region_code": "11200",
+        "rows": 5
+      },
+      {
+        "month": "202509",
+        "observed_dongs": 6,
+        "region_code": "11650",
+        "rows": 260
+      },
+      {
+        "month": "202509",
+        "observed_dongs": 22,
+        "region_code": "11680",
+        "rows": 14851
+      },
+      {
+        "month": "202509",
+        "observed_dongs": 6,
+        "region_code": "11710",
+        "rows": 136
+      },
+      {
+        "month": "202509",
+        "observed_dongs": 2,
+        "region_code": "41131",
+        "rows": 53
+      },
+      {
+        "month": "202509",
+        "observed_dongs": 3,
+        "region_code": "41820",
+        "rows": 93
+      },
+      {
+        "month": "202509",
+        "observed_dongs": 25,
+        "region_code": "51110",
+        "rows": 78399
+      },
+      {
+        "month": "202509",
+        "observed_dongs": 4,
+        "region_code": "51720",
+        "rows": 128
+      },
+      {
+        "month": "202509",
+        "observed_dongs": 2,
+        "region_code": "51790",
+        "rows": 81
+      },
+      {
+        "month": "202509",
+        "observed_dongs": 1,
+        "region_code": "51800",
+        "rows": 3
+      },
+      {
+        "month": "202510",
+        "observed_dongs": 1,
+        "region_code": "11170",
+        "rows": 50
+      },
+      {
+        "month": "202510",
+        "observed_dongs": 1,
+        "region_code": "11200",
+        "rows": 5
+      },
+      {
+        "month": "202510",
+        "observed_dongs": 6,
+        "region_code": "11650",
+        "rows": 263
+      },
+      {
+        "month": "202510",
+        "observed_dongs": 22,
+        "region_code": "11680",
+        "rows": 14882
+      },
+      {
+        "month": "202510",
+        "observed_dongs": 6,
+        "region_code": "11710",
+        "rows": 134
+      },
+      {
+        "month": "202510",
+        "observed_dongs": 2,
+        "region_code": "41131",
+        "rows": 53
+      },
+      {
+        "month": "202510",
+        "observed_dongs": 3,
+        "region_code": "41820",
+        "rows": 100
+      },
+      {
+        "month": "202510",
+        "observed_dongs": 25,
+        "region_code": "51110",
+        "rows": 80286
+      },
+      {
+        "month": "202510",
+        "observed_dongs": 4,
+        "region_code": "51720",
+        "rows": 123
+      },
+      {
+        "month": "202510",
+        "observed_dongs": 2,
+        "region_code": "51790",
+        "rows": 77
+      },
+      {
+        "month": "202510",
+        "observed_dongs": 1,
+        "region_code": "51800",
+        "rows": 3
+      },
+      {
+        "month": "202511",
+        "observed_dongs": 1,
+        "region_code": "11170",
+        "rows": 51
+      },
+      {
+        "month": "202511",
+        "observed_dongs": 1,
+        "region_code": "11200",
+        "rows": 5
+      },
+      {
+        "month": "202511",
+        "observed_dongs": 6,
+        "region_code": "11650",
+        "rows": 263
+      },
+      {
+        "month": "202511",
+        "observed_dongs": 22,
+        "region_code": "11680",
+        "rows": 14914
+      },
+      {
+        "month": "202511",
+        "observed_dongs": 6,
+        "region_code": "11710",
+        "rows": 136
+      },
+      {
+        "month": "202511",
+        "observed_dongs": 2,
+        "region_code": "41131",
+        "rows": 53
+      },
+      {
+        "month": "202511",
+        "observed_dongs": 3,
+        "region_code": "41820",
+        "rows": 97
+      },
+      {
+        "month": "202511",
+        "observed_dongs": 25,
+        "region_code": "51110",
+        "rows": 78562
+      },
+      {
+        "month": "202511",
+        "observed_dongs": 4,
+        "region_code": "51720",
+        "rows": 125
+      },
+      {
+        "month": "202511",
+        "observed_dongs": 2,
+        "region_code": "51790",
+        "rows": 54
+      },
+      {
+        "month": "202511",
+        "observed_dongs": 1,
+        "region_code": "51800",
+        "rows": 3
+      },
+      {
+        "month": "202512",
+        "observed_dongs": 1,
+        "region_code": "11170",
+        "rows": 52
+      },
+      {
+        "month": "202512",
+        "observed_dongs": 1,
+        "region_code": "11200",
+        "rows": 5
+      },
+      {
+        "month": "202512",
+        "observed_dongs": 6,
+        "region_code": "11650",
+        "rows": 265
+      },
+      {
+        "month": "202512",
+        "observed_dongs": 22,
+        "region_code": "11680",
+        "rows": 14909
+      },
+      {
+        "month": "202512",
+        "observed_dongs": 6,
+        "region_code": "11710",
+        "rows": 136
+      },
+      {
+        "month": "202512",
+        "observed_dongs": 2,
+        "region_code": "41131",
+        "rows": 53
+      },
+      {
+        "month": "202512",
+        "observed_dongs": 3,
+        "region_code": "41820",
+        "rows": 93
+      },
+      {
+        "month": "202512",
+        "observed_dongs": 25,
+        "region_code": "51110",
+        "rows": 75553
+      },
+      {
+        "month": "202512",
+        "observed_dongs": 4,
+        "region_code": "51720",
+        "rows": 94
+      },
+      {
+        "month": "202512",
+        "observed_dongs": 2,
+        "region_code": "51790",
+        "rows": 47
+      },
+      {
+        "month": "202512",
+        "observed_dongs": 1,
+        "region_code": "51800",
+        "rows": 3
+      }
+    ],
+    "regions": {
+      "11170": "용산구",
+      "11200": "성동구",
+      "11650": "서초구",
+      "11680": "강남구",
+      "11710": "송파구",
+      "41131": "성남시수정구",
+      "41820": "가평군",
+      "51110": "춘천시",
+      "51720": "홍천군",
+      "51790": "화천군",
+      "51800": "양구군"
+    },
+    "resident_population_columns_found": [],
+    "warning": "FLOW_POP_CNT columns are SKT flow, not MOIS registered-resident population"
+  }
+}

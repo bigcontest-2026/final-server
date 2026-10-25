@@ -1,0 +1,84 @@
+{
+  "agent_service_checked": [
+    "agent/src/donghaeng_agent/tools.py",
+    "agent/src/donghaeng_agent/graph.py",
+    "service/docs/INVESTIGATION_CONTRACT.md"
+  ],
+  "available_code": [
+    "isolation-index/v1/src",
+    "isolation-index/v2/src",
+    "isolation-index/v3/behavior/src",
+    "isolation-index/v4/src",
+    "C3_Shinhan_baseline",
+    "C1_commercial_baseline",
+    "M3_SK_v2_code",
+    "Mobile_M1_M2_v3_code"
+  ],
+  "data_files": [
+    {
+      "bytes": 33678913,
+      "name": "2026빅콘테스트_sk통신인구_데이터_레이아웃.zip",
+      "sha256": "77427046fafc04f4c747b770aa1aec3ad570c997a7e1ab4e41b031b144190712"
+    },
+    {
+      "bytes": 31454218,
+      "name": "2026빅콘테스트_신한카드_데이터_레이아웃.zip",
+      "sha256": "5dd537389bbda489e8ac7c771e1ab56ed2f7d9d0fb325ecd300768f2061aa8b6"
+    },
+    {
+      "bytes": 267854883,
+      "name": "sk_merge_csv_with_hangjangdong.csv",
+      "sha256": "8cd33ae39f7f337dc792da34c689191ffe84e983fa176ec78e6a5944f896b5d5"
+    },
+    {
+      "bytes": 7850651,
+      "name": "모바일 인구이동 데이터셋.zip",
+      "sha256": "ef2b96c0e7135306e1d61035cfe8f3600a0234898ed437e93635e5185e841b26"
+    },
+    {
+      "bytes": 48328771,
+      "name": "서울시 상권분석서비스(추정매출-자치구).json",
+      "sha256": "fb60d9602c8527e8caf5c2cd5fa687b5f0ef4e5e4464c50648a72d274670ad98"
+    }
+  ],
+  "execution_source_identity": "actual individual source hashes; standalone experiments have no assumed Git commit",
+  "latest_main": {
+    "agent": "fd108b78c97b56ac758e2a93eddd687141dc6552",
+    "index2_main_verified": "19b0ec61e88b0d3dc513a935c49dc2de50b7b3fd",
+    "isolation-index": "cd1acaca965a5b509501ecfba46082b21758d289",
+    "isolation-index2": "19b0ec61e88b0d3dc513a935c49dc2de50b7b3fd",
+    "local_index2_checkout": "89687761a242a4aa5072df0730c4aca535c07e5d",
+    "model": "4d1a7a6bd804826067361d80a115449c95330972",
+    "service": "2ccb9297232942a029a4a0a97f54a91a881fcbfe"
+  },
+  "latest_main_checks": "GitHub API; model cloned from main; local index matches main; local index2 differs and is not used as an assumed latest experiment source",
+  "legacy_model_checked": [
+    "src/donghaeng_model/snapshot.py",
+    "preprocessing/map_sk_administrative_dongs.py",
+    "export",
+    "research",
+    "indices"
+  ],
+  "missing_original_outputs": [
+    "handoff/01_inputs",
+    "handoff/02_v3_behavior",
+    "handoff/03_v4_local"
+  ],
+  "verified_at_kst": "2026-10-15T08:11:11.676460+09:00",
+  "service_snapshot_inspection": {
+    "path": "shared/research/isolation_snapshot.json",
+    "blob_sha": "12ca3d1039a4ef3d7f9c1eac9c85da2c9e59047f",
+    "bytes": 1632030,
+    "status": "path_verified_API_content_unavailable",
+    "compatibility_assessment_basis": "actual model snapshot.py and agent tools.py/service investigation contract; no claim to inspect full snapshot content"
+  },
+  "repository_separation": {
+    "final_repository": "bigcontest-2026/model",
+    "final_repository_id": "1419983883",
+    "original_repository": "bigcontest-2026/model_mori",
+    "original_repository_id": "1401275849",
+    "validated_at_kst": "2026-10-15T09:23:25.587751+09:00",
+    "final_model_tests": 14,
+    "legacy_snapshot_tests_retained_only_in_model_mori": 7
+  }
+}

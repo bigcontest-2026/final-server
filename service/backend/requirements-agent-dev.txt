@@ -1,0 +1,5 @@
+# Backend-only agent development and offline CI; no Phoenix server is required.
+-r requirements-dev.txt
+-r requirements-legacy.txt
+-e ../../agent[dev,observability]
+pandas==3.0.6

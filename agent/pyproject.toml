@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "donghaeng-agent"
+version = "0.1.0"
+description = "Donghaeng investigation graph, read-only tools and durable execution"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "donghaeng-model==0.1.0",
+  "pydantic==2.13.5",
+  "httpx==0.28.1",
+  "langgraph==1.2.12",
+  "langgraph-checkpoint==4.2.0",
+  "langgraph-checkpoint-sqlite==3.1.0",
+  "psycopg[binary]==3.3.6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1"]
+observability = [
+  "opentelemetry-api==1.45.1",
+  "opentelemetry-sdk==1.45.1",
+  "opentelemetry-exporter-otlp-proto-http==1.45.1",
+]
+phoenix = ["arize-phoenix==20.23.0", "arize-phoenix-client==3.5.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "../model/src"]
+testpaths = ["tests"]

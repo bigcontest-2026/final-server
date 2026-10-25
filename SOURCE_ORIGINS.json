@@ -1,0 +1,14 @@
+{
+  "service": {
+    "remote": "https://github.com/bigcontest-2026/service.git",
+    "base_commit": "4cf6b534dcb198f6c3a6ace5246827b43f6170e5"
+  },
+  "agent": {
+    "remote": "https://github.com/bigcontest-2026/agent.git",
+    "base_commit": "adc6062a410a050185ec10ff7afadf21481ed1db"
+  },
+  "model": {
+    "remote": "https://github.com/bigcontest-2026/model.git",
+    "base_commit": "11643ae3be5496e3fd8a1b78c4d492386ae43fb4"
+  }
+}

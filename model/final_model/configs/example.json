@@ -1,0 +1,21 @@
+{
+  "index_root": "../isolation-index",
+  "data_root": "../data-set",
+  "c3_root": "../C3_Shinhan_baseline",
+  "skt_merge": "sk_merge_csv_with_hangjangdong.csv",
+  "card_zip": "2026빅콘테스트_신한카드_데이터_레이아웃.zip",
+  "source_commits": {
+    "model": "4d1a7a6bd804826067361d80a115449c95330972",
+    "isolation-index": "cd1acaca965a5b509501ecfba46082b21758d289",
+    "isolation-index2": "19b0ec61e88b0d3dc513a935c49dc2de50b7b3fd",
+    "agent": "fd108b78c97b56ac758e2a93eddd687141dc6552",
+    "service": "2ccb9297232942a029a4a0a97f54a91a881fcbfe"
+  },
+  "regions": {
+    "11680": "강남구",
+    "51110": "춘천시"
+  },
+  "region_aliases": {},
+  "legacy_reference_source": null,
+  "legacy_service_snapshot": null
+}

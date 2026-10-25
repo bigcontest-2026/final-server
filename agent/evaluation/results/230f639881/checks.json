@@ -1,0 +1,374 @@
+[
+  {
+    "check": "gaepo:excluded:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "gaepo:excluded:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "gaepo:excluded:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "gaepo:excluded:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "gaepo:excluded:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "gaepo:provided:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "gaepo:provided:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "gaepo:provided:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "gaepo:provided:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "gaepo:provided:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "gaepo:quality_mutation:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "gaepo:quality_mutation:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "gaepo:quality_mutation:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "gaepo:quality_mutation:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "gaepo:quality_mutation:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "gaepo:M0_no_sk_observation",
+    "passed": true
+  },
+  {
+    "check": "gaepo:M0_no_sk_evidence",
+    "passed": true
+  },
+  {
+    "check": "gaepo:M1_actual_selected_month",
+    "passed": true
+  },
+  {
+    "check": "gaepo:M2_quality_hold",
+    "passed": true
+  },
+  {
+    "check": "gaepo:support_conditions_unchanged",
+    "passed": true
+  },
+  {
+    "check": "sabuk:excluded:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "sabuk:excluded:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "sabuk:excluded:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "sabuk:excluded:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "sabuk:excluded:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "sabuk:provided:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "sabuk:provided:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "sabuk:provided:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "sabuk:provided:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "sabuk:provided:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "sabuk:quality_mutation:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "sabuk:quality_mutation:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "sabuk:quality_mutation:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "sabuk:quality_mutation:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "sabuk:quality_mutation:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "sabuk:M0_no_sk_observation",
+    "passed": true
+  },
+  {
+    "check": "sabuk:M0_no_sk_evidence",
+    "passed": true
+  },
+  {
+    "check": "sabuk:M1_actual_selected_month",
+    "passed": true
+  },
+  {
+    "check": "sabuk:M2_quality_hold",
+    "passed": true
+  },
+  {
+    "check": "sabuk:support_conditions_unchanged",
+    "passed": true
+  },
+  {
+    "check": "sabuk:M1_context_action",
+    "passed": true
+  },
+  {
+    "check": "sabuk:M0_no_context_action",
+    "passed": true
+  },
+  {
+    "check": "shinsa:excluded:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "shinsa:excluded:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "shinsa:excluded:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "shinsa:excluded:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "shinsa:excluded:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "shinsa:provided:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "shinsa:provided:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "shinsa:provided:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "shinsa:provided:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "shinsa:provided:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "shinsa:quality_mutation:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "shinsa:quality_mutation:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "shinsa:quality_mutation:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "shinsa:quality_mutation:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "shinsa:quality_mutation:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "shinsa:M0_no_sk_observation",
+    "passed": true
+  },
+  {
+    "check": "shinsa:M0_no_sk_evidence",
+    "passed": true
+  },
+  {
+    "check": "shinsa:M1_actual_selected_month",
+    "passed": true
+  },
+  {
+    "check": "shinsa:M2_quality_hold",
+    "passed": true
+  },
+  {
+    "check": "shinsa:support_conditions_unchanged",
+    "passed": true
+  },
+  {
+    "check": "gyodong:excluded:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "gyodong:excluded:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "gyodong:excluded:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "gyodong:excluded:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "gyodong:excluded:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "gyodong:provided:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "gyodong:provided:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "gyodong:provided:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "gyodong:provided:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "gyodong:provided:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "gyodong:quality_mutation:no_personal_eligibility",
+    "passed": true
+  },
+  {
+    "check": "gyodong:quality_mutation:closed_candidate_excluded",
+    "passed": true
+  },
+  {
+    "check": "gyodong:quality_mutation:historical_current_split",
+    "passed": true
+  },
+  {
+    "check": "gyodong:quality_mutation:evidence_resolves",
+    "passed": true
+  },
+  {
+    "check": "gyodong:quality_mutation:rule_not_model",
+    "passed": true
+  },
+  {
+    "check": "gyodong:M0_no_sk_observation",
+    "passed": true
+  },
+  {
+    "check": "gyodong:M0_no_sk_evidence",
+    "passed": true
+  },
+  {
+    "check": "gyodong:M1_actual_selected_month",
+    "passed": true
+  },
+  {
+    "check": "gyodong:M2_quality_hold",
+    "passed": true
+  },
+  {
+    "check": "gyodong:support_conditions_unchanged",
+    "passed": true
+  },
+  {
+    "check": "gyodong:M1_context_action",
+    "passed": true
+  },
+  {
+    "check": "gyodong:M0_no_context_action",
+    "passed": true
+  },
+  {
+    "check": "same_create_key_same_case",
+    "passed": true
+  },
+  {
+    "check": "same_create_key_changed_input_conflict",
+    "passed": true
+  },
+  {
+    "check": "city_code_mismatch_rejected",
+    "passed": true
+  },
+  {
+    "check": "new_app_restores_interrupted_case",
+    "passed": true
+  },
+  {
+    "check": "review_resume_same_graph_execution",
+    "passed": true
+  },
+  {
+    "check": "review_resume_complete",
+    "passed": true
+  },
+  {
+    "check": "review_command_idempotent",
+    "passed": true
+  },
+  {
+    "check": "unchanged_source_no_new_brief",
+    "passed": true
+  },
+  {
+    "check": "developer_review_not_user_review",
+    "passed": true
+  }
+]

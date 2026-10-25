@@ -1,0 +1,537 @@
+{
+  "dataset_version": "hermes-guardrail-fixtures-1.0",
+  "execution_origin": "mock",
+  "description": "Synthetic contract regression inputs. No real model calls, personal records, or official performance claim.",
+  "examples": [
+    {
+      "id": "valid_public_contract",
+      "input": {
+        "case_id": "synthetic_phoenix_fixture",
+        "request": {
+          "region_code": "1168066000",
+          "city": "서울",
+          "age_group": "20대",
+          "measurement_as_of": "2025-12",
+          "support_as_of": "2026-10-05"
+        },
+        "evidence": [
+          {
+            "evidence_id": "ev_fixture_public"
+          }
+        ],
+        "executions": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "status": "interrupted",
+            "metrics": {
+              "model_metrics": []
+            }
+          }
+        ],
+        "briefs": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "scope": {
+              "region_code": "1168066000",
+              "city": "서울",
+              "age_group": "20대",
+              "measurement_as_of": "2025-12",
+              "support_as_of": "2026-10-05"
+            },
+            "evidence_ids": [
+              "ev_fixture_public"
+            ],
+            "claims": [
+              {
+                "evidence_ids": [
+                  "ev_fixture_public"
+                ]
+              }
+            ],
+            "observations": [
+              {
+                "kind": "i5",
+                "quality_status": "hold",
+                "operational_alert_allowed": false
+              }
+            ],
+            "support_candidates": [
+              {
+                "id": "synthetic_support",
+                "eligibility_status": "needs_confirmation",
+                "conditions": [
+                  {
+                    "id": "personal_eligibility",
+                    "status": "unknown"
+                  }
+                ],
+                "currently_accepting_confirmed": false
+              }
+            ],
+            "model_called": false
+          }
+        ],
+        "followups": []
+      },
+      "expected_failed_checks": []
+    },
+    {
+      "id": "expired_support",
+      "input": {
+        "case_id": "synthetic_phoenix_fixture",
+        "request": {
+          "region_code": "1168066000",
+          "city": "서울",
+          "age_group": "20대",
+          "measurement_as_of": "2025-12",
+          "support_as_of": "2026-10-05"
+        },
+        "evidence": [
+          {
+            "evidence_id": "ev_fixture_public"
+          }
+        ],
+        "executions": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "status": "interrupted",
+            "metrics": {
+              "model_metrics": []
+            }
+          }
+        ],
+        "briefs": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "scope": {
+              "region_code": "1168066000",
+              "city": "서울",
+              "age_group": "20대",
+              "measurement_as_of": "2025-12",
+              "support_as_of": "2026-10-05"
+            },
+            "evidence_ids": [
+              "ev_fixture_public"
+            ],
+            "claims": [
+              {
+                "evidence_ids": [
+                  "ev_fixture_public"
+                ]
+              }
+            ],
+            "observations": [
+              {
+                "kind": "i5",
+                "quality_status": "hold",
+                "operational_alert_allowed": false
+              }
+            ],
+            "support_candidates": [
+              {
+                "id": "synthetic_support",
+                "eligibility_status": "needs_confirmation",
+                "conditions": [
+                  {
+                    "id": "personal_eligibility",
+                    "status": "unknown"
+                  },
+                  {
+                    "id": "source_application_window",
+                    "status": "no_match",
+                    "value": {
+                      "status": "closed"
+                    }
+                  }
+                ],
+                "currently_accepting_confirmed": false
+              }
+            ],
+            "model_called": false
+          }
+        ],
+        "followups": []
+      },
+      "expected_failed_checks": [
+        "hermes.support_condition_safety"
+      ]
+    },
+    {
+      "id": "fabricated_evidence",
+      "input": {
+        "case_id": "synthetic_phoenix_fixture",
+        "request": {
+          "region_code": "1168066000",
+          "city": "서울",
+          "age_group": "20대",
+          "measurement_as_of": "2025-12",
+          "support_as_of": "2026-10-05"
+        },
+        "evidence": [
+          {
+            "evidence_id": "ev_fixture_public"
+          }
+        ],
+        "executions": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "status": "interrupted",
+            "metrics": {
+              "model_metrics": []
+            }
+          }
+        ],
+        "briefs": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "scope": {
+              "region_code": "1168066000",
+              "city": "서울",
+              "age_group": "20대",
+              "measurement_as_of": "2025-12",
+              "support_as_of": "2026-10-05"
+            },
+            "evidence_ids": [
+              "ev_fixture_public"
+            ],
+            "claims": [
+              {
+                "evidence_ids": [
+                  "fabricated"
+                ]
+              }
+            ],
+            "observations": [
+              {
+                "kind": "i5",
+                "quality_status": "hold",
+                "operational_alert_allowed": false
+              }
+            ],
+            "support_candidates": [
+              {
+                "id": "synthetic_support",
+                "eligibility_status": "needs_confirmation",
+                "conditions": [
+                  {
+                    "id": "personal_eligibility",
+                    "status": "unknown"
+                  }
+                ],
+                "currently_accepting_confirmed": false
+              }
+            ],
+            "model_called": false
+          }
+        ],
+        "followups": []
+      },
+      "expected_failed_checks": [
+        "hermes.evidence_integrity"
+      ]
+    },
+    {
+      "id": "unsupported_population",
+      "input": {
+        "case_id": "synthetic_phoenix_fixture",
+        "request": {
+          "region_code": "1168066000",
+          "city": "서울",
+          "age_group": "20대",
+          "measurement_as_of": "2025-12",
+          "support_as_of": "2026-10-05"
+        },
+        "evidence": [
+          {
+            "evidence_id": "ev_fixture_public"
+          }
+        ],
+        "executions": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "status": "interrupted",
+            "metrics": {
+              "model_metrics": []
+            }
+          }
+        ],
+        "briefs": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "scope": {
+              "region_code": "1168066000",
+              "city": "서울",
+              "age_group": "30대",
+              "measurement_as_of": "2025-12",
+              "support_as_of": "2026-10-05"
+            },
+            "evidence_ids": [
+              "ev_fixture_public"
+            ],
+            "claims": [
+              {
+                "evidence_ids": [
+                  "ev_fixture_public"
+                ]
+              }
+            ],
+            "observations": [
+              {
+                "kind": "i5",
+                "quality_status": "hold",
+                "operational_alert_allowed": false
+              }
+            ],
+            "support_candidates": [
+              {
+                "id": "synthetic_support",
+                "eligibility_status": "needs_confirmation",
+                "conditions": [
+                  {
+                    "id": "personal_eligibility",
+                    "status": "unknown"
+                  }
+                ],
+                "currently_accepting_confirmed": false
+              }
+            ],
+            "model_called": false
+          }
+        ],
+        "followups": []
+      },
+      "expected_failed_checks": [
+        "hermes.scope_integrity"
+      ]
+    },
+    {
+      "id": "false_model_success",
+      "input": {
+        "case_id": "synthetic_phoenix_fixture",
+        "request": {
+          "region_code": "1168066000",
+          "city": "서울",
+          "age_group": "20대",
+          "measurement_as_of": "2025-12",
+          "support_as_of": "2026-10-05"
+        },
+        "evidence": [
+          {
+            "evidence_id": "ev_fixture_public"
+          }
+        ],
+        "executions": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "status": "interrupted",
+            "metrics": {
+              "model_metrics": []
+            }
+          }
+        ],
+        "briefs": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "scope": {
+              "region_code": "1168066000",
+              "city": "서울",
+              "age_group": "20대",
+              "measurement_as_of": "2025-12",
+              "support_as_of": "2026-10-05"
+            },
+            "evidence_ids": [
+              "ev_fixture_public"
+            ],
+            "claims": [
+              {
+                "evidence_ids": [
+                  "ev_fixture_public"
+                ]
+              }
+            ],
+            "observations": [
+              {
+                "kind": "i5",
+                "quality_status": "hold",
+                "operational_alert_allowed": false
+              }
+            ],
+            "support_candidates": [
+              {
+                "id": "synthetic_support",
+                "eligibility_status": "needs_confirmation",
+                "conditions": [
+                  {
+                    "id": "personal_eligibility",
+                    "status": "unknown"
+                  }
+                ],
+                "currently_accepting_confirmed": false
+              }
+            ],
+            "model_called": true
+          }
+        ],
+        "followups": []
+      },
+      "expected_failed_checks": [
+        "hermes.model_provenance"
+      ]
+    },
+    {
+      "id": "automatic_risk_alert",
+      "input": {
+        "case_id": "synthetic_phoenix_fixture",
+        "request": {
+          "region_code": "1168066000",
+          "city": "서울",
+          "age_group": "20대",
+          "measurement_as_of": "2025-12",
+          "support_as_of": "2026-10-05"
+        },
+        "evidence": [
+          {
+            "evidence_id": "ev_fixture_public"
+          }
+        ],
+        "executions": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "status": "interrupted",
+            "metrics": {
+              "model_metrics": []
+            }
+          }
+        ],
+        "briefs": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "scope": {
+              "region_code": "1168066000",
+              "city": "서울",
+              "age_group": "20대",
+              "measurement_as_of": "2025-12",
+              "support_as_of": "2026-10-05"
+            },
+            "evidence_ids": [
+              "ev_fixture_public"
+            ],
+            "claims": [
+              {
+                "evidence_ids": [
+                  "ev_fixture_public"
+                ]
+              }
+            ],
+            "observations": [
+              {
+                "kind": "i5",
+                "quality_status": "hold",
+                "operational_alert_allowed": true
+              }
+            ],
+            "support_candidates": [
+              {
+                "id": "synthetic_support",
+                "eligibility_status": "needs_confirmation",
+                "conditions": [
+                  {
+                    "id": "personal_eligibility",
+                    "status": "unknown"
+                  }
+                ],
+                "currently_accepting_confirmed": false
+              }
+            ],
+            "model_called": false
+          }
+        ],
+        "followups": []
+      },
+      "expected_failed_checks": [
+        "hermes.interpretation_boundary"
+      ]
+    },
+    {
+      "id": "subscription_as_api_cost",
+      "input": {
+        "case_id": "synthetic_phoenix_fixture",
+        "request": {
+          "region_code": "1168066000",
+          "city": "서울",
+          "age_group": "20대",
+          "measurement_as_of": "2025-12",
+          "support_as_of": "2026-10-05"
+        },
+        "evidence": [
+          {
+            "evidence_id": "ev_fixture_public"
+          }
+        ],
+        "executions": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "status": "interrupted",
+            "metrics": {
+              "model_metrics": [
+                {
+                  "provider": "codex_cli",
+                  "billing_mode": "subscription",
+                  "model_call_succeeded": true,
+                  "cost_usd": 1
+                }
+              ]
+            }
+          }
+        ],
+        "briefs": [
+          {
+            "execution_id": "synthetic_fixture_execution",
+            "scope": {
+              "region_code": "1168066000",
+              "city": "서울",
+              "age_group": "20대",
+              "measurement_as_of": "2025-12",
+              "support_as_of": "2026-10-05"
+            },
+            "evidence_ids": [
+              "ev_fixture_public"
+            ],
+            "claims": [
+              {
+                "evidence_ids": [
+                  "ev_fixture_public"
+                ]
+              }
+            ],
+            "observations": [
+              {
+                "kind": "i5",
+                "quality_status": "hold",
+                "operational_alert_allowed": false
+              }
+            ],
+            "support_candidates": [
+              {
+                "id": "synthetic_support",
+                "eligibility_status": "needs_confirmation",
+                "conditions": [
+                  {
+                    "id": "personal_eligibility",
+                    "status": "unknown"
+                  }
+                ],
+                "currently_accepting_confirmed": false
+              }
+            ],
+            "model_called": true
+          }
+        ],
+        "followups": []
+      },
+      "expected_failed_checks": [
+        "hermes.subscription_billing"
+      ]
+    }
+  ]
+}

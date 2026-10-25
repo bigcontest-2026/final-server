@@ -1,0 +1,115 @@
+{
+  "case_id": "case_db4dad9e0f59416789926bfd06ae55ae",
+  "case_version": 7,
+  "changes": [
+    {
+      "source_id": "published_research_snapshot",
+      "evidence_id": "ev_exec_ed0466613528495db5775f201581dfdd_survey",
+      "old_hash": "174bc8d1af8a0f74b48918fabdc7534cc8714319491341c721ae88f88e71f9b7",
+      "new_hash": "174bc8d1af8a0f74b48918fabdc7534cc8714319491341c721ae88f88e71f9b7",
+      "status": "same",
+      "changed_fields": [],
+      "affected_brief_ids": [
+        "brief_ed0466613528495db5775f201581dfdd"
+      ],
+      "rechecked_at": "2026-10-04T16:15:06.343468+00:00",
+      "verification_scope": "local_research_snapshot_only"
+    },
+    {
+      "source_id": "published_research_snapshot",
+      "evidence_id": "ev_exec_ed0466613528495db5775f201581dfdd_behavior",
+      "old_hash": "174bc8d1af8a0f74b48918fabdc7534cc8714319491341c721ae88f88e71f9b7",
+      "new_hash": "174bc8d1af8a0f74b48918fabdc7534cc8714319491341c721ae88f88e71f9b7",
+      "status": "same",
+      "changed_fields": [],
+      "affected_brief_ids": [
+        "brief_ed0466613528495db5775f201581dfdd"
+      ],
+      "rechecked_at": "2026-10-04T16:15:06.355201+00:00",
+      "verification_scope": "local_research_snapshot_only"
+    },
+    {
+      "source_id": "published_research_snapshot",
+      "evidence_id": "ev_exec_ed0466613528495db5775f201581dfdd_sk",
+      "old_hash": "174bc8d1af8a0f74b48918fabdc7534cc8714319491341c721ae88f88e71f9b7",
+      "new_hash": "174bc8d1af8a0f74b48918fabdc7534cc8714319491341c721ae88f88e71f9b7",
+      "status": "same",
+      "changed_fields": [],
+      "affected_brief_ids": [
+        "brief_ed0466613528495db5775f201581dfdd"
+      ],
+      "rechecked_at": "2026-10-04T16:15:06.367636+00:00",
+      "verification_scope": "local_research_snapshot_only"
+    },
+    {
+      "source_id": "seoul-youth-isolation",
+      "old_hash": "0746b9fbaf1df751eefc34213485131c00769cf25f1316e42050c3453508cb21",
+      "new_hash": "0746b9fbaf1df751eefc34213485131c00769cf25f1316e42050c3453508cb21",
+      "status": "same",
+      "affected_brief_ids": [
+        "brief_ed0466613528495db5775f201581dfdd"
+      ],
+      "rechecked_at": "2026-10-04T16:15:06.368774+00:00",
+      "changed_fields": [],
+      "old_extraction_hash": "876b9d456cafdc8a9fe9fafabf2507ee0bd1c9e2d1c014ccf82140049d182ff8",
+      "new_extraction_hash": "876b9d456cafdc8a9fe9fafabf2507ee0bd1c9e2d1c014ccf82140049d182ff8",
+      "old_metadata_hash": "13f56c628e6d9a9553cb3c8969cbcdaf3f18091e9758afde7682e8bc5c92b931",
+      "new_metadata_hash": "13f56c628e6d9a9553cb3c8969cbcdaf3f18091e9758afde7682e8bc5c92b931",
+      "error": null,
+      "verification_scope": "local_capture_only"
+    },
+    {
+      "source_id": "seoul-isolated-household",
+      "old_hash": "594fefcd1bf0c40351e9a90642c93e1d2d4bf6056caa657569bf568e70e3fb8b",
+      "new_hash": "594fefcd1bf0c40351e9a90642c93e1d2d4bf6056caa657569bf568e70e3fb8b",
+      "status": "same",
+      "affected_brief_ids": [
+        "brief_ed0466613528495db5775f201581dfdd"
+      ],
+      "rechecked_at": "2026-10-04T16:15:06.370399+00:00",
+      "changed_fields": [],
+      "old_extraction_hash": "0b2ef0bf6c1654ea8c103fed2b149ceaa7a35ff68f7cd33335a2e0ba00507d2b",
+      "new_extraction_hash": "0b2ef0bf6c1654ea8c103fed2b149ceaa7a35ff68f7cd33335a2e0ba00507d2b",
+      "old_metadata_hash": "872500d1160a05667eec2e6904759e0bd7df1af1fdfd949255404a6f18542ea0",
+      "new_metadata_hash": "872500d1160a05667eec2e6904759e0bd7df1af1fdfd949255404a6f18542ea0",
+      "error": null,
+      "verification_scope": "local_capture_only"
+    },
+    {
+      "source_id": "chuncheon-mental-health",
+      "old_hash": "ba3bf511f8f09877bf67cbb87c512fa7beab71fab4e581e47aec61d8a6327e3b",
+      "new_hash": "ba3bf511f8f09877bf67cbb87c512fa7beab71fab4e581e47aec61d8a6327e3b",
+      "status": "same",
+      "affected_brief_ids": [
+        "brief_ed0466613528495db5775f201581dfdd"
+      ],
+      "rechecked_at": "2026-10-04T16:15:06.371437+00:00",
+      "changed_fields": [],
+      "old_extraction_hash": "9984ed6b6b40486f0dc118692f227c6b24eeddd655342789074a013b315ba517",
+      "new_extraction_hash": "9984ed6b6b40486f0dc118692f227c6b24eeddd655342789074a013b315ba517",
+      "old_metadata_hash": "c3b023932004ccfb01d6a5e85e68a52592ecf763c845d4efb7b0472e10c4a2b7",
+      "new_metadata_hash": "c3b023932004ccfb01d6a5e85e68a52592ecf763c845d4efb7b0472e10c4a2b7",
+      "error": null,
+      "verification_scope": "local_capture_only"
+    },
+    {
+      "source_id": "seoul-family-training-ended",
+      "old_hash": "8785957d27db37670b30f394ab7249b7da5493bf2e11a1ebc84f8926ad404929",
+      "new_hash": "8785957d27db37670b30f394ab7249b7da5493bf2e11a1ebc84f8926ad404929",
+      "status": "same",
+      "affected_brief_ids": [
+        "brief_ed0466613528495db5775f201581dfdd"
+      ],
+      "rechecked_at": "2026-10-04T16:15:06.372328+00:00",
+      "changed_fields": [],
+      "old_extraction_hash": "1ba753e349f53b655860b5ae787b5494e11ad603bb479ed4a9506973a6fb9fe6",
+      "new_extraction_hash": "1ba753e349f53b655860b5ae787b5494e11ad603bb479ed4a9506973a6fb9fe6",
+      "old_metadata_hash": "dbfe5c235168047f22cfb9b887172b63e4c8261c27f5f1d671543c538fcf1e7d",
+      "new_metadata_hash": "dbfe5c235168047f22cfb9b887172b63e4c8261c27f5f1d671543c538fcf1e7d",
+      "error": null,
+      "verification_scope": "local_capture_only"
+    }
+  ],
+  "requires_new_run": false,
+  "recheck_id": "recheck_e5458ed8e8a842ebb4537272a5494b68"
+}

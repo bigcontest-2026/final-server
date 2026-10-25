@@ -1,0 +1,128 @@
+{
+  "checked_at": "2026-10-05T00:54:09.039531+09:00",
+  "support_source_count": 4,
+  "supports": [
+    {
+      "id": "seoul-youth-isolation",
+      "captured_bytes": 168527,
+      "sha256_matches": true,
+      "text_present": true,
+      "quotes": [
+        {
+          "id": "seoul-residence",
+          "quote_present": true
+        },
+        {
+          "id": "age",
+          "quote_present": true
+        },
+        {
+          "id": "birth-date",
+          "quote_present": true
+        },
+        {
+          "id": "veteran-exception",
+          "quote_present": true
+        },
+        {
+          "id": "individual-state",
+          "quote_present": true
+        },
+        {
+          "id": "duration",
+          "quote_present": true
+        },
+        {
+          "id": "application-current",
+          "quote_present": true
+        }
+      ],
+      "all_quotes_present": true,
+      "external_full_text_allowed": false,
+      "text_sha256_matches": true
+    },
+    {
+      "id": "seoul-isolated-household",
+      "captured_bytes": 130863,
+      "sha256_matches": true,
+      "text_present": true,
+      "quotes": [
+        {
+          "id": "seoul-residence",
+          "quote_present": true
+        },
+        {
+          "id": "individual-state",
+          "quote_present": true
+        },
+        {
+          "id": "program-period",
+          "quote_present": true
+        },
+        {
+          "id": "capacity",
+          "quote_present": true
+        }
+      ],
+      "all_quotes_present": true,
+      "external_full_text_allowed": false,
+      "text_sha256_matches": true
+    },
+    {
+      "id": "chuncheon-mental-health",
+      "captured_bytes": 37586,
+      "sha256_matches": true,
+      "text_present": true,
+      "quotes": [
+        {
+          "id": "chuncheon-residence",
+          "quote_present": true
+        },
+        {
+          "id": "need",
+          "quote_present": true
+        },
+        {
+          "id": "appointment",
+          "quote_present": true
+        }
+      ],
+      "all_quotes_present": true,
+      "external_full_text_allowed": false,
+      "text_sha256_matches": true
+    },
+    {
+      "id": "seoul-family-training-ended",
+      "captured_bytes": 163933,
+      "sha256_matches": true,
+      "text_present": true,
+      "quotes": [
+        {
+          "id": "child-residence",
+          "quote_present": true
+        },
+        {
+          "id": "child-age",
+          "quote_present": true
+        },
+        {
+          "id": "family-role",
+          "quote_present": true
+        },
+        {
+          "id": "period-ended",
+          "quote_present": true
+        }
+      ],
+      "all_quotes_present": true,
+      "external_full_text_allowed": false,
+      "text_sha256_matches": true
+    }
+  ],
+  "catalog_actual_rows": 461,
+  "catalog_id_unique": true,
+  "catalog_sha256_matches": true,
+  "full_capture_in_shared": false,
+  "welfare_detail_api_success": false,
+  "model_api_success": false
+}

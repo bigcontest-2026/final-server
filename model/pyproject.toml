@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "donghaeng-model"
+version = "0.1.0"
+description = "Validated legacy snapshot contracts and separate I5 reference queries"
+requires-python = ">=3.12"
+dependencies = ["pydantic>=2.13.5,<3", "jsonschema>=4.26,<5"]
+
+[tool.setuptools]
+packages = ["donghaeng_model", "final_model", "final_model.src"]
+package-dir = {donghaeng_model = "src/donghaeng_model"}
+
+[tool.setuptools.package-data]
+final_model = ["schemas/*.json", "configs/example.json", "requirements.lock.txt"]

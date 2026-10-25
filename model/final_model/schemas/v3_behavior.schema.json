@@ -1,0 +1,1358 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bigcontest-2026.github.io/isolation-index/schemas/behavior-agent-v1.json",
+  "title": "Behavior research evidence and read-only agent responses v1",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/evidence"
+    },
+    {
+      "$ref": "#/$defs/response"
+    },
+    {
+      "$ref": "#/$defs/error"
+    }
+  ],
+  "$defs": {
+    "month": {
+      "type": "string",
+      "enum": [
+        "202508",
+        "202509",
+        "202510",
+        "202511",
+        "202512"
+      ]
+    },
+    "dongMonth": {
+      "type": "string",
+      "enum": [
+        "202507",
+        "202508",
+        "202509",
+        "202510",
+        "202511",
+        "202512"
+      ]
+    },
+    "region": {
+      "type": "string",
+      "enum": [
+        "11680",
+        "51110"
+      ]
+    },
+    "sex": {
+      "type": "string",
+      "enum": [
+        "MAN",
+        "WMAN"
+      ]
+    },
+    "age": {
+      "type": "string",
+      "enum": [
+        "20G",
+        "30G",
+        "40G",
+        "50G",
+        "60GU"
+      ]
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "decrease",
+        "increase",
+        "flat"
+      ]
+    },
+    "stringArray": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "key": {
+      "type": "object",
+      "required": [
+        "month",
+        "region_code",
+        "sex_code",
+        "age_code"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "month": {
+          "$ref": "#/$defs/month"
+        },
+        "region_code": {
+          "$ref": "#/$defs/region"
+        },
+        "sex_code": {
+          "$ref": "#/$defs/sex"
+        },
+        "age_code": {
+          "$ref": "#/$defs/age"
+        }
+      }
+    },
+    "sourceRobust": {
+      "type": "object",
+      "required": [
+        "z",
+        "mad",
+        "status",
+        "candidate"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "z": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "mad": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "computed",
+            "unavailable_zero_mad",
+            "unavailable_insufficient_groups"
+          ]
+        },
+        "candidate": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "unit",
+        "activity_daily",
+        "previous_activity_daily",
+        "change_percent",
+        "Q",
+        "H",
+        "T",
+        "direction",
+        "robust"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "type": "string",
+          "enum": [
+            "daily_place_flow_sum",
+            "payment_count_per_day"
+          ]
+        },
+        "activity_daily": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "previous_activity_daily": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "change_percent": {
+          "type": "number"
+        },
+        "Q": {
+          "type": "number"
+        },
+        "H": {
+          "type": "number"
+        },
+        "T": {
+          "type": "number"
+        },
+        "direction": {
+          "$ref": "#/$defs/direction"
+        },
+        "robust": {
+          "$ref": "#/$defs/sourceRobust"
+        }
+      }
+    },
+    "sourceQuality": {
+      "type": "object",
+      "required": [
+        "calculation_status",
+        "quality_status",
+        "hold_reason_codes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "calculation_status": {
+          "const": "computed"
+        },
+        "quality_status": {
+          "const": "hold"
+        },
+        "hold_reason_codes": {
+          "$ref": "#/$defs/stringArray"
+        }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "required": [
+        "status",
+        "operational_use",
+        "operational_alert_allowed",
+        "hold_reason_codes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "const": "hold"
+        },
+        "operational_use": {
+          "const": "hold"
+        },
+        "operational_alert_allowed": {
+          "const": false
+        },
+        "hold_reason_codes": {
+          "$ref": "#/$defs/stringArray"
+        }
+      }
+    },
+    "cardValues": {
+      "type": "object",
+      "required": [
+        "activity_daily",
+        "Q",
+        "H",
+        "T",
+        "direction"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "activity_daily": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "Q": {
+          "type": "number"
+        },
+        "H": {
+          "type": "number"
+        },
+        "T": {
+          "type": "number"
+        },
+        "direction": {
+          "$ref": "#/$defs/direction"
+        }
+      }
+    },
+    "calendar": {
+      "type": "object",
+      "required": [
+        "status",
+        "holiday_days",
+        "card_original",
+        "card_research_scenario",
+        "card_direction_changed",
+        "rule_scenario_candidate",
+        "robust_scenario_candidate",
+        "skt_daily_calendar_adjustment",
+        "holiday_contrast_status",
+        "holiday_vs_nonholiday_pct",
+        "weekend_vs_weekday_pct",
+        "same_weekday_reference_min_days"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "const": "research_sensitivity_not_corrected_actual_activity"
+        },
+        "holiday_days": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "card_original": {
+          "$ref": "#/$defs/cardValues"
+        },
+        "card_research_scenario": {
+          "$ref": "#/$defs/cardValues"
+        },
+        "card_direction_changed": {
+          "type": "boolean"
+        },
+        "rule_scenario_candidate": {
+          "type": "boolean"
+        },
+        "robust_scenario_candidate": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "skt_daily_calendar_adjustment": {
+          "type": "null"
+        },
+        "holiday_contrast_status": {
+          "type": "string",
+          "enum": [
+            "computed",
+            "unavailable_no_holiday",
+            "unavailable_insufficient_reference"
+          ]
+        },
+        "holiday_vs_nonholiday_pct": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "weekend_vs_weekday_pct": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "same_weekday_reference_min_days": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "scopeDirections": {
+      "type": "object",
+      "required": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "A": {
+          "$ref": "#/$defs/direction"
+        },
+        "B": {
+          "$ref": "#/$defs/direction"
+        },
+        "C": {
+          "$ref": "#/$defs/direction"
+        },
+        "D": {
+          "$ref": "#/$defs/direction"
+        },
+        "E": {
+          "$ref": "#/$defs/direction"
+        }
+      }
+    },
+    "scopeRule": {
+      "type": "object",
+      "required": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "A": {
+          "type": "boolean"
+        },
+        "B": {
+          "type": "boolean"
+        },
+        "C": {
+          "type": "boolean"
+        },
+        "D": {
+          "type": "boolean"
+        },
+        "E": {
+          "type": "boolean"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "base_scope",
+        "direction_flips_vs_A",
+        "directions",
+        "B_to_E_QHT_status",
+        "direction_only_rule_candidate"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "base_scope": {
+          "const": "A"
+        },
+        "direction_flips_vs_A": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "B",
+              "C",
+              "D",
+              "E"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "directions": {
+          "$ref": "#/$defs/scopeDirections"
+        },
+        "B_to_E_QHT_status": {
+          "const": "not_materialized"
+        },
+        "direction_only_rule_candidate": {
+          "$ref": "#/$defs/scopeRule"
+        }
+      }
+    },
+    "syntheticLocal": {
+      "type": "object",
+      "required": [
+        "baseline_candidate",
+        "synthetic_candidate",
+        "new_candidate"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "baseline_candidate": {
+          "type": "boolean"
+        },
+        "synthetic_candidate": {
+          "type": "boolean"
+        },
+        "new_candidate": {
+          "type": "boolean"
+        }
+      }
+    },
+    "synthetic": {
+      "type": "object",
+      "required": [
+        "status",
+        "all_anchor_conditions",
+        "rule_limitation",
+        "robust_limitation",
+        "local_20pct"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "evaluated_anchor",
+            "not_anchor_december_no_followup"
+          ]
+        },
+        "all_anchor_conditions": {
+          "const": 1024
+        },
+        "rule_limitation": {
+          "type": "string"
+        },
+        "robust_limitation": {
+          "type": "string"
+        },
+        "local_20pct": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "skt_local/rule": {
+              "$ref": "#/$defs/syntheticLocal"
+            },
+            "skt_local/robust": {
+              "$ref": "#/$defs/syntheticLocal"
+            },
+            "card_local/rule": {
+              "$ref": "#/$defs/syntheticLocal"
+            },
+            "card_local/robust": {
+              "$ref": "#/$defs/syntheticLocal"
+            },
+            "both_local/rule": {
+              "$ref": "#/$defs/syntheticLocal"
+            },
+            "both_local/robust": {
+              "$ref": "#/$defs/syntheticLocal"
+            }
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "observation_key",
+        "region_name",
+        "sources",
+        "source_scope",
+        "source_quality",
+        "activity_change_type",
+        "regional_context",
+        "rule",
+        "robust",
+        "method_relation",
+        "reason_codes",
+        "explanation",
+        "synthetic_validation_context",
+        "calendar_sensitivity",
+        "card_scope_sensitivity",
+        "quality",
+        "possible_explanations",
+        "unverified_factors",
+        "interpretation",
+        "provenance"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "step7_5_evidence_v1"
+        },
+        "observation_key": {
+          "$ref": "#/$defs/key"
+        },
+        "region_name": {
+          "type": "string",
+          "enum": [
+            "강남구",
+            "춘천시"
+          ]
+        },
+        "sources": {
+          "type": "object",
+          "required": [
+            "skt",
+            "card_a"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "skt": {
+              "$ref": "#/$defs/source"
+            },
+            "card_a": {
+              "$ref": "#/$defs/source"
+            }
+          }
+        },
+        "source_scope": {
+          "type": "object",
+          "required": [
+            "skt",
+            "card_a"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "skt": {
+              "const": "monthly_place_based_flow"
+            },
+            "card_a": {
+              "const": "merchant_sgg_all_industries_payment_count_per_day"
+            }
+          }
+        },
+        "source_quality": {
+          "type": "object",
+          "required": [
+            "skt",
+            "card_a"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "skt": {
+              "$ref": "#/$defs/sourceQuality"
+            },
+            "card_a": {
+              "$ref": "#/$defs/sourceQuality"
+            }
+          }
+        },
+        "activity_change_type": {
+          "type": "string",
+          "enum": [
+            "both_decrease",
+            "SKT_only_decrease",
+            "CARD_only_decrease",
+            "both_non_decrease"
+          ]
+        },
+        "regional_context": {
+          "type": "object",
+          "required": [
+            "both_H_positive",
+            "both_T_positive",
+            "skt_absolute_vs_relative_disagree",
+            "card_absolute_vs_relative_disagree"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "both_H_positive": {
+              "type": "boolean"
+            },
+            "both_T_positive": {
+              "type": "boolean"
+            },
+            "skt_absolute_vs_relative_disagree": {
+              "type": "boolean"
+            },
+            "card_absolute_vs_relative_disagree": {
+              "type": "boolean"
+            }
+          }
+        },
+        "rule": {
+          "type": "object",
+          "required": [
+            "candidate",
+            "two_month_streak",
+            "regional_common_both_decline",
+            "both_relative_above_region"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "candidate": {
+              "type": "boolean"
+            },
+            "two_month_streak": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "regional_common_both_decline": {
+              "type": "boolean"
+            },
+            "both_relative_above_region": {
+              "type": "boolean"
+            }
+          }
+        },
+        "robust": {
+          "type": "object",
+          "required": [
+            "candidate",
+            "status",
+            "cutoff"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "candidate": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "computed",
+                "partial",
+                "unavailable_zero_mad"
+              ]
+            },
+            "cutoff": {
+              "const": 3.5
+            }
+          }
+        },
+        "method_relation": {
+          "type": "string",
+          "enum": [
+            "both",
+            "rule_only",
+            "robust_only",
+            "neither",
+            "robust_unavailable"
+          ]
+        },
+        "reason_codes": {
+          "type": "object",
+          "required": [
+            "rule_reason_codes",
+            "robust_reason_codes",
+            "regional_context_reason_codes"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "rule_reason_codes": {
+              "$ref": "#/$defs/stringArray"
+            },
+            "robust_reason_codes": {
+              "$ref": "#/$defs/stringArray"
+            },
+            "regional_context_reason_codes": {
+              "$ref": "#/$defs/stringArray"
+            }
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "synthetic_validation_context": {
+          "$ref": "#/$defs/synthetic"
+        },
+        "calendar_sensitivity": {
+          "$ref": "#/$defs/calendar"
+        },
+        "card_scope_sensitivity": {
+          "$ref": "#/$defs/scope"
+        },
+        "quality": {
+          "$ref": "#/$defs/quality"
+        },
+        "possible_explanations": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "unverified_factors": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "interpretation": {
+          "const": "research_activity_change_only_no_operational_alert"
+        },
+        "provenance": {
+          "type": "object",
+          "required": [
+            "step7_2_schema_version",
+            "step7_3_config_version",
+            "step7_4_full_version",
+            "step7_5_config_version",
+            "manifest"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "step7_2_schema_version": {
+              "const": "step7_2_research_input_v1"
+            },
+            "step7_3_config_version": {
+              "const": "step7_3_research_v1"
+            },
+            "step7_4_full_version": {
+              "const": "step7_4_full_validation_v1"
+            },
+            "step7_5_config_version": {
+              "const": "step7_5_evidence_v1"
+            },
+            "manifest": {
+              "const": "outputs/v3/behavior/step7_5/manifest.json"
+            }
+          }
+        }
+      }
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "lineage": {
+      "type": "object",
+      "required": [
+        "step7_5_manifest_sha256",
+        "evidence_sha256",
+        "dong_skt_sha256",
+        "config_sha256",
+        "code_sha256",
+        "input_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "step7_5_manifest_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "evidence_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "dong_skt_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "config_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "code_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "input_sha256": {
+          "type": "object",
+          "minProperties": 10,
+          "additionalProperties": {
+            "$ref": "#/$defs/hash"
+          }
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "required": [
+        "observation_key",
+        "sources",
+        "activity_change_type",
+        "rule_candidate",
+        "robust_candidate",
+        "quality"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "observation_key": {
+          "$ref": "#/$defs/key"
+        },
+        "sources": {
+          "type": "object",
+          "required": [
+            "skt",
+            "card_a"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "skt": {
+              "$ref": "#/$defs/source"
+            },
+            "card_a": {
+              "$ref": "#/$defs/source"
+            }
+          }
+        },
+        "activity_change_type": {
+          "type": "string",
+          "enum": [
+            "both_decrease",
+            "SKT_only_decrease",
+            "CARD_only_decrease",
+            "both_non_decrease"
+          ]
+        },
+        "rule_candidate": {
+          "type": "boolean"
+        },
+        "robust_candidate": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "quality": {
+          "$ref": "#/$defs/quality"
+        }
+      }
+    },
+    "page": {
+      "type": "object",
+      "required": [
+        "total",
+        "offset",
+        "limit",
+        "next_offset"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "next_offset": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      }
+    },
+    "dongObservation": {
+      "type": "object",
+      "required": [
+        "month",
+        "region_code",
+        "dong_code",
+        "sex_code",
+        "age_code",
+        "source",
+        "activity_daily",
+        "mom_change_percent",
+        "mom_log_decline",
+        "comparison_status",
+        "quality_status",
+        "hold_reason_codes",
+        "operational_alert_allowed",
+        "card_observation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "month": {
+          "$ref": "#/$defs/dongMonth"
+        },
+        "region_code": {
+          "$ref": "#/$defs/region"
+        },
+        "dong_code": {
+          "type": "string",
+          "pattern": "^[0-9]{10}$"
+        },
+        "sex_code": {
+          "$ref": "#/$defs/sex"
+        },
+        "age_code": {
+          "$ref": "#/$defs/age"
+        },
+        "source": {
+          "const": "skt_dong_only"
+        },
+        "activity_daily": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "mom_change_percent": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "mom_log_decline": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "comparison_status": {
+          "type": "string",
+          "enum": [
+            "computed",
+            "unavailable_no_previous_month"
+          ]
+        },
+        "quality_status": {
+          "const": "hold"
+        },
+        "hold_reason_codes": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "operational_alert_allowed": {
+          "const": false
+        },
+        "card_observation": {
+          "type": "null"
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "response_kind",
+        "data",
+        "lineage",
+        "quality_status",
+        "operational_alert_allowed"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "behavior_agent_contract_v1"
+        },
+        "response_kind": {
+          "type": "string",
+          "enum": [
+            "metadata",
+            "observation",
+            "group_page",
+            "region_summary",
+            "evidence_detail",
+            "quality_context",
+            "dong_observation",
+            "dong_page"
+          ]
+        },
+        "data": {
+          "type": "object"
+        },
+        "lineage": {
+          "$ref": "#/$defs/lineage"
+        },
+        "quality_status": {
+          "const": "hold"
+        },
+        "operational_alert_allowed": {
+          "const": false
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "response_kind": {
+                "const": "metadata"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "available_months",
+                  "regions",
+                  "comparison_cells",
+                  "dong_monthly_cells",
+                  "research_only"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "available_months": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/month"
+                    },
+                    "minItems": 5,
+                    "maxItems": 5
+                  },
+                  "regions": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/region"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "comparison_cells": {
+                    "const": 100
+                  },
+                  "dong_monthly_cells": {
+                    "const": 2820
+                  },
+                  "research_only": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "response_kind": {
+                "const": "observation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "$ref": "#/$defs/observation"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "response_kind": {
+                "const": "group_page"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "region_code",
+                  "month",
+                  "groups",
+                  "page"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "region_code": {
+                    "$ref": "#/$defs/region"
+                  },
+                  "month": {
+                    "$ref": "#/$defs/month"
+                  },
+                  "groups": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/observation"
+                    },
+                    "maxItems": 10
+                  },
+                  "page": {
+                    "$ref": "#/$defs/page"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "response_kind": {
+                "const": "region_summary"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "region_code",
+                  "month",
+                  "group_count",
+                  "activity_types",
+                  "rule_candidates",
+                  "robust_candidates",
+                  "quality_hold_count"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "region_code": {
+                    "$ref": "#/$defs/region"
+                  },
+                  "month": {
+                    "$ref": "#/$defs/month"
+                  },
+                  "group_count": {
+                    "const": 10
+                  },
+                  "activity_types": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "rule_candidates": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "robust_candidates": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "quality_hold_count": {
+                    "const": 10
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "response_kind": {
+                "const": "evidence_detail"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "$ref": "#/$defs/evidence"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "response_kind": {
+                "const": "quality_context"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "observation_key",
+                  "quality",
+                  "source_quality",
+                  "calendar_sensitivity",
+                  "card_scope_sensitivity",
+                  "possible_explanations",
+                  "unverified_factors"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "observation_key": {
+                    "$ref": "#/$defs/key"
+                  },
+                  "quality": {
+                    "$ref": "#/$defs/quality"
+                  },
+                  "source_quality": {
+                    "type": "object",
+                    "required": [
+                      "skt",
+                      "card_a"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "skt": {
+                        "$ref": "#/$defs/sourceQuality"
+                      },
+                      "card_a": {
+                        "$ref": "#/$defs/sourceQuality"
+                      }
+                    }
+                  },
+                  "calendar_sensitivity": {
+                    "$ref": "#/$defs/calendar"
+                  },
+                  "card_scope_sensitivity": {
+                    "$ref": "#/$defs/scope"
+                  },
+                  "possible_explanations": {
+                    "$ref": "#/$defs/stringArray"
+                  },
+                  "unverified_factors": {
+                    "$ref": "#/$defs/stringArray"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "response_kind": {
+                "const": "dong_observation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "$ref": "#/$defs/dongObservation"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "response_kind": {
+                "const": "dong_page"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "dong_code",
+                  "month",
+                  "groups",
+                  "page"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "dong_code": {
+                    "type": "string",
+                    "pattern": "^[0-9]{10}$"
+                  },
+                  "month": {
+                    "$ref": "#/$defs/dongMonth"
+                  },
+                  "groups": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/dongObservation"
+                    },
+                    "maxItems": 10
+                  },
+                  "page": {
+                    "$ref": "#/$defs/page"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "error": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "response_kind",
+        "status",
+        "error",
+        "operational_alert_allowed"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "behavior_agent_contract_v1"
+        },
+        "response_kind": {
+          "const": "error"
+        },
+        "status": {
+          "type": "integer",
+          "enum": [
+            400,
+            404,
+            422,
+            503
+          ]
+        },
+        "error": {
+          "type": "object",
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "operational_alert_allowed": {
+          "const": false
+        }
+      }
+    }
+  }
+}

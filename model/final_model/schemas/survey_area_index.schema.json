@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Survey-based population-composition area I5 reference",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "month",
+    "survey_year",
+    "spatial_unit",
+    "region_code",
+    "region_name",
+    "area_code",
+    "area_name",
+    "dong_code",
+    "index_name",
+    "index_kind",
+    "isolation_index",
+    "i5_reference",
+    "scale",
+    "domain_scores",
+    "population_20plus",
+    "population_total",
+    "population_basis",
+    "group_weights",
+    "national_survey_n_valid",
+    "local_survey_n_valid",
+    "local_survey_measured",
+    "is_isolation_rate",
+    "behavior_signals_included",
+    "quality",
+    "operational_alert_allowed",
+    "source_contract",
+    "source_index_version",
+    "source_data_version",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "survey_area_isolation_index_v1"
+    },
+    "record_id": {
+      "type": "string",
+      "pattern": "^survey_i5:2025:"
+    },
+    "month": {
+      "enum": [
+        "202507",
+        "202508",
+        "202509",
+        "202510",
+        "202511",
+        "202512"
+      ]
+    },
+    "survey_year": {
+      "const": 2025
+    },
+    "spatial_unit": {
+      "enum": [
+        "sgg",
+        "administrative_dong"
+      ]
+    },
+    "region_code": {
+      "type": "string",
+      "pattern": "^[0-9]{5}$"
+    },
+    "region_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "area_code": {
+      "type": "string",
+      "pattern": "^([0-9]{5}|[0-9]{10})$"
+    },
+    "area_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dong_code": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9]{10}$"
+    },
+    "index_name": {
+      "const": "사회조사 기반 인구구성 고립취약성 참고지수(I5)"
+    },
+    "index_kind": {
+      "const": "population_composition_weighted_survey_reference"
+    },
+    "isolation_index": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "i5_reference": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "scale": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max",
+        "higher_means"
+      ],
+      "properties": {
+        "min": {
+          "const": 0
+        },
+        "max": {
+          "const": 100
+        },
+        "higher_means": {
+          "const": "higher_reference_vulnerability"
+        }
+      }
+    },
+    "domain_scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "E",
+        "P",
+        "O",
+        "C",
+        "U"
+      ],
+      "properties": {
+        "E": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "P": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "O": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "C": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "U": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "population_20plus": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "population_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "population_basis": {
+      "const": "MOIS_month_end_registered_population_20plus"
+    },
+    "group_weights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "남_20-39",
+        "남_40-59",
+        "남_60+",
+        "여_20-39",
+        "여_40-59",
+        "여_60+"
+      ],
+      "properties": {
+        "남_20-39": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "남_40-59": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "남_60+": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "여_20-39": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "여_40-59": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "여_60+": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "national_survey_n_valid": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "local_survey_n_valid": {
+      "const": null
+    },
+    "local_survey_measured": {
+      "const": false
+    },
+    "is_isolation_rate": {
+      "const": false
+    },
+    "behavior_signals_included": {
+      "const": false
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "formula_verified"
+      ],
+      "properties": {
+        "status": {
+          "const": "reference_only"
+        },
+        "formula_verified": {
+          "const": true
+        }
+      }
+    },
+    "operational_alert_allowed": {
+      "const": false
+    },
+    "source_contract": {
+      "const": "survey_mois_reference_v1"
+    },
+    "source_index_version": {
+      "const": "I5_2025_final_v1"
+    },
+    "source_data_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "spatial_unit": {
+            "const": "sgg"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "area_code": {
+            "pattern": "^[0-9]{5}$"
+          },
+          "dong_code": {
+            "const": null
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "area_code": {
+            "pattern": "^[0-9]{10}$"
+          },
+          "dong_code": {
+            "type": "string",
+            "pattern": "^[0-9]{10}$"
+          }
+        }
+      }
+    }
+  ]
+}

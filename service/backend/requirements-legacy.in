@@ -1,0 +1,4 @@
+-e ../../model
+-e ../../agent
+fastapi==0.141.1
+uvicorn==0.54.0

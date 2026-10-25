@@ -1,0 +1,22 @@
+{
+  "MOIS_six_group_rows_verified": 130188,
+  "behavior_outputs_written": false,
+  "dong_count": 3619,
+  "dong_month_rows": 21698,
+  "frozen_I5_scores_preserved": true,
+  "months": [
+    "202507",
+    "202508",
+    "202509",
+    "202510",
+    "202511",
+    "202512"
+  ],
+  "nationwide_population_coverage_verified": true,
+  "schema_records_validated": 23282,
+  "sgg_count": 264,
+  "sgg_month_rows": 1584,
+  "status": "passed",
+  "unscored_zero_adult_rows": 16,
+  "weighted_scores_recalculated": 23210
+}

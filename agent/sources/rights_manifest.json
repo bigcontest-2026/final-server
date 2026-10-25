@@ -1,0 +1,53 @@
+{
+  "checked_at": "2026-10-05T00:54:09.039531+09:00",
+  "sources": [
+    {
+      "id": "seoul-youth-isolation",
+      "url": "https://youth.seoul.go.kr/youthConts.do?key=2310100062&sc_pbancSeCd=008&sc_bbsStngSn=2212200001&sc_bbsCtgrySn=2310200007&sc_qnaCtgryCd=&sc_faqCtgryCd=013",
+      "sha256": "0746b9fbaf1df751eefc34213485131c00769cf25f1316e42050c3453508cb21",
+      "rights_note": "서울시 공개 페이지의 개별 공공누리 표시를 확인하지 못함. 저작권 정책 https://www.seoul.go.kr/helper/copyright.do 에서는 공공누리 미부착 자료 이용의 사전 협의를 안내한다. 원문 전체는 로컬 검증용이며 공개 패키지·외부 모델에는 사실 조건, URL, 짧은 인용만 전달. 원문 재배포/학습 권리 확정 아님.",
+      "original_capture_publication": "pending_rights_review",
+      "external_model_transmission": "factual_conditions_short_quotes_url_only",
+      "local_capture_path": "backend/evidence/support/raw/seoul-youth-isolation.html"
+    },
+    {
+      "id": "seoul-isolated-household",
+      "url": "https://news.seoul.go.kr/welfare/archives/569275",
+      "sha256": "594fefcd1bf0c40351e9a90642c93e1d2d4bf6056caa657569bf568e70e3fb8b",
+      "rights_note": "공공누리 제4유형 표시 확인: 출처표시·상업적 이용금지·변경금지. 원문 캡처는 변경 없이 로컬 증빙 보존, 공개 패키지는 사실 조건·링크·해시·짧은 인용으로 제한. 전체 재배포/변경/외부 모델 학습은 별도 권리 검토 필요.",
+      "original_capture_publication": "pending_rights_review",
+      "external_model_transmission": "factual_conditions_short_quotes_url_only",
+      "local_capture_path": "backend/evidence/support/raw/seoul-isolated-household.html"
+    },
+    {
+      "id": "chuncheon-mental-health",
+      "url": "https://www.chmhc.org/sub.php?ardtab=2&menukey=41",
+      "sha256": "ba3bf511f8f09877bf67cbb87c512fa7beab71fab4e581e47aec61d8a6327e3b",
+      "rights_note": "기관 누리집 All Rights Reserved 표시, 재배포 라이선스 미확인. 원문 전체는 로컬 검증용, 외부에는 공개 사실 조건·URL·짧은 인용만. 원문 전체 공개·학습 권리 확정 아님.",
+      "original_capture_publication": "pending_rights_review",
+      "external_model_transmission": "factual_conditions_short_quotes_url_only",
+      "local_capture_path": "backend/evidence/support/raw/chuncheon-mental-health.html"
+    },
+    {
+      "id": "seoul-family-training-ended",
+      "url": "https://youth.seoul.go.kr/infoData/sprtInfo/view.do?key=2309130006&sprtInfoId=69709",
+      "sha256": "8785957d27db37670b30f394ab7249b7da5493bf2e11a1ebc84f8926ad404929",
+      "rights_note": "서울시 공개 페이지의 개별 공공누리 표시를 확인하지 못함. 저작권 정책 https://www.seoul.go.kr/helper/copyright.do 에서는 공공누리 미부착 자료 이용의 사전 협의를 안내한다. 원문 전체는 로컬 검증용이며 공개 패키지·외부 모델에는 사실 조건, URL, 짧은 인용만 전달. 원문 재배포/학습 권리 확정 아님.",
+      "original_capture_publication": "pending_rights_review",
+      "external_model_transmission": "factual_conditions_short_quotes_url_only",
+      "local_capture_path": "backend/evidence/support/raw/seoul-family-training-ended.html"
+    },
+    {
+      "id": "welfare-catalog",
+      "url": "https://www.data.go.kr/data/15083323/fileData.do",
+      "sha256": "218902df578697931ef53bc359ef057a3f1fec4caa521690b7a4e89c40bf8442",
+      "rights_note": "공공데이터포털 무료·이용허락범위 제한없음. 목록 요약은 개인 자격 검증이 아님.",
+      "original_capture_publication": "unrestricted_per_official_metadata",
+      "external_model_transmission": "catalog_summary_not_eligibility",
+      "actual_rows": 461
+    }
+  ],
+  "personal_survey_responses": "local_aggregation_only",
+  "public_package": "factual_cards_source_urls_hashes_and_allowed_catalog_only",
+  "submission_originals": "contest_requires_external_originals_but_source_specific_redistribution_and_personal_data_scope_remain_to_check"
+}
