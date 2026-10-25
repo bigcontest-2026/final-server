@@ -290,7 +290,7 @@ ZIP §4.2·§9의 목표는 **I5만 있는 지역도 기초 분석에서 관련 
 - 사용자 제공: `C:/Users/jssh2/Downloads/donghaeng_welfare_mapping_design_v0_2.md`.
 - [현재 에이전트 도구](../src/donghaeng_agent/tools.py), [그래프](../src/donghaeng_agent/graph.py), [입력 계약](../src/donghaeng_agent/contracts.py), [제공자](../src/donghaeng_agent/provider.py).
 - [모델 데이터 사전](../../model/final_model/reports/DATA_DICTIONARY.md), [모델 계산](../../model/final_model/src/pipeline.py), [I5 스키마](../../model/final_model/schemas/survey_area_index.schema.json).
-- [서비스 설계서 v0.3](../../service/docs/DONGHAENG_SERVICE_DESIGN_v0_3.md).
+- [서비스 설계서 v0.3](https://github.com/bigcontest-2026/final-client/blob/main/docs/DONGHAENG_SERVICE_DESIGN_v0_3.md).
 
 판단 근거는 첨부 본문과 로컬 소스다. 첨부에 적힌 외부 링크의 최신 원격 상태나 실제 배포 상태는 이번 문서 작성에서 검증하지 않았다.
 
