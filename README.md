@@ -109,7 +109,7 @@ Windows에서는 `.venv/bin/python` 대신 `.venv/Scripts/python`을 씁니다.
 
 `--local-only`는 포함된 100개 활동 관측의 분류와 보고서 저장·재조회만 점검하며 원격 복지 DB에 접속하지 않습니다. 옵션 없이 실행하면 설정된 복지 자료원까지 점검하므로 Supabase가 설정된 환경에서는 원격 목록 조회가 발생합니다. 현재 5% 규칙과 저장 API의 자세한 계약은 [구현 단계의 Step 07](agent/docs/implementation/README.md)에 있습니다.
 
-2026-10-26 분리 직후 검증: 에이전트+백엔드 **807건 중 778 passed, 29 skipped, 실패 0**. 이 중 `agent/tests/test_welfare_period_postgres.py`의 11건은 `RUN_WELFARE_POSTGRES_TESTS=1`일 때만 실행되는 PostgreSQL 검사라 skip되며, `check_backend_ci.py`는 이를 허용 목록 밖의 skip으로 보고 `passed: false`를 냅니다. 분리 전 `hermes-complete`에서도 같습니다. 생략한 환경 의존 검사는 성공으로 세지 않으며, 외부 AI·원격 DB의 실제 통합 성공이나 배포 검증은 포함하지 않습니다.
+2026-10-26 분리 직후 검증: 에이전트+백엔드 **808건 중 779 passed, 29 skipped, 실패 0**, `check_backend_ci.py` `passed: true`. skip 29건은 모두 허용 목록에 있는 환경 의존 검사입니다. 이 중 `agent/tests/test_welfare_period_postgres.py`의 11건은 `RUN_WELFARE_POSTGRES_TESTS=1`일 때만 도는 PostgreSQL 검사로, CI에서는 실행하지 않습니다. 직접 확인하려면 이 값과 읽기 전용 접속 정보를 주고 따로 실행합니다. 생략한 환경 의존 검사는 성공으로 세지 않으며, 외부 AI·원격 DB의 실제 통합 성공이나 배포 검증은 포함하지 않습니다.
 
 ## 🧩 실제 연결과 시연 범위
 

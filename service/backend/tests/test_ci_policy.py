@@ -27,6 +27,15 @@ def test_only_explicit_private_capture_skips_are_allowed(tmp_path):
     assert not policy.verify_report(path)["passed"]
 
 
+def test_opt_in_postgres_period_skips_are_allowed_only_with_their_reason(tmp_path):
+    path = report(tmp_path, ("test_welfare_period_postgres.ApplicationPeriodPostgresTests", "test_no_period_or_empty_period_is_unknown",
+                             "set RUN_WELFARE_POSTGRES_TESTS=1 for explicit read-only PostgreSQL checks"))
+    assert policy.verify_report(path)["passed"]
+    path = report(tmp_path, ("test_welfare_period_postgres.ApplicationPeriodPostgresTests", "test_no_period_or_empty_period_is_unknown",
+                             "could not import psycopg"))
+    assert not policy.verify_report(path)["passed"]
+
+
 def test_missing_agent_suite_is_not_a_passing_ci_result(tmp_path):
     summary = policy.verify_report(report(tmp_path, missing="test_provider"))
     assert not summary["passed"]

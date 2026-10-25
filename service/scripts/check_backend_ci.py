@@ -31,7 +31,8 @@ def verify_report(path):
             allowed = (
                 suite == "test_investigations" and "official capture integration requires local" in reason
                 or suite == "test_resource_relocation" and name == "test_relocated_captures_keep_hash_verification" and "full captures are local" in reason
-                or suite == "test_final_model" and name == "test_actual_frozen_I5_roundtrip" and "real frozen v3 export" in reason)
+                or suite == "test_final_model" and name == "test_actual_frozen_I5_roundtrip" and "real frozen v3 export" in reason
+                or suite == "ApplicationPeriodPostgresTests" and "set run_welfare_postgres_tests=1" in reason)
             if not allowed:
                 errors.append(f"{suite}::{name}:unexpected_skip")
             skipped.append({"suite": suite, "name": name, "allowed_private_resource_skip": allowed})
