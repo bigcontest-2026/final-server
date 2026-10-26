@@ -56,4 +56,5 @@
 - Independent review: fixed reference-month reconciliation and stale validation/artifact copying; added successful prior-history preservation and all reference dimension rejection coverage.
 - Publication remains pending a real raw ZIP or verified expanded bundle. The active activity bundle has not been modified.
 
-- Final verification: C3 27 passed; model 68 passed / 26 optional skips; backend-agent CI 863 passed / 29 allowed skips / 79 subtests passed; local smoke passed.
+- Workspace verification (including concurrent I5 edits): C3 27 passed; model 68 passed / 26 optional skips; backend-agent CI 863 passed / 29 allowed skips / 79 subtests passed; local smoke passed.
+- Committed C3 snapshot verification: model 57 passed / 26 optional skips; backend-agent 854 passed / 29 allowed skips / 79 subtests passed; required-suite and skip-policy validation passed; local smoke passed.
