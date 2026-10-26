@@ -383,7 +383,10 @@ def test_old_report_display_is_projected_without_database_rewrite(report_setting
     from donghaeng_agent.analysis_report_store import AnalysisReportStore, encoded
     from donghaeng_agent.analysis_reports import render_analysis_report
     store = AnalysisReportStore(report_settings.investigation_db_path.with_name('analysis_reports.sqlite3'))
-    with TestClient(application(report_settings)) as client:
+    from app.report_export_api import report_export_router
+    app = application(report_settings)
+    app.include_router(report_export_router(report_settings))
+    with TestClient(app) as client:
         report = client.post(PATH, json=request()).json()
         raw = report['context']['i5']['record']
         for key in ('i5_z', 'i5_display_score', 'i5_display_clipped', 'i5_display_reference_version'):
@@ -397,5 +400,9 @@ def test_old_report_display_is_projected_without_database_rewrite(report_setting
         assert loaded['context']['i5']['record']['i5_display_score'] == pytest.approx(4.733643178906618)
         assert '4.73/10' in loaded['markdown']
         assert loaded['provenance'] == report['provenance']
+        exported = client.get(PATH + '/' + report['report_id'] + '/export?format=md')
+        assert exported.status_code == 200
+        assert '4.73/10' in exported.text
+        assert legacy_line not in exported.text
         with store.connection() as db:
             assert db.execute('SELECT data FROM analysis_reports WHERE report_id=?', (report['report_id'],)).fetchone()[0] == original
