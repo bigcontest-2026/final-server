@@ -1,0 +1,46 @@
+{
+  "reference_start": "2025-07-01",
+  "reference_end": "2025-09-30",
+  "evaluation_start": "2025-10-01",
+  "evaluation_end": "2025-12-31",
+  "age_groups": [
+    "20",
+    "30",
+    "40",
+    "50",
+    "60+"
+  ],
+  "views": {
+    "data1": [
+      "age",
+      "age_sex",
+      "age_time",
+      "age_industry"
+    ],
+    "data2": [
+      "age",
+      "age_sex",
+      "age_residence"
+    ]
+  },
+  "min_reference_days_per_weekday": 8,
+  "min_reference_coverage": 0.8,
+  "min_monthly_comparable_days": 5,
+  "min_monthly_coverage": 0.8,
+  "decline_pct": 10.0,
+  "robust_z_threshold": 3.5,
+  "small_relative_mad": 0.01,
+  "cell_count_warning_ratio": 0.8,
+  "sensitivity_drop_pct": [
+    5.0,
+    10.0,
+    20.0
+  ],
+  "isolation_forest": {
+    "enabled": true,
+    "n_estimators": 200,
+    "contamination": 0.05,
+    "min_training_rows": 200,
+    "random_state": 42
+  }
+}

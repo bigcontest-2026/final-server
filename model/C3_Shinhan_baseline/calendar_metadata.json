@@ -1,0 +1,11 @@
+{
+  "coverage_start": "2025-07-01",
+  "coverage_end": "2025-12-31",
+  "source_urls": [
+    "https://www.korea.kr/news/policyNewsView.do?newsId=148936865",
+    "https://www.kasi.re.kr/kor/publication/post/newsMaterial/30071"
+  ],
+  "verified_on": "2026-10-14",
+  "definition": "기념일·국경일 중 실제 공휴일 및 대체공휴일만 수록. 토·일요일은 weekday()로 별도 분류. 일요일과 공휴일이 겹치면 holiday 우선.",
+  "limitations": "이 목록의 범위 밖 날짜는 자동 추정하지 않음. 업종별 휴무·연휴 인접일 효과는 조정하지 않음."
+}
