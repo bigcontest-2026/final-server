@@ -1,5 +1,5 @@
 """Deterministic report ① from verified aggregates; no LLM or outside actions."""
-from final_model.src.i5_display import calculate_i5_display_score, REFERENCE_SCOPE
+from final_model.src.i5_display import project_i5_record, REFERENCE_SCOPE
 
 from collections import Counter
 from copy import deepcopy
@@ -32,9 +32,7 @@ def i5_display_record(record):
     """Add the model projection to a copy; retain every original evidence field."""
     if record is None:
         return None
-    result = deepcopy(record)
-    result.update(calculate_i5_display_score(result.get("i5_reference")))
-    return result
+    return project_i5_record(deepcopy(record))
 
 
 def i5_display_line(record):

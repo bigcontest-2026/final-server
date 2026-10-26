@@ -199,6 +199,9 @@ def _survey_input(model, scope):
         if dong_code and not selected:
             raise HTTPException(422, detail={"code": "analysis_dong_unavailable",
                 "message": "선택한 행정동·관측월의 지역 자료를 확인할 수 없습니다. 행정동과 기준월을 다시 선택해 주세요."})
+        if selected and manifest["contract_version"] == "survey_area_isolation_index_10group_v1":
+            national = survey.national_profiles(root / "national_ten_group_profile.csv")
+            selected = [survey.with_group_profiles(selected[0], national)]
         return {"i5": selected[0] if selected else None, "provenance": _provenance(root, manifest, common)}
     return model.read("survey", read)
 

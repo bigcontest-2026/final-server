@@ -1,0 +1,45 @@
+{
+  "behavior_config": "v3/behavior/configs/step7_v1.json",
+  "behavior_config_sha256": "529cc8a642743b1c055f9055078e1e295c06bfb1bbb206a7a14d14b44ed5a205",
+  "caution": "설문 개인 응답과 V3 장소 유동·가맹점 결제 집계는 다른 관측 단위이며 개인 또는 지역값으로 직접 조인할 수 없음",
+  "groups": [
+    {
+      "lower_inclusive": 20,
+      "survey": "20-29",
+      "upper_inclusive": 29,
+      "v3_behavior_age_code": "20G"
+    },
+    {
+      "lower_inclusive": 30,
+      "survey": "30-39",
+      "upper_inclusive": 39,
+      "v3_behavior_age_code": "30G"
+    },
+    {
+      "lower_inclusive": 40,
+      "survey": "40-49",
+      "upper_inclusive": 49,
+      "v3_behavior_age_code": "40G"
+    },
+    {
+      "lower_inclusive": 50,
+      "survey": "50-59",
+      "upper_inclusive": 59,
+      "v3_behavior_age_code": "50G"
+    },
+    {
+      "lower_inclusive": 60,
+      "survey": "60+",
+      "upper_inclusive": null,
+      "v3_behavior_age_code": "60GU"
+    }
+  ],
+  "mapping_type": "age_band_label_correspondence_only",
+  "min_age": 20,
+  "sex_mapping": {
+    "남": "MAN",
+    "여": "WMAN"
+  },
+  "survey_age_field": "만연령",
+  "survey_year": 2025
+}

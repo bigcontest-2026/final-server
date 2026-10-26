@@ -1,0 +1,20 @@
+{
+  "area_rows": {
+    "administrative_dong": 21698,
+    "sgg": 1584
+  },
+  "display_conversion_applied": false,
+  "july_november_official_40_column_direct_reconciliation": "not_verified",
+  "legacy_bundle_manifest_sha256": "cabb54eb1076b310c7ef0110cf8b59206af48c47a00b3187a1b3930bd8e54c1b",
+  "max_area_domain_copy_error": 0.0,
+  "max_area_i5_copy_error": 0.0,
+  "national_complete_respondents": 31817,
+  "national_groups": 10,
+  "national_i5_weighted_mean": 34.50915112817933,
+  "operational_alert_allowed": false,
+  "quality_status": "hold",
+  "status": "passed_with_known_source_limits",
+  "ten_to_six_max_abs_error": 9.313225746154785e-10,
+  "zero_adult_unscored_rows": 16,
+  "zero_population_july_november_13_rows": "not_verified"
+}
