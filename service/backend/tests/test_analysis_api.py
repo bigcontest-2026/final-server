@@ -55,7 +55,11 @@ def test_report_persists_restarts_and_deduplicates(report_settings):
         assert report["quality_status"] == "hold" and report["operational_alert_allowed"] is False
         assert report["context"]["i5"]["record"]["i5_reference"] == 35
         assert report["context"]["mois"]["status"] == "unavailable"
-        assert "-20.00%" in report["markdown"] and "외부 원인 조사는 수행하지 않았습니다" in report["markdown"]
+        assert "-20.00%" in report["markdown"]
+        assert "## 분석 자료 상세" in report["markdown"]
+        assert "외부 원인 조사는 수행하지 않았습니다" not in report["markdown"]
+        assert "원자료의 품질 보류와 운영 경보 금지" not in report["markdown"]
+        assert report["limitations"]  # Internal metadata survives the presentation change.
         repeated = client.post(PATH, json=request()).json()
         assert repeated["report_id"] == report["report_id"] and repeated["reused"] is True
         assert repeated["created_at"] == report["created_at"]
@@ -97,7 +101,7 @@ def test_dong_report_preserves_its_i5_and_keeps_activity_at_parent_sgg(report_se
             "region_name": "강남구", "role": "parent_sgg_reference", "is_dong_observation": False}
         assert "강남구 신사동 (1168051000)" in dong["markdown"]
         assert "## 상위 시군구 활동 변화 참고" in dong["markdown"]
-        assert "시군구 관측이며 행정동 관측이 아닙니다" in dong["markdown"]
+        assert "활동 집계 지역: 강남구 (11680)" in dong["markdown"]
         repeated = client.post(PATH, json=request(dong_code="1168051000")).json()
         assert repeated["report_id"] == dong["report_id"] and repeated["reused"] is True
         exact = client.get(PATH + "?region_code=11680&dong_code=1168051000").json()
@@ -349,3 +353,43 @@ def test_real_bundle_all_100_observations_and_c3_context(tmp_path):
     assert len(priorities) == 1
     assert priorities[0]["scope"] == {"region_code": "51110", "month": "202510", "sex_code": "MAN", "age_code": "20G"}
     assert hashlib.sha256(manifest.read_bytes()).hexdigest() == before
+
+
+def test_i5_display_in_report_ai_input_and_export(report_settings):
+    from app.report_export_api import report_export_router
+    app = application(report_settings)
+    app.include_router(report_export_router(report_settings))
+    with TestClient(app) as client:
+        report = client.post(PATH, json=request()).json()
+        i5 = report['context']['i5']['record']
+        assert i5['i5_reference'] == 35
+        assert i5['i5_display_score'] == pytest.approx(4.733643178906618)
+        assert '4.73/10' in report['markdown']
+        assert 'I5: 35.00/100' not in report['markdown']
+        assert '0~100' in report['markdown']
+        public = _public_payload(report)
+        assert public['context']['i5']['record']['i5_display_score'] == i5['i5_display_score']
+        exported = client.get(PATH + '/' + report['report_id'] + '/export?format=md')
+        assert exported.status_code == 200
+        assert '4.73/10' in exported.text
+
+
+def test_old_report_display_is_projected_without_database_rewrite(report_settings):
+    from donghaeng_agent.analysis_report_store import AnalysisReportStore, encoded
+    from donghaeng_agent.analysis_reports import render_analysis_report
+    store = AnalysisReportStore(report_settings.investigation_db_path.with_name('analysis_reports.sqlite3'))
+    with TestClient(application(report_settings)) as client:
+        report = client.post(PATH, json=request()).json()
+        raw = report['context']['i5']['record']
+        for key in ('i5_z', 'i5_display_score', 'i5_display_clipped', 'i5_display_reference_version'):
+            raw.pop(key, None)
+        report['markdown'] = render_analysis_report(report).replace('4.73/10', '35.00/100')
+        original = encoded(report)
+        with store.connection(write=True) as db:
+            db.execute('UPDATE analysis_reports SET data=? WHERE report_id=?', (original, report['report_id']))
+        loaded = client.get(PATH + '/' + report['report_id']).json()
+        assert loaded['context']['i5']['record']['i5_display_score'] == pytest.approx(4.733643178906618)
+        assert '4.73/10' in loaded['markdown']
+        assert loaded['provenance'] == report['provenance']
+        with store.connection() as db:
+            assert db.execute('SELECT data FROM analysis_reports WHERE report_id=?', (report['report_id'],)).fetchone()[0] == original

@@ -72,7 +72,11 @@ def test_dong_response_report_keeps_selected_area_and_parent_activity_reference(
         assert report["region_name"] == "강남구 신사동"
         assert report["title"].startswith("강남구 신사동")
         assert "1168051000" in report["filename"]
-        assert "상위 시군구(11680)의 관측" in report["markdown"]
+        assert "활동 집계 지역: 상위 시군구(11680)" in report["markdown"]
+        for boilerplate in ("해석하지 않습니다", "확정 근거로 사용하지 않습니다", "## 검토 한계"):
+            assert boilerplate not in report["markdown"]
+        assert report["limitations"]
+        assert all(item in report["markdown"] for item in report["limitations"])
         selected = client.get(REPORTS + "?region_code=11680&dong_code=1168051000").json()
         assert selected["total_matched"] == 1
         assert selected["reports"][0]["report_id"] == report["report_id"]
@@ -440,8 +444,8 @@ def test_review_defaults_do_not_confirm_needs_from_age_or_selected_program(repor
         assert all(item["status"] == "unconfirmed" and item["text"] == item["evidence"] == "" for item in stored["policy_review"].values())
         assert stored["support_needs"] == []
         report = generate(client, parent, saved).json()
-        assert "지원 필요가 입력되지 않았습니다" in report["markdown"]
-        assert "개인 지원 자격 확정이 아닙니다" in report["markdown"]
+        assert "지원 필요 확인 기록이 아직 없습니다" in report["markdown"]
+        assert "담당자가 입력한 확인 내용" in report["markdown"]
 
 
 def test_reviews_survive_reload_partial_and_legacy_updates_without_deleting_records(report_settings):

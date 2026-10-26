@@ -98,7 +98,7 @@ class AccessController:
         if method == "POST" and path == "/api/runs":
             return "investigate"
         if method == "POST" and (path.rstrip("/") == "/api/model/analysis-reports" or
-                                 re.fullmatch(r"/api/model/analysis-reports/[^/]+/investigate/?", path)):
+                                 re.fullmatch(r"/api/model/analysis-reports/[^/]+/(investigate|summary)/?", path)):
             return "investigate"
         if ((method == "PUT" and re.fullmatch(r"/api/model/analysis-reports/[^/]+/response-workspace/?", path)) or
                 (method == "POST" and re.fullmatch(r"/api/model/analysis-reports/[^/]+/response-reports/?", path))):

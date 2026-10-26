@@ -24,12 +24,13 @@ import httpx
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 from typing import Literal
 
+from .writing_style import USER_FACING_STYLE
 from .model_input import ModelInputRejected, prepare_model_input
 from .provider import ProviderUnavailable
 from .lifecycle_guide import validate_lifecycle_scope
 from .analysis_reports import report_region_name
 
-RESEARCH_PROMPT_VERSION = "regional-context-research-1.1"
+RESEARCH_PROMPT_VERSION = "regional-context-research-1.2"
 MAX_SOURCE_BYTES = 1_000_000
 MAX_SOURCES = 4
 OFFICIAL_DOMAINS = ("go.kr", "kosis.kr")
@@ -141,7 +142,7 @@ URL은 sources의 url 필드에만 넣으세요. source_id는 source_1~source_4�
 근거가 없거나 원문 확인이 안 되면 status=no_evidence, sources/observed_context/possible_causes는 빈 배열로 반환하세요.
 조사 실패를 사실 확인 완료라고 표현하지 마세요. 미확인 사항과 추가 확인 질문을 남기세요.
 scope는 입력 scope를 정확히 복사하세요. 자료가 없으면 0으로 채우지 마세요.
-"""
+""" + USER_FACING_STYLE
 
 
 def public_source_url(value):

@@ -81,7 +81,7 @@ def test_failed_research_keeps_baseline_and_allows_retry(report_settings, monkey
         report = completed.json()
         assert report["context_investigation_status"] == "no_evidence"
         assert report["context_investigation"]["possible_causes"] == []
-        assert "충분한 근거를 확보하지 못했습니다" in report["markdown"]
+        assert "해당 지역·기간의 추가 자료가 없습니다" in report["markdown"]
 
 
 def test_duplicate_concurrent_research_calls_only_one_model(report_settings, monkeypatch):
@@ -206,7 +206,7 @@ def test_comparison_saved_observations_and_provenance_are_frozen_without_changin
         assert seen[0]["comparison_context"] == comparison
         assert report["context_investigation"]["comparison_context"] == comparison
         assert "합성 비교 지역" in report["markdown"]
-        assert "동일 조건으로 검증한 저장 보고서" in report["markdown"]
+        assert "같은 월·집단·집계 단위의 활동" in report["markdown"]
         for field in ("scope", "provenance", "summary", "assessments", "context", "rule_version", "quality_status"):
             assert report[field] == base[field]
         assert client.get(f"{PATH}/{base['report_id']}").json()["markdown"] == base["markdown"]

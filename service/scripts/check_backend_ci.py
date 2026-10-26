@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import xml.etree.ElementTree as ET
 
 SERVICE = Path(__file__).resolve().parents[1]
@@ -54,8 +55,12 @@ def main():
     env = {**os.environ, "PYTHONPATH": str(SERVICE / "backend"), "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
            "DONGHAENG_PROVIDER": "openai_responses", "OPENAI_API_KEY": "", "DONGHAENG_PHOENIX_ENABLED": "false",
            "ACCESS_MODE": "local_development"}
-    result = subprocess.run([sys.executable, "-m", "pytest", str(ROOT / "agent/tests"),
-                             str(SERVICE / "backend/tests"), "-q", f"--junitxml={report}"], cwd=ROOT, env=env)
+    # Offline transport tests acquire their own subscription lock. Isolate their
+    # temporary files so a live local model request cannot make the suite fail.
+    with tempfile.TemporaryDirectory(prefix="hermes-backend-ci-") as temporary:
+        env.update(TMPDIR=temporary, TMP=temporary, TEMP=temporary)
+        result = subprocess.run([sys.executable, "-m", "pytest", str(ROOT / "agent/tests"),
+                                 str(SERVICE / "backend/tests"), "-q", f"--junitxml={report}"], cwd=ROOT, env=env)
     if not report.is_file():
         return result.returncode or 1
     summary = verify_report(report)

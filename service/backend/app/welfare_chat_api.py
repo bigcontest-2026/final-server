@@ -13,6 +13,7 @@ from zoneinfo import ZoneInfo
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from donghaeng_agent.writing_style import USER_FACING_STYLE
 from donghaeng_agent.provider import ProviderUnavailable, create_provider
 from donghaeng_agent.welfare_connection import remote_configured
 from donghaeng_agent.welfare_postgres import PostgresWelfareDB, _official_url
@@ -59,7 +60,7 @@ program은 서버가 현재 공개 자료 묶음에서 다시 읽은 자료이�
 보고서 요청이면 선택한 사업과 대화에서 논의한 활용·확인 사항을 구분한 검토 초안을 작성하세요.
 지원금액·일정 등 등록 사실과 사용자의 제안·미확인 사항을 구분하세요.
 최종 text에 답변 또는 보고서 본문을 넣고, evidence_ids에는 제공된 program_version_id를 반드시 넣으세요.
-도구를 호출하지 말고 최종 응답만 반환하세요.'''
+도구를 호출하지 말고 최종 응답만 반환하세요.''' + USER_FACING_STYLE
 
 
 def _grounding(program):
@@ -95,8 +96,7 @@ def _report(program, reply):
     markdown = (f'# {title}\n\n작성일: {program["as_of"]}\n'
                 f'담당기관: {program.get("institution") or "미기재"}\n\n'
                 f'## 검토 초안\n\n{reply}\n\n## 확인한 사업 원문\n\n{original}\n\n'
-                f'## 근거·출처\n\n{_source_note(program)}\n\n'
-                '개인 자격·접수 현황·기관 연계 및 시행 확정은 담당기관의 별도 확인이 필요합니다.\n')
+                f'## 사업 자료 상세\n\n{_source_note(program)}\n')
     filename = f'HERMES_복지사업_검토_{program["version_id"]}.md'
     return {'title': title, 'markdown': markdown, 'filename': filename}
 

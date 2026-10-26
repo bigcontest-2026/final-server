@@ -3,6 +3,7 @@ from copy import deepcopy
 import csv
 import hashlib
 import json
+import logging
 import math
 import sqlite3
 from typing import Literal
@@ -14,8 +15,11 @@ from donghaeng_agent.analysis_reports import attach_context_investigation, build
 from donghaeng_agent.analysis_report_store import AnalysisReportStore
 from donghaeng_agent.analysis_research import RESEARCH_PROMPT_VERSION, research_analysis_report
 from donghaeng_agent.provider import ProviderUnavailable
+from donghaeng_agent import activity_summary
 from .final_model import FinalModel, ModelUnavailable
 from .security import _bind_database
+
+logger = logging.getLogger(__name__)
 
 
 class AnalysisReportRequest(BaseModel):
@@ -205,7 +209,7 @@ def analysis_router(settings):
     # An explicitly dedicated store avoids changing legacy business/checkpoint schemas.
     store = AnalysisReportStore(settings.investigation_db_path.with_name("analysis_reports.sqlite3"))
     with store.connection(write=True) as db:
-        _bind_database(db, settings, ("analysis_reports", "analysis_report_research"))
+        _bind_database(db, settings, ("analysis_reports", "analysis_report_research", "analysis_report_summaries"))
 
     def failed(exc):
         if isinstance(exc, ModelUnavailable):
@@ -233,6 +237,39 @@ def analysis_router(settings):
                     raise ModelUnavailable(family, "bundle_changed_during_query")
             return store.save(report)
         except (ModelUnavailable, sqlite3.Error, OSError) as exc:
+            raise failed(exc) from exc
+
+    @router.post("/{report_id}/summary")
+    def summary(report_id: str, request: Request, body: dict | None = Body(default=None)):
+        if request.query_params or body is not None:
+            raise HTTPException(422, "요약에는 저장된 보고서만 사용합니다. 추가 입력은 지정할 수 없습니다.")
+        if settings.access_mode != "local_development":
+            raise HTTPException(503, detail={"code": "institution_provider_not_configured",
+                "message": "기관에서 승인한 요약 모델이 아직 구성되지 않았습니다."})
+        try:
+            report = store.get(report_id)
+            if report is None:
+                raise HTTPException(404, detail={"code": "analysis_report_not_found", "message": "저장된 분석 보고서가 없습니다."})
+            provider = activity_summary.create_provider()
+            key = activity_summary.summary_key(report, provider)
+            claim = store.claim_summary(report_id, key)
+            if claim["status"] == "completed":
+                return claim["summary"]
+            if claim["status"] == "running":
+                raise HTTPException(409, detail={"code": "activity_summary_in_progress",
+                    "message": "이 보고서의 요약을 생성 중입니다. 잠시 후 다시 시도해 주세요."}, headers={"Retry-After": "5"})
+            try:
+                text = activity_summary.summarize_activity(report, provider)
+                return store.finish_summary(report_id, key, claim["token"], text)
+            finally:
+                store.release_summary(report_id, key, claim["token"])
+        except ProviderUnavailable as exc:
+            busy = exc.code == "model_concurrency_limit"
+            raise HTTPException(409 if busy else 503, detail={"code": "activity_summary_busy" if busy else "activity_summary_unavailable",
+                "message": "다른 AI 작업이 진행 중입니다. 잠시 후 요약을 다시 시도해 주세요." if busy else
+                           "활동 요약을 생성하지 못했습니다. 모델 연결을 확인한 뒤 다시 시도해 주세요."},
+                headers={"Retry-After": "5"} if busy else None) from None
+        except (sqlite3.Error, OSError) as exc:
             raise failed(exc) from exc
 
     @router.post("/{report_id}/investigate")
@@ -275,6 +312,8 @@ def analysis_router(settings):
                 report = attach_context_investigation(base, investigation)
                 return store.finish_research(parent_id, research_key, token, report)
             except ProviderUnavailable as exc:
+                # Codes are server-owned; never log prompts, credentials or raw CLI diagnostics.
+                logger.warning("Regional context research unavailable: %s", exc.code)
                 missing = exc.code in {"model_key_missing", "model_name_missing", "codex_cli_missing",
                     "codex_subscription_login_required", "codex_cli_version_not_validated", "model_provider_not_configured"}
                 raise HTTPException(503, detail={"code": "analysis_research_unavailable",

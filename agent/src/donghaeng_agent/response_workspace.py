@@ -15,13 +15,15 @@ from uuid import NAMESPACE_URL, uuid4, uuid5
 
 from .welfare_support_mapping import CATEGORY_LABELS as SUPPORT_NEED_LABELS
 from .analysis_reports import report_region_name
+from .planning_details import normalize_planning
+from .report_document import build_response_document, render_document_markdown
 
-SCHEMA_VERSION = "preventive-response-1.0"
+SCHEMA_VERSION = "welfare-plan-2.0"
 KIND_LABELS = {"existing_program": "기존 사업 활용", "program_improvement": "사업 보완", "new_program": "신규 예방사업"}
 EDIT_FIELDS = ("kind", "title", "target", "rationale", "content", "checks", "selected", "feedback", "program_reference")
 REVIEW_FIELDS = {"eligibility": "지원 대상·조건", "support_content": "지원 내용",
                  "delivery": "전달기관·이용 경로", "finance_and_cost": "재원·본인부담·이용 비용"}
-STRUCTURED_FIELDS = ("policy_review", "support_needs")
+STRUCTURED_FIELDS = ("policy_review", "support_needs", "planning_details")
 REVIEW_STATUS = {"unconfirmed": "미확인", "confirmed": "사용자 확인 기록", "not_applicable": "해당 없음으로 기록"}
 USER_REVIEW_NOTE = "확인 상태와 근거는 사용자가 직접 입력한 기록입니다. 시스템의 검증이나 개인 지원 자격 확정이 아닙니다."
 LIMITATIONS = [
@@ -104,15 +106,17 @@ def _scope_text(scope):
 
 
 def render_response_report(report):
+    if report.get("document"):
+        return render_document_markdown(report["document"])
     analysis = report["analysis_snapshot"]
     scope = analysis["scope"]
     lines = [f"# {_md(report['title'])}", "", "담당자 검토안", "",
              f"지역: {_md(_region_name(analysis))} ({_md(scope.get('dong_code') or scope['region_code'])})",
              f"관측 범위: {_md(_scope_text(scope))}", f"원본 현황 분석 보고서: {_md(report['analysis_report_id'])}",
              f"작성 시각: {_md(report['created_at'])}", "",
-             "## 검토 근거", "", "저장된 현황 분석을 기준으로 선택한 대응안을 정리했습니다.", ""]
+             "## 지역 현황", "", "저장된 현황 분석을 기준으로 선택한 대응안을 정리했습니다.", ""]
     if scope.get("dong_code"):
-        lines.append(f"선택 행정동의 I5를 참고하며, 활동 분류·변화율은 상위 시군구({_md(scope['region_code'])})의 관측입니다. 행정동별 활동 감소로 해석하지 않습니다.")
+        lines.append(f"선택 행정동의 I5 · 활동 집계 지역: 상위 시군구({_md(scope['region_code'])})")
     for assessment in analysis.get("assessments", []):
         s = assessment["scope"]
         lines.append(f"- {_md(_scope_text(s))}: {_md(assessment['category_label'])}")
@@ -120,18 +124,18 @@ def render_response_report(report):
     if investigation.get("summary"):
         lines.extend(["", "### 지역 맥락 조사 요약", "", _md(investigation["summary"])])
     else:
-        lines.extend(["", "지역 맥락·원인 조사는 완료되지 않은 상태입니다. 원인 가설을 확정 근거로 사용하지 않습니다."])
+        lines.extend(["", "지역 맥락 조사는 아직 진행하지 않았습니다."])
     lifecycle = analysis.get("lifecycle_interpretation")
     if isinstance(lifecycle, dict):
         source = lifecycle.get("source") or {}
         pages = source.get("pages") or []
         pages = "·".join(str(page) for page in pages) if isinstance(pages, list) else str(pages)
         lines.extend(["", "### 원본 분석의 생애주기 해석 참고", "",
-                      "추가 확인할 질문을 위한 문헌 해석입니다. 지원 필요는 미확인 상태이며 활동 범주나 지원 자격을 바꾸지 않습니다.",
+                      "지역의 생활 여건과 참여 방식을 살펴볼 질문입니다.",
                       f"문헌: {_md(source.get('title') or '출처 미확인')} / {_md(source.get('year') or '')}",
                       f"참고 본문: {_md(pages or '원본 분석 출처 확인')}쪽 / 해석 가이드: {_md(lifecycle.get('guide_version'))}"])
         for group in lifecycle.get("groups") or []:
-            lines.append(f"- {_md(group.get('age_label') or '대상 연령 미확인')}: 확인 질문 단계 · 지원 필요 미확인")
+            lines.append(f"- {_md(group.get('age_label') or '대상 연령 미확인')}: 살펴볼 질문")
             for question in group.get("questions") or []:
                 lines.append(f"  - {_md(question)}")
     lines.extend(["", f"## 선택한 대응안 {len(report['selected_plans'])}건", ""])
@@ -141,9 +145,9 @@ def render_response_report(report):
             "**대상**", _md(plan["target"]), "", "**검토 이유**", _md(plan["rationale"] or "추가 확인 필요"), "",
             "**주요 내용**", _md(plan["content"]), "", "**확인할 사항**", _md(plan["checks"] or "추가 확인 필요"), ""])
         structured = structured_review({}, plan)
-        lines.extend(["**지원 필요 확인 기록**", "", USER_REVIEW_NOTE])
+        lines.extend(["**지원 필요 확인 기록**", "", "담당자가 입력한 확인 내용입니다."])
         if not structured["support_needs"]:
-            lines.append("- 확인된 지원 필요가 입력되지 않았습니다. 연령·지역 집계로 지원 필요를 확정하지 않습니다.")
+            lines.append("- 지원 필요 확인 기록이 아직 없습니다.")
         for need in structured["support_needs"]:
             lines.extend([f"- {SUPPORT_NEED_LABELS[need['category_code']]}: {REVIEW_STATUS[need['status']]}",
                           f"  내용: {_md(need['text'] or '미확인')}", f"  사용자 입력 근거: {_md(need['evidence'] or '미기재')}"])
@@ -161,7 +165,7 @@ def render_response_report(report):
             source = f"[{title}](<{reference['url']}>)" if reference.get("url") else title
             lines.extend(["**사용자가 연결한 참고 사업**", source,
                 f"발행기관: {_md(reference.get('publisher') or '미확인')} / 사업 버전: {_md(reference['program_version_id'])}",
-                "등록 자료를 다시 확인하기 위한 참고이며 적용 자격·접수·사업 효과를 검증한 결과가 아닙니다.", ""])
+                "사업의 세부 내용은 연결한 원문에서 살펴볼 수 있습니다.", ""])
     lines.extend(["## 출처와 원본 연결", "", f"현황 분석: {_md(report['analysis_report_id'])}",
                   f"관측 규칙: {_md(analysis.get('rule_version'))}"])
     for source in investigation.get("sources", []):
@@ -175,7 +179,6 @@ def render_response_report(report):
         lines.append(f"- {_md(source['source_id'])}: {link} / 자료 대상 기간: {_md(source.get('reference_period') or '미확인')}")
     for family, provenance in analysis.get("provenance", {}).items():
         lines.append(f"- {_md(family)}: {_md(provenance.get('run_id'))} / manifest SHA-256 {_md(provenance.get('manifest_sha256'))}")
-    lines.extend(["", "## 검토 한계", "", *["- " + _md(text) for text in report["limitations"]]])
     return "\n".join(lines) + "\n"
 
 
@@ -319,6 +322,10 @@ class ResponseWorkspaceStore:
                 plan = {key: deepcopy(incoming[key]) for key in EDIT_FIELDS}
                 old = old_by_id.get(incoming.get("plan_id"))
                 plan.update(structured_review(incoming, old))
+                try:
+                    plan["planning_details"] = normalize_planning(incoming.get("planning_details"), (old or {}).get("planning_details"))
+                except ValueError:
+                    raise WorkspaceInputError("invalid_planning_details") from None
                 reference = plan.get("program_reference")
                 if reference:
                     reference["origin"] = "user_selected_welfare_catalog"
@@ -361,7 +368,8 @@ class ResponseWorkspaceStore:
             if any(not plan["title"].strip() or not plan["target"].strip() or not plan["content"].strip() for plan in selected):
                 raise WorkspaceInputError("response_plan_incomplete")
             selected = [{key: deepcopy(value) for key, value in plan.items() if key != "history"} for plan in selected]
-            title = title or f"{_region_name(analysis)} 맞춤형 예방 대응 보고서"
+            has_existing = any(plan['kind'] == 'existing_program' for plan in selected)
+            title = title or f"{_region_name(analysis)} " + ("복지서비스 연계 및 대응계획(안)" if has_existing else "복지사업 보완·신규 추진계획(안)")
             fingerprint = hashlib.sha256(encoded({"schema_version": SCHEMA_VERSION, "analysis_report_id": analysis_report_id,
                 "workspace_analysis_report_id": root, "plans": selected, "title": title}).encode()).hexdigest()
             row = db.execute("SELECT data FROM response_reports WHERE fingerprint=?", (fingerprint,)).fetchone()
@@ -376,6 +384,7 @@ class ResponseWorkspaceStore:
                       "quality_status": analysis.get("quality_status", "hold"), "operational_alert_allowed": False,
                       "limitations": list(LIMITATIONS)}
             result["filename"] = f"HERMES_예방대응_{analysis['scope'].get('dong_code') or analysis['scope']['region_code']}_{analysis['scope']['month']}_{result['report_id']}.md"
+            result["document"] = build_response_document(result)
             result["markdown"] = render_response_report(result)
             db.execute("INSERT INTO response_reports VALUES(?,?,?,?,?)", (result["report_id"], analysis_report_id, fingerprint, result["created_at"], encoded(result)))
             return {**result, "reused": False}

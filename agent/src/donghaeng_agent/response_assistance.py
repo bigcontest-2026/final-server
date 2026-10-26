@@ -10,12 +10,14 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 
+from .writing_style import USER_FACING_STYLE
 from .model_input import prepare_model_input, ModelInputRejected
 from .provider import create_provider, ProviderUnavailable
 from .response_workspace import structured_review
+from .planning_details import PlanningEntry, PLANNING_FIELDS, applicable_fields
 
 
-ASSISTANCE_PROMPT_VERSION = "response-assistance-1.0"
+ASSISTANCE_PROMPT_VERSION = "response-assistance-2.0"
 MODES = ("draft", "revise", "review")
 KINDS = ("existing_program", "program_improvement", "new_program")
 TEXT_FIELDS = ("title", "target", "rationale", "content", "checks")
@@ -35,22 +37,26 @@ analysis는 서버가 불러온 비식별 집계 근거입니다. user_draft와 
 I5는 지역 인구구성 참고값, MOIS는 인구·세대 배경, C3는 동일 카드 원천의 과거 비교입니다.
 scope.dong_code가 있으면 선택 행정동의 I5를 참고하되 활동·C3·MOIS는 상위 시군구 자료입니다. 행정동 관측으로 옮기지 마세요.
 생애주기 질문은 가설입니다. 나이만으로 취업·건강·정신건강·돌봄 등의 필요를 확정하지 않습니다.
-지역 조사 미완료·근거 없음은 그대로 남기고 원인·지원 필요·현재 모집·자격·사업 공백을 확정하지 않습니다.
+지역 조사 미완료·자료 없음은 내부 상태에 남기고 원인·지원 필요·현재 모집·자격·사업 공백을 확정하지 않습니다.
 confirmed 사용자 입력은 담당자의 확인 기록이며 시스템 검증이나 개인 자격 판정이 아닙니다.
 사용자가 선택한 참고 사업은 사용자 초안에만 있으며 원문을 이 호출에서 조회하지 않았습니다. 실제 사업 내용·제공 여부를 확인한 것으로 쓰지 않습니다.
 새 사업명·사업 ID·URL·전화번호·금액·예산·참여 인원·일정·효과를 등록 사실처럼 만들지 말고 미정 항목은 확인할 사항에 남깁니다.
 원문 사업이 없으면 기존 자원 확인, 현장 수요 확인 등 실행 전 검토를 제안합니다. 신규 사업은 검토 제안으로 구분합니다.
 개인정보나 개인 건강·재산 등 민감한 사정을 입력받도록 요청하지 않습니다.
-mode=draft는 선택한 kind의 간결한 초안을, revise는 user_draft와 요청을 반영한 수정 제안을, review는 빠진 근거·실행 조건을 검토합니다.
+mode=draft는 선택한 kind의 간결한 초안을, revise는 user_draft와 요청을 반영한 수정 제안을, review는 실행 내용과 운영 조건의 보완점을 제안합니다.
 suggestion에는 title(대응안 이름), target(대상·범위), rationale(분석과 연결한 이유), content(실행 제안), checks(실행 전 확인)를 한국어로 작성합니다.
 review 모드에서는 suggestion=null이며 review_notes에만 검토 의견을 씁니다. 다른 모드에서는 다섯 필드가 모두 있는 suggestion을 반환합니다.
 출력은 output_contract의 정확한 JSON을 text에 넣습니다. 분석 ID·scope·mode·kind는 입력과 동일해야 합니다.
 외부 도구를 호출하지 않습니다. calls=[]로 최종 답변만 반환하며 evidence_ids에는 analysis_report_id와 실제 사용한 allowed_evidence_ids만 넣습니다.
-저장·적용·연락·신청·기관 승인이나 필요 확인 상태의 변경을 했다고 말하지 않습니다."""
+저장·적용·연락·신청·기관 승인이나 필요 확인 상태의 변경을 했다고 말하지 않습니다.""" + USER_FACING_STYLE
 
 
 class StrictOutput(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
+
+
+class PlanningSuggestionEntry(PlanningEntry):
+    status: Literal["unconfirmed"] = "unconfirmed"
 
 
 class Suggestion(StrictOutput):
@@ -59,6 +65,14 @@ class Suggestion(StrictOutput):
     rationale: str = Field(min_length=1, max_length=4000)
     content: str = Field(min_length=1, max_length=8000)
     checks: str = Field(min_length=1, max_length=4000)
+    planning_details: dict[str, PlanningSuggestionEntry] = Field(default_factory=dict, max_length=16)
+
+    @field_validator("planning_details")
+    @classmethod
+    def known_details(cls, value):
+        if set(value) - set(PLANNING_FIELDS):
+            raise ValueError("invalid_planning_details")
+        return value
 
     @field_validator(*TEXT_FIELDS)
     @classmethod
@@ -138,7 +152,16 @@ def _check_program_claims(result, analysis, used_refs):
                              for source in research.get("sources", []) if source.get("source_id") in source_ids)
     normalize = lambda value: re.sub(r"\s+", "", value).strip(" .。!?")
     passages = [normalize(passage) for passage in official_passages if isinstance(passage, str) and passage.strip()]
-    texts = [*(result.get("suggestion") or {}).values(), *result["review_notes"]]
+    def strings(value):
+        if isinstance(value, str):
+            yield value
+        elif isinstance(value, dict):
+            for item in value.values():
+                yield from strings(item)
+        elif isinstance(value, list):
+            for item in value:
+                yield from strings(item)
+    texts = list(strings({"suggestion": result.get("suggestion"), "review_notes": result["review_notes"]}))
     for text in texts:
         for clause in re.split(r"[。!?\n]|(?<!\d)\.(?!\d)", text):
             if not clause.strip():
@@ -165,6 +188,8 @@ def assist_response(analysis, *, mode, kind, instruction, current_plan=None, pro
     if current_plan is not None:
         draft = {field: current_plan.get(field, "") for field in (*TEXT_FIELDS, "feedback")}
         draft.update(kind=kind, **structured_review(current_plan))
+        if current_plan.get("planning_details"):
+            draft["planning_details"] = deepcopy(current_plan["planning_details"])
         reference = current_plan.get("program_reference")
         if reference:
             draft["user_selected_reference"] = {"program_version_id": reference["program_version_id"], "title": reference["title"],
@@ -174,6 +199,9 @@ def assist_response(analysis, *, mode, kind, instruction, current_plan=None, pro
                "allowed_evidence_ids": sorted(known),
                "output_contract": {"analysis_report_id": analysis["report_id"], "scope": analysis["scope"], "mode": mode,
                    "kind": kind, "suggestion": None if mode == "review" else {field: "문자열" for field in TEXT_FIELDS}, "review_notes": ["검토 의견"]}}
+    if mode != "review":
+        request["output_contract"]["suggestion"]["planning_details"] = {key: {"status": "unconfirmed", "text": "검토할 내용", "evidence": "실제로 참조한 근거 ID, 없으면 빈 문자열", "owner": "담당 역할(안), 미지정이면 빈 문자열", "next_action": "다음 확인 조치"} for key in applicable_fields(kind)}
+        request["task"] += "\nplanning_details에는 유형에 적용할 항목의 검토안을 작성합니다. status는 unconfirmed만 사용하며, 근거 없는 금액·인원·기관 합의·일정을 만들지 않습니다. evidence는 실제 참조한 allowed_evidence_ids만 사용하고 근거가 없으면 빈 문자열을 씁니다."
     try:
         request = prepare_model_input(request)
     except ModelInputRejected as exc:
@@ -181,7 +209,7 @@ def assist_response(analysis, *, mode, kind, instruction, current_plan=None, pro
     provider = provider or create_provider()
     response = provider.decide([{"role": "user", "content": json.dumps(request, ensure_ascii=False, allow_nan=False)}], allow_tools=False)
     if (not isinstance(response, dict) or response.get("calls") or not isinstance(response.get("text"), str)
-            or len(response["text"]) > 8000 or not isinstance(response.get("evidence_ids"), list)
+            or len(response["text"]) > 32000 or not isinstance(response.get("evidence_ids"), list)
             or analysis["report_id"] not in response["evidence_ids"]
             or any(not isinstance(ref, str) or ref not in known for ref in response["evidence_ids"])):
         raise ProviderUnavailable("response_assistance_output_invalid")
@@ -204,6 +232,9 @@ def assist_response(analysis, *, mode, kind, instruction, current_plan=None, pro
     # this writing-only capability. They must be selected through the catalog.
     if re.search(r"https?://|www\.|(?<!\d)(?:0\d{1,2})[- ]\d{3,4}[- ]\d{4}(?!\d)", visible, re.I):
         raise ProviderUnavailable("response_assistance_unknown_source")
+    for entry in (result.get("suggestion") or {}).get("planning_details", {}).values():
+        if entry["evidence"] and any(ref.strip() not in response["evidence_ids"] for ref in entry["evidence"].split(",")):
+            raise ProviderUnavailable("response_assistance_unknown_source")
     _check_program_claims(result, analysis, response["evidence_ids"])
     return {**result, "status": "completed", "model_called": True, "prompt_version": ASSISTANCE_PROMPT_VERSION,
             "evidence_ids": list(dict.fromkeys(response["evidence_ids"])),

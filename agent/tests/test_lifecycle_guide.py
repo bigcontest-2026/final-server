@@ -98,9 +98,11 @@ def test_report_markdown_distinguishes_literature_and_missing_observations():
     assert report["threshold_percent"] == 5
     assert report["recommendation_status"] == "not_requested"
     assert report["provenance"]["lifecycle_guide"]["role"] == "interpretive_literature_not_regional_confirmation"
-    for text in ("생애주기별 확인 질문", "지원 필요: 미확인", "19~29세", "60~64세", "달력", "집계", "DOI", "39, 40, 52"):
+    for text in ("생애주기별 살펴볼 사항", "19~29세", "60~64세", "달력", "집계", "DOI", "39, 40, 52"):
         assert text in report["markdown"]
     assert "관측 자료: 없음" in report["markdown"]
+    assert report["lifecycle_interpretation"]["support_need_status"] == "unconfirmed"
+    assert "지원 필요: 미확인" not in report["markdown"]
 
 
 def test_new_guide_and_schema_preserve_old_frozen_reports_across_restart(tmp_path):
