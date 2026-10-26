@@ -54,7 +54,7 @@ def present_analysis_report(report):
         # Only replace the server-generated numerical line. Keep authored research,
         # citations, timestamps and all other historical content as saved.
         result["markdown"] = re.sub(
-            r"^I5: [^\n]*?/100 · 지역 전체 인구구성 기준$",
+            r"^I5: [^\n]*?/100(?: · 지역 전체 인구구성 기준|\. 지역 전체 인구구성 참고값이며 선택한 성·연령 집단 점수가 아닙니다\.)$",
             lambda _: i5_display_line(i5), result.get("markdown", ""), flags=re.MULTILINE)
         result["markdown"] = result["markdown"].replace("영역 참고값: ", "영역 참고값(0~100점): ")
     for compared in (result.get("comparison_context") or {}).get("reports", []):
