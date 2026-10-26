@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from donghaeng_agent.analysis_report_store import AnalysisReportStore
 from donghaeng_agent.signal_rules import previous_month
 from donghaeng_agent.response_workspace import ResponseWorkspaceStore, WorkspaceConflict, WorkspaceInputError
+from donghaeng_agent.planning_details import PlanningEntry, PLANNING_FIELDS
 from donghaeng_agent.response_assistance import assist_response
 from donghaeng_agent.provider import ProviderUnavailable
 from .security import _bind_database
@@ -90,6 +91,14 @@ class PlanInput(StrictModel):
     program_reference: ProgramReference | None = None
     policy_review: PolicyReviewInput = Field(default_factory=PolicyReviewInput)
     support_needs: list[SupportNeedInput] = Field(default_factory=list, max_length=9)
+    planning_details: dict[str, PlanningEntry] = Field(default_factory=dict, max_length=16)
+
+    @field_validator("planning_details")
+    @classmethod
+    def known_planning_fields(cls, value):
+        if set(value) - set(PLANNING_FIELDS):
+            raise ValueError("알 수 없는 계획 항목입니다.")
+        return value
 
     @field_validator("title")
     @classmethod
@@ -143,7 +152,7 @@ def response_router(settings):
     analysis_store = AnalysisReportStore(settings.investigation_db_path.with_name("analysis_reports.sqlite3"))
     store = ResponseWorkspaceStore(settings.investigation_db_path.with_name("response_workspaces.sqlite3"))
     with analysis_store.connection(write=True) as db:
-        _bind_database(db, settings, ("analysis_reports", "analysis_report_research"))
+        _bind_database(db, settings, ("analysis_reports", "analysis_report_research", "analysis_report_summaries"))
     with store.connection(write=True) as db:
         _bind_database(db, settings, ("response_workspaces", "response_plan_revisions", "response_reports", "response_workspace_members"))
 
@@ -195,13 +204,15 @@ def response_router(settings):
             plans = []
             for plan in body.plans:
                 data = plan.model_dump()
-                for field in ("policy_review", "support_needs"):
+                for field in ("policy_review", "support_needs", "planning_details"):
                     if field not in plan.model_fields_set:
                         data.pop(field)
                     elif field == "policy_review":
                         data[field] = plan.policy_review.model_dump(exclude_unset=True)
-                    else:
+                    elif field == "support_needs":
                         data[field] = [item.model_dump(exclude_unset=True) for item in plan.support_needs]
+                    else:
+                        data[field] = {key: item.model_dump() for key, item in plan.planning_details.items()}
                 plans.append(data)
             return store.save(analysis_report_id, body.expected_version, plans, **linked)
         except (WorkspaceConflict, WorkspaceInputError, sqlite3.Error, OSError) as exc:

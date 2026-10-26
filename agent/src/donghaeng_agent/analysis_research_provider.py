@@ -34,6 +34,42 @@ def _json(text):
         raise ProviderUnavailable("research_output_schema_error") from None
 
 
+def _event_json(text):
+    """Normalize only CLI 0.163's wrapper/native web IDs, never model JSON.
+
+    Its native web bridge emits item.id twice: item_N then exec-UUID. All other
+    duplicate fields remain errors, including duplicates anywhere in a draft.
+    """
+    class ObjectPairs(list):
+        pass
+
+    try:
+        raw = json.loads(text, object_pairs_hook=ObjectPairs,
+                         parse_constant=lambda value: (_ for _ in ()).throw(ValueError("non_finite")))
+        event_type = dict(raw).get("type") if isinstance(raw, ObjectPairs) else None
+
+        def convert(value, path=()):
+            if isinstance(value, ObjectPairs):
+                ids = [item for key, item in value if key == "id"]
+                web_ids = (path == ("item",) and event_type in ("item.started", "item.updated", "item.completed")
+                           and dict(value).get("type") in ("web_search", "web_search_call") and len(ids) == 2
+                           and all(isinstance(item, str) for item in ids)
+                           and ids[0].startswith("item_") and ids[1].startswith("exec-"))
+                result = {}
+                for key, item in value:
+                    if key in result and not (web_ids and key == "id"):
+                        raise ValueError("duplicate_key")
+                    result[key] = convert(item, (*path, key))
+                return result
+            if isinstance(value, list):
+                return [convert(item, (*path, str(index))) for index, item in enumerate(value)]
+            return value
+
+        return convert(raw)
+    except (ValueError, TypeError, UnicodeDecodeError):
+        raise ProviderUnavailable("research_output_schema_error") from None
+
+
 class ResearchEvents:
     """Only the transport, never generated prose, can record web execution."""
     def __init__(self):
@@ -120,7 +156,13 @@ class CodexResearchProvider(CodexSubscriptionProvider):
         super().__init__(executable, timeout_seconds or os.getenv("DONGHAENG_ANALYSIS_RESEARCH_TIMEOUT_SECONDS", "120"))
 
     def _argv(self, directory):
-        return [arg.replace('web_search="disabled"', 'web_search="live"') for arg in super()._argv(directory)]
+        args = [arg.replace('web_search="disabled"', 'web_search="live"') for arg in super()._argv(directory)]
+        # The pinned CLI's native web transport needs its host even when code
+        # mode itself is disabled. Shell, apps, MCP and every other tool stay off.
+        for index in range(len(args) - 1):
+            if args[index] == "--disable" and args[index + 1] == "code_mode_host":
+                args[index] = "--enable"
+        return args
 
     def _run_research(self, argv, prompt):
         collector = ResearchEvents()
@@ -153,7 +195,7 @@ class CodexResearchProvider(CodexSubscriptionProvider):
                             pending += block
                             while b"\n" in pending:
                                 line, pending = pending.split(b"\n", 1)
-                                collector.accept(_json(line))
+                                collector.accept(_event_json(line))
                     if pending.strip():
                         raise ProviderUnavailable("research_invalid_event_stream")
                     process.wait(timeout=5)

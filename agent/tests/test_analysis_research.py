@@ -275,6 +275,32 @@ def test_codex_args_isolate_host_and_enable_only_native_web(tmp_path):
     assert "shell_tool" in args and "plugins" in args and "mcp_servers={}" in args
 
 
+def test_native_web_event_accepts_only_the_pinned_cli_double_id_shape():
+    from donghaeng_agent.analysis_research_provider import _event_json, _json
+    raw = '{"type":"item.completed","item":{"id":"item_1","type":"web_search","id":"exec-test","query":"공식 지역 자료","status":"completed"}}'
+    event = _event_json(raw)
+    events = ResearchEvents()
+    events.accept(event)
+    assert events.evidence()["search_count"] == 1
+    assert events.evidence()["search_queries"] == ["공식 지역 자료"]
+    for changed in [raw.replace('"web_search"', '"agent_message"'),
+                    raw.replace('"exec-test"', '"other"'),
+                    raw.replace('"query":', '"id":"exec-extra","query":')]:
+        with pytest.raises(ProviderUnavailable, match="research_output_schema_error"):
+            _event_json(changed)
+    # Generated JSON never receives this transport-only compatibility exception.
+    with pytest.raises(ProviderUnavailable, match="research_output_schema_error"):
+        _json(raw)
+
+
+def test_research_profile_has_working_native_web_host_but_no_shell(tmp_path):
+    args = CodexResearchProvider(executable="/fake/codex")._argv(tmp_path)
+    pairs = list(zip(args, args[1:]))
+    assert ("--enable", "code_mode_host") in pairs
+    for feature in ("shell_tool", "unified_exec", "apps", "plugins", "code_mode", "multi_agent"):
+        assert ("--disable", feature) in pairs
+
+
 def test_provider_selection_never_falls_back_to_paid_api(monkeypatch):
     monkeypatch.delenv("DONGHAENG_PROVIDER", raising=False)
     assert isinstance(create_research_provider(), CodexResearchProvider)

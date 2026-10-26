@@ -24,12 +24,13 @@ import httpx
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 from typing import Literal
 
+from .writing_style import USER_FACING_STYLE
 from .model_input import ModelInputRejected, prepare_model_input
 from .provider import ProviderUnavailable
 from .lifecycle_guide import validate_lifecycle_scope
-from .analysis_reports import report_region_name
+from .analysis_reports import report_region_name, present_analysis_report
 
-RESEARCH_PROMPT_VERSION = "regional-context-research-1.1"
+RESEARCH_PROMPT_VERSION = "regional-context-research-1.3"
 MAX_SOURCE_BYTES = 1_000_000
 MAX_SOURCES = 4
 OFFICIAL_DOMAINS = ("go.kr", "kosis.kr")
@@ -109,6 +110,7 @@ RESEARCH_INSTRUCTIONS = """당신은 공개 집계자료의 지역 맥락을 조
 비교가 있으면 reports[].observations와 provenance를 참고하여 공통 변화와 지역별 차이를 검토하세요. 비교 지역의 관측을 대상 지역 관측으로 옮기지 마세요.
 비교 관측은 외부 sources나 인과관계 입증이 아닙니다. 비교가 없으면 다른 지역 수치를 만들어 넣지 마세요.
 scope.dong_code가 있으면 지역 맥락 조사 대상은 선택 행정동입니다. 활동 observations와 C3·MOIS는 상위 시군구의 참고이므로 행정동 관측으로 옮기지 마세요.
+I5 총점은 i5_display_score(0~10점)를 표시하세요. 2025년 12월 시군구 기준 상대점수이며 5점은 기준 평균입니다. 원점수 i5_reference와 혼동하지 마세요. 영역 domain_scores는 0~100점입니다.
 현재 I5는 지역 전체 인구구성 참고지표입니다. 성·연령별 활동, 지역·개인 고립률과 동일시하지 마세요.
 입력 lifecycle_interpretation은 사전에 검토한 문헌을 바탕으로 만든 확인 질문입니다. 지역에서 관측된 사실이 아닙니다.
 문헌은 조사 질문 선택과 개념 구별에만 사용하고 sources·지역 확인 근거·독립 신호 수에 추가하지 마세요.
@@ -141,7 +143,7 @@ URL은 sources의 url 필드에만 넣으세요. source_id는 source_1~source_4�
 근거가 없거나 원문 확인이 안 되면 status=no_evidence, sources/observed_context/possible_causes는 빈 배열로 반환하세요.
 조사 실패를 사실 확인 완료라고 표현하지 마세요. 미확인 사항과 추가 확인 질문을 남기세요.
 scope는 입력 scope를 정확히 복사하세요. 자료가 없으면 0으로 채우지 마세요.
-"""
+""" + USER_FACING_STYLE
 
 
 def public_source_url(value):
@@ -241,6 +243,7 @@ def verify_public_source(source):
 
 
 def _public_payload(report):
+    report = present_analysis_report(report)
     try:
         scope = {key: report["scope"].get(key) for key in ("region_code", "month", "sex_code", "age_code")}
         if report["scope"].get("dong_code"):

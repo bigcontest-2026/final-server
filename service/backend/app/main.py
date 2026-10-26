@@ -31,6 +31,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     application.include_router(analysis_router(settings))
     from .response_api import response_router
     application.include_router(response_router(settings))
+    from .report_export_api import report_export_router
+    application.include_router(report_export_router(settings))
     return application
 
 

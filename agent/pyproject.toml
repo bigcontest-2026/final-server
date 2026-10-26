@@ -30,6 +30,9 @@ phoenix = ["arize-phoenix==20.23.0", "arize-phoenix-client==3.5.0"]
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+donghaeng_agent = ["export_assets/*.ttf", "export_assets/*.txt"]
+
 [tool.pytest.ini_options]
 pythonpath = ["src", "../model/src"]
 testpaths = ["tests"]

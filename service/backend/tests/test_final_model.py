@@ -1,4 +1,6 @@
 """Fabricated bundles are test fixtures only, never application data."""
+from final_model.src.i5_display import calculate_i5_display_score
+
 import copy
 import hashlib
 import json
@@ -63,7 +65,7 @@ def survey_row(level="sgg", code="11680", name="강남구", month="202512"):
         "month": month, "survey_year": 2025, "spatial_unit": level, "region_code": "11680", "region_name": "강남구",
         "area_code": code, "area_name": name, "dong_code": code if level == "administrative_dong" else None,
         "index_name": "사회조사 기반 인구구성 고립취약성 참고지수(I5)",
-        "index_kind": "population_composition_weighted_survey_reference", "isolation_index": 35, "i5_reference": 35,
+        "index_kind": "population_composition_weighted_survey_reference", "isolation_index": 35, "i5_reference": 35, **calculate_i5_display_score(35),
         "scale": {"min": 0, "max": 100, "higher_means": "higher_reference_vulnerability"},
         "domain_scores": {key: 35 for key in "EPOCU"}, "population_20plus": 600, "population_total": 800,
         "population_basis": "MOIS_month_end_registered_population_20plus",

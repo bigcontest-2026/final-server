@@ -34,7 +34,11 @@
     "source_contract",
     "source_index_version",
     "source_data_version",
-    "limitations"
+    "limitations",
+    "i5_z",
+    "i5_display_score",
+    "i5_display_clipped",
+    "i5_display_reference_version"
   ],
   "properties": {
     "schema_version": {
@@ -267,6 +271,20 @@
       "items": {
         "type": "string"
       }
+    },
+    "i5_z": {
+      "type": "number"
+    },
+    "i5_display_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "i5_display_clipped": {
+      "type": "boolean"
+    },
+    "i5_display_reference_version": {
+      "const": "i5_sgg_202512_equal_weight_v1"
     }
   },
   "allOf": [

@@ -1,0 +1,99 @@
+{
+  "excluded_general_district_codes": [
+    "41111",
+    "41113",
+    "41115",
+    "41117",
+    "41131",
+    "41133",
+    "41135",
+    "41171",
+    "41173",
+    "41192",
+    "41194",
+    "41196",
+    "41271",
+    "41273",
+    "41281",
+    "41285",
+    "41287",
+    "41461",
+    "41463",
+    "41465",
+    "43111",
+    "43112",
+    "43113",
+    "43114",
+    "44131",
+    "44133",
+    "47111",
+    "47113",
+    "48121",
+    "48123",
+    "48125",
+    "48127",
+    "48129",
+    "52111",
+    "52113"
+  ],
+  "interpretation": "행정동 값도 2025년 12월 시군구 기준 상대점수이며 행정동 집단 내 표준화 점수가 아니다.",
+  "levels": {
+    "administrative_dong": {
+      "202512": {
+        "clipped_fraction": 0.0,
+        "clipped_rows": 0,
+        "display_max": 8.30774443104518,
+        "display_mean": 5.256994285191318,
+        "display_min": 1.9023365372025896,
+        "raw_max": 38.08201942261246,
+        "raw_min": 32.5585073154035,
+        "rows": 3617
+      },
+      "all_months": {
+        "clipped_fraction": 0.0,
+        "clipped_rows": 0,
+        "display_max": 8.307993401485643,
+        "display_mean": 5.237500266652222,
+        "display_min": 1.9011558159328978,
+        "raw_max": 38.082234114832694,
+        "raw_min": 32.55748915569588,
+        "rows": 21698
+      }
+    },
+    "sgg": {
+      "202512": {
+        "clipped_fraction": 0.0,
+        "clipped_rows": 0,
+        "display_max": 7.0747185746559715,
+        "display_mean": 4.880197881430352,
+        "display_min": 3.032151045635736,
+        "raw_max": 37.01875641748605,
+        "raw_min": 33.53276909851801,
+        "rows": 264
+      },
+      "all_months": {
+        "clipped_fraction": 0.0,
+        "clipped_rows": 0,
+        "display_max": 7.0747185746559715,
+        "display_mean": 4.862444481946239,
+        "display_min": 2.997016359008742,
+        "raw_max": 37.01875641748605,
+        "raw_min": 33.50247175131023,
+        "rows": 1584
+      }
+    }
+  },
+  "reference_count": 229,
+  "reference_mean_fixed": 35.22968484607534,
+  "reference_mean_recalculated": 35.229684846075344,
+  "reference_month": "202512",
+  "reference_scope": "2025년 12월 시군구 기준 상대점수",
+  "reference_std_fixed": 0.8623201205529184,
+  "reference_std_recalculated_population": 0.8623201205529185,
+  "reference_version": "i5_sgg_202512_equal_weight_v1",
+  "source_file_sha256": {
+    "dong_isolation_index.jsonl": "8cc103e1fa14e66a6336d3d91a74c578c3020b502b136db31b300f73827cec3d",
+    "sgg_isolation_index.jsonl": "89006008d2b392cbc6221e6f80521b29eb3013847542aaa38448e96018855f69"
+  },
+  "source_records_and_existing_fields_preserved": true
+}

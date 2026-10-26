@@ -1,6 +1,8 @@
 """Additive I5 area-reference export; existing behavior bundles are never edited."""
 from __future__ import annotations
 
+from .i5_display import calculate_i5_display_score, REFERENCE_SCOPE, REFERENCE_VERSION
+
 import argparse
 import csv
 import hashlib
@@ -102,7 +104,7 @@ def make_record(row, level, national, source_version, regions=None):
     dong = row["dong_code"] if level == "administrative_dong" else None
     require(dong is None or (len(dong) == 10 and dong.isdigit() and dong[:5] == region), "invalid_dong_code")
     area = dong or region
-    return {
+    result = {
         "schema_version": CONTRACT,
         "record_id": f"survey_i5:2025:{level}:{area}:{month}",
         "month": month,
@@ -136,6 +138,9 @@ def make_record(row, level, national, source_version, regions=None):
         "source_data_version": source_version,
         "limitations": LIMITATIONS,
     }
+
+    result.update(calculate_i5_display_score(result["isolation_index"]))
+    return result
 
 
 def build_records(tables, source_version):
@@ -245,6 +250,7 @@ def query(bundle, level="sgg", month=None, region_code=None, dong_code=None, off
             presence["reason"]="zero_registered_adult_population"
     return {
         "contract_version": CONTRACT, "index_kind": "population_composition_weighted_survey_reference",
+        "i5_display_reference_version": REFERENCE_VERSION, "i5_display_reference_scope": REFERENCE_SCOPE,
         "quality_status":"hold",
         "geographic_scope":manifest.get("geographic_scope","published_bundle_only"),
         "source_population_coverage_verified":manifest.get("national_coverage",{}).get("nationwide_published_population_coverage_verified",False),

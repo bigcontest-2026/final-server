@@ -8,7 +8,7 @@ import sqlite3
 import time
 from uuid import uuid4
 
-from .analysis_reports import report_region_name
+from .analysis_reports import report_region_name, present_analysis_report
 
 
 def encoded(value):
@@ -27,6 +27,10 @@ class AnalysisReportStore:
                 parent_report_id TEXT NOT NULL, prompt_version TEXT NOT NULL,
                 lease_token TEXT, lease_until REAL NOT NULL DEFAULT 0, result_id TEXT,
                 PRIMARY KEY (parent_report_id, prompt_version))""")
+            db.execute("""CREATE TABLE IF NOT EXISTS analysis_report_summaries (
+                report_id TEXT NOT NULL, cache_key TEXT NOT NULL,
+                lease_token TEXT, lease_until REAL NOT NULL DEFAULT 0,
+                result TEXT, PRIMARY KEY (report_id, cache_key))""")
 
     @contextmanager
     def connection(self, write=False):
@@ -59,7 +63,7 @@ class AnalysisReportStore:
         fingerprint = hashlib.sha256(encoded(identity).encode()).hexdigest()
         row = db.execute("SELECT data FROM analysis_reports WHERE fingerprint=?", (fingerprint,)).fetchone()
         if row:
-            return {**json.loads(row["data"]), "reused": True}
+            return {**present_analysis_report(json.loads(row["data"])), "reused": True}
         result = {**report, "report_id": "analysis_" + uuid4().hex,
                   "created_at": datetime.now(timezone.utc).isoformat(), "storage_status": "saved"}
         result.pop("reused", None)
@@ -80,7 +84,7 @@ class AnalysisReportStore:
                 saved = db.execute("SELECT data FROM analysis_reports WHERE report_id=?", (row["result_id"],)).fetchone()
                 if saved is None:
                     raise sqlite3.DatabaseError("research_result_missing")
-                return {"status": "completed", "report": {**json.loads(saved["data"]), "reused": True}}
+                return {"status": "completed", "report": {**present_analysis_report(json.loads(saved["data"])), "reused": True}}
             now = time.time()
             if row and row["lease_token"] and row["lease_until"] > now:
                 return {"status": "running"}
@@ -112,7 +116,37 @@ class AnalysisReportStore:
     def get(self, report_id):
         with self.connection() as db:
             row = db.execute("SELECT data FROM analysis_reports WHERE report_id=?", (report_id,)).fetchone()
-        return json.loads(row["data"]) if row else None
+        return present_analysis_report(json.loads(row["data"])) if row else None
+
+    def claim_summary(self, report_id, cache_key):
+        with self.connection(write=True) as db:
+            row = db.execute("SELECT * FROM analysis_report_summaries WHERE report_id=? AND cache_key=?",
+                             (report_id, cache_key)).fetchone()
+            if row and row["result"]:
+                return {"status": "completed", "summary": {**json.loads(row["result"]), "reused": True}}
+            now = time.time()
+            if row and row["lease_token"] and row["lease_until"] > now:
+                return {"status": "running"}
+            token = uuid4().hex
+            db.execute("""INSERT INTO analysis_report_summaries VALUES(?,?,?,?,NULL)
+                ON CONFLICT(report_id,cache_key) DO UPDATE SET lease_token=excluded.lease_token,
+                lease_until=excluded.lease_until""", (report_id, cache_key, token, now + 180))
+            return {"status": "claimed", "token": token}
+
+    def finish_summary(self, report_id, cache_key, token, text):
+        result = {"report_id": report_id, "text": text,
+                  "created_at": datetime.now(timezone.utc).isoformat()}
+        with self.connection(write=True) as db:
+            cursor = db.execute("""UPDATE analysis_report_summaries SET result=?,lease_token=NULL,lease_until=0
+                WHERE report_id=? AND cache_key=? AND lease_token=?""", (encoded(result), report_id, cache_key, token))
+            if cursor.rowcount != 1:
+                raise sqlite3.DatabaseError("summary_lease_lost")
+        return {**result, "reused": False}
+
+    def release_summary(self, report_id, cache_key, token):
+        with self.connection(write=True) as db:
+            db.execute("""UPDATE analysis_report_summaries SET lease_token=NULL,lease_until=0
+                WHERE report_id=? AND cache_key=? AND lease_token=?""", (report_id, cache_key, token))
 
     def family(self, report_id):
         """Resolve stored cause-analysis ancestry without changing any snapshot.

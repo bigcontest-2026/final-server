@@ -1,4 +1,6 @@
 """Deterministic report ① from verified aggregates; no LLM or outside actions."""
+from final_model.src.i5_display import calculate_i5_display_score, REFERENCE_SCOPE
+
 from collections import Counter
 from copy import deepcopy
 import math
@@ -9,7 +11,7 @@ from .signal_rules import CATEGORY_LABELS, SIGNAL_RULE_VERSION, THRESHOLD_PERCEN
 from .lifecycle_guide import build_lifecycle_interpretation, guide_provenance
 
 
-REPORT_SCHEMA_VERSION = "analysis-report-1.1"
+REPORT_SCHEMA_VERSION = "analysis-report-1.2"
 SEX_LABELS = {"MAN": "남성", "WMAN": "여성"}
 AGE_LABELS = {"20G": "20대", "30G": "30대", "40G": "40대", "50G": "50대", "60GU": "60세 이상"}
 DOMAIN_LABELS = {"E": "경제생활의 어려움", "P": "모임·단체 참여 부족", "O": "드문 외출",
@@ -23,6 +25,43 @@ QUALITY_LABELS = {
     "SKT_SEP_OCT_BOUNDARY_VERSION_CHANGED": "통신 9월·10월 공간 경계 버전이 달라 변화율 해석에 추가 검토 필요",
     "OBSERVATION_UNAVAILABLE": "선택 범위의 활동 자료 없음",
 }
+
+
+
+def i5_display_record(record):
+    """Add the model projection to a copy; retain every original evidence field."""
+    if record is None:
+        return None
+    result = deepcopy(record)
+    result.update(calculate_i5_display_score(result.get("i5_reference")))
+    return result
+
+
+def i5_display_line(record):
+    projected = i5_display_record(record)
+    value = projected.get("i5_display_score") if projected else None
+    score = "자료 없음" if value is None else f"{value:.2f}/10"
+    return f"I5 표시점수: {score} · {REFERENCE_SCOPE} · 5점은 기준 평균"
+
+
+def present_analysis_report(report):
+    """Read-time display projection for saved reports, without rewriting SQLite."""
+    result = deepcopy(report)
+    context = result.get("context") or {}
+    i5 = (context.get("i5") or {}).get("record")
+    if i5:
+        context["i5"]["record"] = i5_display_record(i5)
+        # Only replace the server-generated numerical line. Keep authored research,
+        # citations, timestamps and all other historical content as saved.
+        result["markdown"] = re.sub(
+            r"^I5: [^\n]*?/100(?: · 지역 전체 인구구성 기준|\. 지역 전체 인구구성 참고값이며 선택한 성·연령 집단 점수가 아닙니다\.)$",
+            lambda _: i5_display_line(i5), result.get("markdown", ""), flags=re.MULTILINE)
+        result["markdown"] = result["markdown"].replace("영역 참고값: ", "영역 참고값(0~100점): ")
+    for compared in (result.get("comparison_context") or {}).get("reports", []):
+        evidence = ((compared.get("context") or {}).get("i5") or {}).get("record")
+        if evidence:
+            compared["context"]["i5"]["record"] = i5_display_record(evidence)
+    return result
 
 
 def _number(value):
@@ -109,7 +148,7 @@ def build_analysis_report(*, scope, current_rows, previous_rows, i5, mois, prove
             assessments.append(assessment)
     counts = Counter(item["category"] for item in assessments)
     summary = {"total": len(assessments), **{category: counts[category] for category in CATEGORY_LABELS}}
-    context = {"i5": {"status": "available" if i5 else "unavailable", "record": deepcopy(i5),
+    context = {"i5": {"status": "available" if i5 else "unavailable", "record": i5_display_record(i5),
                       "role": "regional_population_composition_reference", "changes_category": False},
                "mois": {"status": "available" if mois else "unavailable", "record": deepcopy(mois),
                         "role": "population_and_household_context", "changes_category": False,
@@ -133,7 +172,7 @@ def build_analysis_report(*, scope, current_rows, previous_rows, i5, mois, prove
         limitations.insert(0, "선택 행정동의 I5를 표시하며, 활동 분류·C3·MOIS는 상위 시군구의 참고 자료입니다. 행정동별 활동 감소나 고립 상태로 해석하지 않습니다.")
     questions = ["휴일·행사·날씨 등 같은 지역·관측 기간의 맥락 자료가 있습니까?",
                  "통신 관측 범위와 카드 집계·누락 규칙이 전월과 동일합니까?",
-                 "감소한 집단과 실제 지원 수요의 관계를 확인할 별도 근거가 있습니까?"]
+                 "감소한 집단이 이용하는 지역 프로그램의 참여 현황과 이용 여건은 어떻습니까?"]
     report = {"schema_version": REPORT_SCHEMA_VERSION, "report_type": "observation_analysis",
               "scope": deepcopy(scope), "rule_version": SIGNAL_RULE_VERSION, "threshold_percent": THRESHOLD_PERCENT,
               "assessments": assessments, "summary": summary, "context": context,
@@ -168,7 +207,7 @@ def render_analysis_report(report):
     if scope.get("dong_code"):
         parent = context.get("activity_scope", {})
         lines.extend([f"선택 행정동: {_safe(region_name)} ({scope['dong_code']}). I5는 해당 행정동의 인구구성 참고값입니다.",
-            f"활동 참고 범위: 상위 시군구 {_safe(parent.get('region_name') or scope['region_code'])} ({scope['region_code']}). 아래 활동 범주·변화율·C3·MOIS는 시군구 관측이며 행정동 관측이 아닙니다.", ""])
+            f"활동 집계 지역: {_safe(parent.get('region_name') or scope['region_code'])} ({scope['region_code']}) · 통신·카드·C3·MOIS", ""])
     if investigated:
         lines.extend(_research_markdown(report["context_investigation"]))
     if report.get("lifecycle_interpretation"):
@@ -189,18 +228,16 @@ def render_analysis_report(report):
         robust = assessment.get("robust_evidence", {})
         diagnostics = robust.get("sources", {})
         lines.append(f"- {SEX_LABELS[key['sex_code']]} {AGE_LABELS[key['age_code']]}: 직전 월({previous_month(scope['month'])}) 변화율은 통신 {_formatted(sources['skt'].get('previous_change_percent'), suffix='%', signed=True)}, 카드 {_formatted(sources['card_a'].get('previous_change_percent'), suffix='%', signed=True)}. 모델 상대 이례성은 통신 z {_formatted(diagnostics.get('skt', {}).get('z'))}, 카드 z {_formatted(diagnostics.get('card_a', {}).get('z'))}, 모델 기준 {_formatted(robust.get('cutoff'))}.")
-    lines.append("이례성 수치는 모델이 산출한 상대 비교 근거입니다. 확률이나 개인 위험 점수가 아니며, 두 원천의 5% 감소 조건을 먼저 충족해야 우선 검토에 사용합니다.")
     lines.extend(["", "## 지역 배경 참고", ""])
     if i5:
-        lines.extend([f"I5: {_formatted(i5.get('i5_reference'))}/100. 지역 전체 인구구성 참고값이며 선택한 성·연령 집단 점수가 아닙니다.",
-                      "영역 참고값: " + " · ".join(f"{key} {DOMAIN_LABELS.get(key, key)} {_formatted(value)}" for key, value in i5.get("domain_scores", {}).items()),
+        lines.extend([i5_display_line(i5),
+                      "영역 참고값(0~100점): " + " · ".join(f"{key} {DOMAIN_LABELS.get(key, key)} {_formatted(value)}" for key, value in i5.get("domain_scores", {}).items()),
                       f"I5 근거: {_safe(i5['record_id'])}"])
     else:
-        lines.append("동일 지역·월의 I5 자료가 없습니다. 활동값으로 대체하지 않습니다.")
+        lines.append("동일 지역·월의 I5 자료가 없습니다.")
     if mois:
         share = _number(mois.get("one_person_household_share"))
         lines.append(f"{'상위 시군구 ' if scope.get('dong_code') else ''}MOIS 주민등록 인구 {_formatted(mois.get('population_total'), 0)}명 · 20세 이상 {_formatted(mois.get('population_20plus'), 0)}명 · 1인 세대 {_formatted(mois.get('one_person_households'), 0)} / 전체 세대 {_formatted(mois.get('households_total'), 0)} · 1인 세대 비중 {_formatted(None if share is None else share * 100, suffix='%')}.")
-        lines.append("인구·가구 구조를 설명하는 참고 자료이며 독립 위험 신호로 세지 않습니다. 6집단 인구를 10집단 활동과 자동 대응하지 않습니다.")
     else:
         lines.append("동일 상위 시군구·월의 MOIS 배경 자료가 없습니다." if scope.get("dong_code") else "동일 지역·월의 MOIS 배경 자료가 없습니다.")
     lines.extend(["", "## C3 과거 카드 참고", ""])
@@ -214,16 +251,19 @@ def render_analysis_report(report):
             lines.append(f"- {group}: 거래 건수 변화 {_formatted(count.get('change_pct'), suffix='%', signed=True)}, 금액 변화 {_formatted(amount.get('change_pct'), suffix='%', signed=True)}. 기준기간 {_safe(row.get('reference_start', '미확인'))}~{_safe(row.get('reference_end', '미확인'))}, {method}. 원본 {_formatted(row.get('threshold_pct'), 0, '%')} 감소 기준: 건수 {_flag(count.get('decline_flag'))}, 금액 {_flag(amount.get('decline_flag'))}. 근거 {_safe(row['record_id'])}.")
         else:
             lines.append(f"- {group}: 정확히 연결된 과거 참고 자료 없음.")
-    lines.append("C3는 카드와 같은 출처입니다. 활동 변화와 중복 가산하거나 독립적인 확증으로 해석하지 않습니다.")
     lines.append("C3의 과거 기준기간·동일 요일 비교와 원본 감소 기준은 위 활동 분류의 전월 대비 5% 기준과 별개입니다.")
-    lines.extend(["", "## 자료 품질과 해석 범위", "", *["- " + item for item in report["limitations"]],
-                  "", "원자료가 남긴 품질 검토 사유:"])
+    lines.extend(["", "## 살펴볼 사항", "", *["- " + _research_text(item) for item in report["open_questions"]],
+                  "", "## 분석 자료 상세", ""])
+    guide = report.get("lifecycle_interpretation")
+    if guide:
+        lines.extend(["### 문헌과 대상 범위", ""])
+        lines.extend("- " + _research_text(item) for item in guide["boundaries"])
+        for group in guide["groups"]:
+            lines.append("- " + _research_text(group["boundaries"][0]))
+        lines.append("")
     quality_reasons = sorted({reason for item in report["assessments"] for reason in item["quality_reasons"]})
-    lines.extend("- " + QUALITY_LABELS.get(code, "원자료 품질 확인 필요") + f" ({_safe(code)})" for code in quality_reasons)
-    if not quality_reasons:
-        lines.append("- 개별 품질 사유 코드가 제공되지 않았습니다. 운영 경보 허용으로 해석하지 않습니다.")
-    lines.extend(["", "## 추가로 확인할 사항", "", *["- " + _research_text(item) for item in report["open_questions"]],
-                  "", "## 근거·버전", ""])
+    if quality_reasons:
+        lines.extend(["### 자료 처리 정보", "", *["- " + QUALITY_LABELS.get(code, "자료 처리 정보") + f" ({_safe(code)})" for code in quality_reasons], ""])
     for family, source in report["provenance"].items():
         lines.append(f"- {family}: {_safe(source.get('run_id', '없음'))} · manifest SHA-256 {_safe(source.get('manifest_sha256', '없음'))}")
     for assessment in report["assessments"]:
@@ -261,22 +301,20 @@ def _research_text(value):
 
 def _lifecycle_markdown(guide):
     source = guide["source"]
-    lines = ["## 생애주기별 확인 질문", "", "문헌을 참고해 만든 서비스용 해석 가설입니다. 실제 생애사건·고립·외로움·지원 필요는 미확인입니다.",
+    lines = ["## 생애주기별 살펴볼 사항", "",
              f"문헌: {_research_text('·'.join(source['authors']))} ({source['year']}), 『{_research_text(source['title'])}』, {_research_text(source['publisher'])}.",
              "본문 참고 쪽: " + ", ".join(str(page) for page in source["pages"]),
              f"문헌 DOI: {_research_text(source['doi'])}",
-             f"가이드 버전: {_research_text(guide['guide_version'])} · 지역 확인 근거에 가산하지 않음", ""]
+             f"가이드 버전: {_research_text(guide['guide_version'])}", ""]
     for group in guide["groups"]:
         scope = group["scope"]
         lines.extend([f"### {SEX_LABELS[scope['sex_code']]} {_research_text(group['age_label'])}",
-                      "해석 상태: 확인 질문만 제시 · 지원 필요: 미확인",
-                      "관측 자료: " + ("있음" if group["observation_status"] == "available" else "없음 — 가설이 관측된 것으로 해석하지 않음")])
-        lines.extend("- 확인 가설: " + _research_text(item["text"]) + " (서비스 해석 가설, 미확인)" for item in group["hypotheses"])
+                      "관측 자료: " + ("있음" if group["observation_status"] == "available" else "없음")])
+        lines.extend("- 확인 가설: " + _research_text(item["text"]) for item in group["hypotheses"])
         lines.extend("- 확인 질문: " + _research_text(item) for item in group["questions"])
-        lines.append("- 연령·모집단 범위: " + _research_text(group["boundaries"][0]))
         lines.append("")
     lines.extend(["함께 비교할 사항:", *["- " + _research_text(item) for item in guide["comparison_checks"]],
-                  "", *["- " + _research_text(item) for item in guide["boundaries"]], ""])
+                  ""])
     return lines
 
 
@@ -285,7 +323,7 @@ def _research_markdown(research):
     lines = ["## 지역 맥락 조사 요약", "", _research_text(research.get("summary")), ""]
     comparison = research.get("comparison_context") or {}
     if comparison.get("reports"):
-        lines.extend(["### 비교에 사용한 저장 관측", "", "동일 조건으로 검증한 저장 보고서의 관측입니다. 지역 간 차이는 인과관계를 입증하지 않습니다.", ""])
+        lines.extend(["### 비교에 사용한 저장 관측", "", "같은 월·집단·집계 단위의 활동을 나란히 비교합니다.", ""])
         for item in comparison["reports"]:
             scope = item["scope"]
             group = f"{SEX_LABELS.get(scope.get('sex_code'), '전체 성별')} {AGE_LABELS.get(scope.get('age_code'), '전체 연령')}"
@@ -295,22 +333,21 @@ def _research_markdown(research):
                 lines.append(f"  - {_research_text(family)}: {_research_text(version.get('run_id', '없음'))} · manifest SHA-256 {_research_text(version.get('manifest_sha256', '없음'))}")
         lines.append("")
     if research["status"] == "no_evidence":
-        lines.extend(["검색을 수행했으나 이 지역·관측 기간의 가능한 원인을 설명할 충분한 근거를 확보하지 못했습니다.", ""])
+        lines.extend(["해당 지역·기간의 추가 자료가 없습니다.", ""])
     lines.extend(["### 조사로 확인한 지역 맥락", ""])
     for item in research.get("observed_context", []):
         lines.append(f"- {_research_text(item['text'])} — 근거: {refs(item['source_ids'])}")
     if not research.get("observed_context"):
         lines.append("- 확인한 외부 지역 맥락 자료가 없습니다.")
-    lines.extend(["", "### 가능한 원인 · 확인할 가설", "", "아래 내용은 인과관계가 입증된 결론이 아닙니다.", ""])
+    lines.extend(["", "### 가능한 원인 · 확인할 가설", ""])
     for item in research.get("possible_causes", []):
         lines.extend([f"- **{_research_text(item['title'])}**: {_research_text(item['explanation'])}",
-                      f"  - 근거: {refs(item['source_ids'])}",
-                      f"  - 해석 한계: {refs(item.get('limitations', []))}"])
+                      f"  - 관련 자료: {refs(item['source_ids'])}"])
     if not research.get("possible_causes"):
-        lines.append("- 근거가 충분한 원인 후보를 제시하지 않았습니다.")
+        lines.append("- 추가로 살펴볼 배경은 아직 정리되지 않았습니다.")
     if research.get("lifecycle_checks"):
         labels = {"supported_context": "관련 지역 맥락 확인", "counter_context": "반박·약화하는 지역 맥락", "unverified": "미확인"}
-        lines.extend(["", "### 생애주기 가설의 지역 근거 검토", "", "지역 맥락 검토 결과이며 개인의 생애사건·고립·외로움·지원 필요를 확인한 결과가 아닙니다."])
+        lines.extend(["", "### 생애주기별 지역 맥락", ""])
         for item in research["lifecycle_checks"]:
             scope = item["scope"]
             lines.extend([f"- {SEX_LABELS[scope['sex_code']]} {AGE_LABELS[scope['age_code']]} · {_research_text(item['hypothesis_id'])}: {labels[item['status']]}",
@@ -335,8 +372,6 @@ def _research_markdown(research):
             lines.append(f"  - 분석 범위와의 관계: {geography.get(source.get('geography_relation'), '지역 관계 미확인')} · {period.get(source.get('period_relation'), '기간 관계 미확인')}")
     if not research.get("sources"):
         lines.append("- 확인한 외부 출처가 없습니다.")
-    lines.extend(["", "### 조사 범위와 한계", ""])
-    lines.extend("- " + _research_text(item) for item in research.get("limitations", []))
     if research.get("search_queries"):
         lines.append("- 사용한 검색어: " + refs(research["search_queries"]))
     lines.append("")
