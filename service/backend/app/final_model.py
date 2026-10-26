@@ -16,6 +16,7 @@ from .config import Settings
 
 ACTIVITY_CONTRACT = "final_activity_evidence_v1"
 SURVEY_CONTRACT = "survey_area_isolation_index_v1"
+TEN_GROUP_SURVEY_CONTRACT = "survey_area_isolation_index_10group_v1"
 PROVINCES = dict(zip(
     ("11", "26", "27", "28", "29", "30", "31", "36", "41", "43", "44", "46", "47", "48", "50", "51", "52"),
     ("서울특별시", "부산광역시", "대구광역시", "인천광역시", "광주광역시", "대전광역시", "울산광역시", "세종특별자치시",
@@ -70,7 +71,7 @@ class FinalModel:
         if explicit is not None:
             return explicit.resolve()
         if family == "survey":
-            published = self.settings.model_root / "data/i5/national_2025"
+            published = self.settings.model_root / "data/i5/national_2025_10group"
             if published.exists():
                 return published.resolve()
         pointer = "latest.json" if family == "activity" else "survey_area_index_latest.json"
@@ -100,8 +101,14 @@ class FinalModel:
                         else {"sgg_isolation_index.jsonl", "dong_isolation_index.jsonl"})
             if not required.issubset(manifest["outputs"]):
                 raise ValueError("untracked_required_output")
-            if family == "survey" and manifest.get("contract_version") != SURVEY_CONTRACT:
+            if family == "survey" and manifest.get("contract_version") not in (SURVEY_CONTRACT, TEN_GROUP_SURVEY_CONTRACT):
                 raise ValueError("unsupported_survey_contract")
+            if family == "survey" and manifest["contract_version"] == TEN_GROUP_SURVEY_CONTRACT:
+                with MODULE_LOCK:
+                    survey = importlib.import_module(survey.__package__ + ".survey_area_index_ten")
+                survey.verified_bundle(root)
+                validators = {**validators, "survey": Draft202012Validator(
+                    json.loads(survey.SCHEMA.read_text(encoding="utf-8-sig")))}
             if family == "activity" and manifest.get("provenance", {}).get("model_version") != ACTIVITY_CONTRACT:
                 raise ValueError("unsupported_activity_contract")
             result = operation(root, manifest, query, survey, common, validators)
@@ -186,6 +193,11 @@ class FinalModel:
                 result.update(records=selected[offset:offset + limit], total_matched=len(selected),
                               next_offset=offset + limit if offset + limit < len(selected) else None,
                               availability=survey.availability(selected, filters.get("region_code"), filters.get("month")))
+                if manifest["contract_version"] == TEN_GROUP_SURVEY_CONTRACT:
+                    national = survey.national_profiles(root / "national_ten_group_profile.csv")
+                    result["records"] = [survey.with_group_profiles(row, national) for row in result["records"]]
+            from final_model.src.i5_display import project_i5_record
+            result["records"] = [project_i5_record(row) for row in result["records"]]
             result["availability"]["province_code"] = province_code
             return {**result, "run_id": manifest["run_id"]}
         return self.read("survey", read)

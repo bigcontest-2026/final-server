@@ -234,6 +234,10 @@ def query(bundle, level="sgg", month=None, region_code=None, dong_code=None, off
                                   and dong_code.isdigit()), "invalid_dong_filter")
     bundle = Path(bundle)
     manifest = json.loads((bundle / "manifest.json").read_text(encoding="utf-8-sig"))
+    if manifest.get("contract_version") == "survey_area_isolation_index_10group_v1":
+        from .survey_area_index_ten import query as query_ten
+        return query_ten(bundle, level=level, month=month, region_code=region_code,
+                         dong_code=dong_code, offset=offset, limit=limit)
     require(manifest.get("contract_version") == CONTRACT and manifest.get("status") == "completed"
             and manifest.get("is_synthetic") is False, "invalid_survey_area_bundle")
     for name, digest in manifest["outputs"].items():

@@ -1,0 +1,63 @@
+{
+  "area_index_version": "survey_area_i5_10group_2025_v1",
+  "code_sha256": "aff0edb8435a1937f26627d006070aa02ac53268b27a2d1e360057da9b71ef56",
+  "contract_version": "survey_area_isolation_index_10group_v1",
+  "geographic_scope": "nationwide",
+  "group_contract_version": "national_survey_ten_group_reference_v1",
+  "group_schema_sha256": "9f2c714cdb460bc4b36fa476c4efcc4064d88834da303053a3520a8c866e1f39",
+  "is_synthetic": false,
+  "legacy_bundle_manifest_sha256": "cabb54eb1076b310c7ef0110cf8b59206af48c47a00b3187a1b3930bd8e54c1b",
+  "outputs": {
+    "age_group_mapping.json": "ecb36c2179609b32141226b5d6d3d1687b82ca35e4685b4ed8ac33291a7736fb",
+    "area_registry.json": "ef6327ccd9077ce825a982acce57d1c873b5bf09e7271fa17bf14167e61192d4",
+    "dong_isolation_index.jsonl": "09bcaa1c1c6c985b5ed032182d3366f571e1e4fc435c864c7541faf686315d7e",
+    "national_ten_group_profile.csv": "60e165b0f3102023f34d6a16d74a834c460c2e6420240613e72fc1fd8fd3252d",
+    "sgg_isolation_index.jsonl": "ef2fc5c1219345f384056b8f54217b9281a2dea498b5b4b0cacc6b0ae78aeee0",
+    "unscored_areas.json": "5066643a4306585adcfac6d12b450530e47394818dbc8fe326bda2ace42d661b",
+    "validation_report.json": "5263b479b3a6ba90c639602661c58a41f0d2e0399d9d08e3a5d9d6d671dc0e2b"
+  },
+  "run_id": "survey_area_i5_10group_2025_v1_96b366857618",
+  "schema_sha256": "d8e850a6542a306bab9fdbc0a8391f23555a42595cae72b6a6c7b4aa005ee814",
+  "score_scale": "0_to_100_raw_equal_five_domains",
+  "source_index_version": "I5_2025_final_v1",
+  "source_population_coverage_verified": false,
+  "source_rebuild": {
+    "02_survey_10group": {
+      "inputs": {
+        "age_group_mapping.json": "ecb36c2179609b32141226b5d6d3d1687b82ca35e4685b4ed8ac33291a7736fb",
+        "national_ten_group_profile.csv": "60e165b0f3102023f34d6a16d74a834c460c2e6420240613e72fc1fd8fd3252d"
+      },
+      "manifest_sha256": "77826953adba7d00ee5896ac2a51118204a82cccb39fb01886464be172f1daf4"
+    },
+    "03_nationwide_10group": {
+      "inputs": {
+        "dong_10group_recomputed.jsonl": "7886ca263b1d058922f57610a2e0784d274dd930fe05dcb58ecdbcfd730fc2d4",
+        "sgg_10group_recomputed.jsonl": "f8aad11559eaf312771b6dd413d1a7826ab3aa0d90a0fdac14ef11e56729aa16",
+        "unscored_areas.json": "5066643a4306585adcfac6d12b450530e47394818dbc8fe326bda2ace42d661b"
+      },
+      "manifest_sha256": "3e3d2d3da3bb7c69a678ca237589e4b0ec6a69e86c81f4e7078779ad817b3ced"
+    }
+  },
+  "source_rebuild_branch": "backup/i5-10group-rebuild-20261025",
+  "status": "completed",
+  "validation": {
+    "area_rows": {
+      "administrative_dong": 21698,
+      "sgg": 1584
+    },
+    "display_conversion_applied": false,
+    "july_november_official_40_column_direct_reconciliation": "not_verified",
+    "legacy_bundle_manifest_sha256": "cabb54eb1076b310c7ef0110cf8b59206af48c47a00b3187a1b3930bd8e54c1b",
+    "max_area_domain_copy_error": 0.0,
+    "max_area_i5_copy_error": 0.0,
+    "national_complete_respondents": 31817,
+    "national_groups": 10,
+    "national_i5_weighted_mean": 34.50915112817933,
+    "operational_alert_allowed": false,
+    "quality_status": "hold",
+    "status": "passed_with_known_source_limits",
+    "ten_to_six_max_abs_error": 9.313225746154785e-10,
+    "zero_adult_unscored_rows": 16,
+    "zero_population_july_november_13_rows": "not_verified"
+  }
+}

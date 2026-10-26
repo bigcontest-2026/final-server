@@ -63,9 +63,9 @@ class InvestigationTools:
                         else {"behavior_evidence.jsonl", "historical_reference.jsonl"})
             if not required.issubset(manifest["outputs"]):
                 raise ValueError("untracked_required_output")
-            expected = "survey_area_isolation_index_v1" if family == "i5" else "final_activity_evidence_v1"
+            expected = ("survey_area_isolation_index_v1", "survey_area_isolation_index_10group_v1") if family == "i5" else ("final_activity_evidence_v1",)
             actual = manifest.get("contract_version") if family == "i5" else manifest.get("provenance", {}).get("model_version")
-            if actual != expected:
+            if actual not in expected:
                 raise ValueError("unsupported_final_model_contract")
             result = operation(Path(bundle))
         except (ValidationError, KeyError, TypeError) as exc:
@@ -79,16 +79,20 @@ class InvestigationTools:
             return {"records": [], "total_matched": 0,
                     "availability": {"status": "data_unavailable", "reason": "i5_bundle_not_configured"},
                     "quality_status": "hold", "operational_alert_allowed": False}
-        from final_model.src.survey_area_index import query
         def read(bundle):
+            from final_model.src import survey_area_index, survey_area_index_ten
+            from final_model.src.i5_display import project_i5_record
+            manifest = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
+            ten_groups = manifest["contract_version"] == survey_area_index_ten.CONTRACT
+            query = survey_area_index_ten.query if ten_groups else survey_area_index.query
             result = query(bundle, level="administrative_dong" if dong_code else "sgg", region_code=region_code,
                            dong_code=dong_code, month=month, offset=offset, limit=limit)
-            validator = _final_validator("survey_area_index.schema.json")
+            validator = _final_validator("survey_area_index_ten.schema.json" if ten_groups else "survey_area_index.schema.json")
             for row in result["records"]:
                 validator.validate(row)
                 if row["isolation_index"] != row["i5_reference"]:
                     raise ValueError("survey_score_mismatch")
-            return result
+            return {**result, "records": [project_i5_record(row) for row in result["records"]]}
         return self._read_final(self.i5_bundle, "i5", read)
 
     def get_final_behavior_evidence(self, *, region_code, month, sex_code=None, age_code=None, offset=0, limit=20):
@@ -112,7 +116,13 @@ class InvestigationTools:
             return result
         return self._read_final(self.final_model_bundle, "activity", read)
 
-    def get_survey_mois_reference(self, *, table="national_six_group_profile", **filters):
+    def get_survey_mois_reference(self, *, table="national_ten_group_profile", **filters):
+        if table == "national_ten_group_profile":
+            from final_model.src.survey_area_index_ten import query_national_groups
+            def read_ten(bundle):
+                result = query_national_groups(bundle, **filters)
+                return {**result, "table": table, "quality_status": "hold", "operational_alert_allowed": False}
+            return self._read_final(self.i5_bundle, "i5", read_ten)
         from final_model.src.query import survey_query
         def read(bundle):
             return {"contract_version": "survey_mois_reference_v1", "table": table,
@@ -248,7 +258,7 @@ class InvestigationTools:
                                                         month=request["measurement_as_of"].replace("-", ""), limit=2)
             row = result["records"][0] if result["records"] else None
             add("survey_i5_population_reference", row, "available" if row is not None else "unavailable",
-                "전국 설문 성·연령 6집단을 해당 지역 20세 이상 주민등록 인구구성으로 가중",
+                f"전국 설문 성·연령 {len(row['group_weights']) if row else 10}집단을 해당 지역 20세 이상 주민등록 인구구성으로 가중",
                 request["measurement_as_of"], "인구구성 가중 전국 설문 참고점수(0~100)",
                 ["지역 직접 설문·개인 고립확률·고립률·요청 연령 전용 점수가 아닙니다.",
                  "월별 차이는 인구구성 차이이며 같은 지역의 반복 설문 결과가 아닙니다.",

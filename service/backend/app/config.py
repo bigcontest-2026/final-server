@@ -10,7 +10,7 @@ DEFAULT_SUPPORT = DEFAULT_AGENT_ROOT / "resources" / "support" / "manifest.json"
 DEFAULT_CAPTURE_ROOT = DEFAULT_AGENT_ROOT / "evidence" / "support"
 DEFAULT_RUNTIME = Path(__file__).resolve().parents[1] / "runtime"
 DEFAULT_MODEL_ROOT = Path(__file__).resolve().parents[3] / "model"
-DEFAULT_I5_BUNDLE = DEFAULT_MODEL_ROOT / "data" / "i5" / "national_2025"
+DEFAULT_I5_BUNDLE = DEFAULT_MODEL_ROOT / "data" / "i5" / "national_2025_10group"
 
 
 @dataclass(frozen=True)

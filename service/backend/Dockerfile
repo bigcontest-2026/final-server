@@ -11,6 +11,7 @@ COPY model/final_model/__init__.py /workspace/model/final_model/__init__.py
 COPY model/final_model/src /workspace/model/final_model/src
 COPY model/final_model/schemas /workspace/model/final_model/schemas
 COPY model/data/i5/national_2025 /workspace/model/data/i5/national_2025
+COPY model/data/i5/national_2025_10group /workspace/model/data/i5/national_2025_10group
 COPY service/backend/app ./app
 USER app
 EXPOSE 8000

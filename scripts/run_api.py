@@ -22,7 +22,7 @@ def configure(root=ROOT):
         'DONGHAENG_MODEL_ROOT': str(root/'model'),
         'DONGHAENG_AGENT_ROOT': str(root/'agent'),
         'FINAL_MODEL_BUNDLE': str(root/'bundles/activity'),
-        'I5_BUNDLE_PATH': str(root/'model/data/i5/national_2025'),
+        'I5_BUNDLE_PATH': str(root/'model/data/i5/national_2025_10group'),
         'MODEL_RUNTIME_ROOT': str(root/'runtime/model'),
         'ACCESS_MODE': 'local_development',
     }

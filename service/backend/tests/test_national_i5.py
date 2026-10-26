@@ -15,7 +15,7 @@ ROOT=Path(__file__).resolve().parents[3]
 def application(tmp_path):
     pytest.importorskip("donghaeng_agent", reason="optional legacy agent tests: install requirements-legacy.txt")
     pytest.importorskip("donghaeng_model", reason="optional research snapshot tests: install requirements-legacy.txt")
-    assert (DEFAULT_I5_BUNDLE/"national_validation_report.json").is_file()
+    assert (DEFAULT_I5_BUNDLE/"validation_report.json").is_file()
     manifest=tmp_path/"support.json";manifest.write_text('{"sources":[]}',encoding="utf-8")
     return create_app(Settings(mode="research",support_manifest_path=manifest,
         investigation_worker_enabled=False,investigation_db_path=tmp_path/"cases.sqlite3",investigation_checkpoint_path=tmp_path/"checkpoints.sqlite3"))
