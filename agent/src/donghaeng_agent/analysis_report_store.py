@@ -8,7 +8,7 @@ import sqlite3
 import time
 from uuid import uuid4
 
-from .analysis_reports import report_region_name
+from .analysis_reports import report_region_name, present_analysis_report
 
 
 def encoded(value):
@@ -63,7 +63,7 @@ class AnalysisReportStore:
         fingerprint = hashlib.sha256(encoded(identity).encode()).hexdigest()
         row = db.execute("SELECT data FROM analysis_reports WHERE fingerprint=?", (fingerprint,)).fetchone()
         if row:
-            return {**json.loads(row["data"]), "reused": True}
+            return {**present_analysis_report(json.loads(row["data"])), "reused": True}
         result = {**report, "report_id": "analysis_" + uuid4().hex,
                   "created_at": datetime.now(timezone.utc).isoformat(), "storage_status": "saved"}
         result.pop("reused", None)
@@ -84,7 +84,7 @@ class AnalysisReportStore:
                 saved = db.execute("SELECT data FROM analysis_reports WHERE report_id=?", (row["result_id"],)).fetchone()
                 if saved is None:
                     raise sqlite3.DatabaseError("research_result_missing")
-                return {"status": "completed", "report": {**json.loads(saved["data"]), "reused": True}}
+                return {"status": "completed", "report": {**present_analysis_report(json.loads(saved["data"])), "reused": True}}
             now = time.time()
             if row and row["lease_token"] and row["lease_until"] > now:
                 return {"status": "running"}
@@ -116,7 +116,7 @@ class AnalysisReportStore:
     def get(self, report_id):
         with self.connection() as db:
             row = db.execute("SELECT data FROM analysis_reports WHERE report_id=?", (report_id,)).fetchone()
-        return json.loads(row["data"]) if row else None
+        return present_analysis_report(json.loads(row["data"])) if row else None
 
     def claim_summary(self, report_id, cache_key):
         with self.connection(write=True) as db:

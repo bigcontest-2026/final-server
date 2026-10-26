@@ -1,3 +1,5 @@
+from .analysis_reports import i5_display_line
+
 """Frozen, plain-text document shared by screen, Markdown, PDF and HWPX."""
 import re
 from datetime import datetime, timedelta, timezone
@@ -78,6 +80,9 @@ def build_response_document(report):
         f"지역 코드: {scope.get('dong_code') or scope.get('region_code', '미확인')}"]
     if scope.get('dong_code'):
         analysis_paragraphs.append(f"선택 행정동의 I5 · 활동 집계 지역: 상위 시군구({scope.get('region_code')})")
+    i5 = ((analysis.get('context') or {}).get('i5') or {}).get('record')
+    if i5:
+        analysis_paragraphs.append(i5_display_line(i5))
     analysis_paragraphs.extend(observations)
     investigation = analysis.get('context_investigation') or {}
     analysis_paragraphs.append(investigation.get('summary') or '지역 맥락 조사는 아직 진행하지 않았습니다.')

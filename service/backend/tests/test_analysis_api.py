@@ -383,7 +383,8 @@ def test_old_report_display_is_projected_without_database_rewrite(report_setting
         raw = report['context']['i5']['record']
         for key in ('i5_z', 'i5_display_score', 'i5_display_clipped', 'i5_display_reference_version'):
             raw.pop(key, None)
-        report['markdown'] = render_analysis_report(report).replace('4.73/10', '35.00/100')
+        report['markdown'] = render_analysis_report(report)
+        report['markdown'] = __import__('re').sub(r'^I5 표시점수: .*$', 'I5: 35.00/100 · 지역 전체 인구구성 기준', report['markdown'], flags=__import__('re').MULTILINE)
         original = encoded(report)
         with store.connection(write=True) as db:
             db.execute('UPDATE analysis_reports SET data=? WHERE report_id=?', (original, report['report_id']))

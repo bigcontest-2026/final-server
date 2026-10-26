@@ -16,6 +16,7 @@ from uuid import NAMESPACE_URL, uuid4, uuid5
 from .welfare_support_mapping import CATEGORY_LABELS as SUPPORT_NEED_LABELS
 from .analysis_reports import report_region_name
 from .planning_details import normalize_planning
+from .analysis_reports import present_analysis_report
 from .report_document import build_response_document, render_document_markdown
 
 SCHEMA_VERSION = "welfare-plan-2.0"
@@ -392,7 +393,12 @@ class ResponseWorkspaceStore:
     def get_report(self, report_id):
         with self.connection() as db:
             row = db.execute("SELECT data FROM response_reports WHERE report_id=?", (report_id,)).fetchone()
-        return json.loads(row["data"]) if row else None
+        if row is None:
+            return None
+        report = json.loads(row["data"])
+        if report.get("analysis_snapshot"):
+            report["analysis_snapshot"] = present_analysis_report(report["analysis_snapshot"])
+        return report
 
     def list_reports(self, *, analysis_report_id=None, scope_filters=None, limit=20, offset=0, **family):
         if type(limit) is not int or type(offset) is not int or not 1 <= limit <= 100 or offset < 0:

@@ -1,4 +1,6 @@
 """Deterministic report ① from verified aggregates; no LLM or outside actions."""
+from final_model.src.i5_display import calculate_i5_display_score, REFERENCE_SCOPE
+
 from collections import Counter
 from copy import deepcopy
 import math
@@ -23,6 +25,43 @@ QUALITY_LABELS = {
     "SKT_SEP_OCT_BOUNDARY_VERSION_CHANGED": "통신 9월·10월 공간 경계 버전이 달라 변화율 해석에 추가 검토 필요",
     "OBSERVATION_UNAVAILABLE": "선택 범위의 활동 자료 없음",
 }
+
+
+
+def i5_display_record(record):
+    """Add the model projection to a copy; retain every original evidence field."""
+    if record is None:
+        return None
+    result = deepcopy(record)
+    result.update(calculate_i5_display_score(result.get("i5_reference")))
+    return result
+
+
+def i5_display_line(record):
+    projected = i5_display_record(record)
+    value = projected.get("i5_display_score") if projected else None
+    score = "자료 없음" if value is None else f"{value:.2f}/10"
+    return f"I5 표시점수: {score} · {REFERENCE_SCOPE} · 5점은 기준 평균"
+
+
+def present_analysis_report(report):
+    """Read-time display projection for saved reports, without rewriting SQLite."""
+    result = deepcopy(report)
+    context = result.get("context") or {}
+    i5 = (context.get("i5") or {}).get("record")
+    if i5:
+        context["i5"]["record"] = i5_display_record(i5)
+        # Only replace the server-generated numerical line. Keep authored research,
+        # citations, timestamps and all other historical content as saved.
+        result["markdown"] = re.sub(
+            r"^I5: [^\n]*?/100 · 지역 전체 인구구성 기준$",
+            lambda _: i5_display_line(i5), result.get("markdown", ""), flags=re.MULTILINE)
+        result["markdown"] = result["markdown"].replace("영역 참고값: ", "영역 참고값(0~100점): ")
+    for compared in (result.get("comparison_context") or {}).get("reports", []):
+        evidence = ((compared.get("context") or {}).get("i5") or {}).get("record")
+        if evidence:
+            compared["context"]["i5"]["record"] = i5_display_record(evidence)
+    return result
 
 
 def _number(value):
@@ -109,7 +148,7 @@ def build_analysis_report(*, scope, current_rows, previous_rows, i5, mois, prove
             assessments.append(assessment)
     counts = Counter(item["category"] for item in assessments)
     summary = {"total": len(assessments), **{category: counts[category] for category in CATEGORY_LABELS}}
-    context = {"i5": {"status": "available" if i5 else "unavailable", "record": deepcopy(i5),
+    context = {"i5": {"status": "available" if i5 else "unavailable", "record": i5_display_record(i5),
                       "role": "regional_population_composition_reference", "changes_category": False},
                "mois": {"status": "available" if mois else "unavailable", "record": deepcopy(mois),
                         "role": "population_and_household_context", "changes_category": False,
@@ -191,8 +230,8 @@ def render_analysis_report(report):
         lines.append(f"- {SEX_LABELS[key['sex_code']]} {AGE_LABELS[key['age_code']]}: 직전 월({previous_month(scope['month'])}) 변화율은 통신 {_formatted(sources['skt'].get('previous_change_percent'), suffix='%', signed=True)}, 카드 {_formatted(sources['card_a'].get('previous_change_percent'), suffix='%', signed=True)}. 모델 상대 이례성은 통신 z {_formatted(diagnostics.get('skt', {}).get('z'))}, 카드 z {_formatted(diagnostics.get('card_a', {}).get('z'))}, 모델 기준 {_formatted(robust.get('cutoff'))}.")
     lines.extend(["", "## 지역 배경 참고", ""])
     if i5:
-        lines.extend([f"I5: {_formatted(i5.get('i5_reference'))}/100 · 지역 전체 인구구성 기준",
-                      "영역 참고값: " + " · ".join(f"{key} {DOMAIN_LABELS.get(key, key)} {_formatted(value)}" for key, value in i5.get("domain_scores", {}).items()),
+        lines.extend([i5_display_line(i5),
+                      "영역 참고값(0~100점): " + " · ".join(f"{key} {DOMAIN_LABELS.get(key, key)} {_formatted(value)}" for key, value in i5.get("domain_scores", {}).items()),
                       f"I5 근거: {_safe(i5['record_id'])}"])
     else:
         lines.append("동일 지역·월의 I5 자료가 없습니다.")
