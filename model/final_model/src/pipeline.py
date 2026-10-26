@@ -8,6 +8,7 @@ from zipfile import ZipFile
 import jsonschema
 from .common import dump, load_module, sha, write_jsonl
 from .geography import region_registry, region_aliases, resolve_region
+from .c3_contract import age_code, expected_link_keys
 
 FINAL = Path(__file__).resolve().parents[1]
 MONTHS = tuple(f"2025{m:02d}" for m in range(7,13))
@@ -29,7 +30,7 @@ def historical_key(row, regions=None, aliases=None):
     regions = regions or REGIONS
     if row["dataset"]!="data2" or row["view"]!="age_sex" or row["calendar_type"]!="all":
         return None
-    return row["month"].replace("-",""), resolve_region(row["region"],regions,aliases), {"남성":"MAN","여성":"WMAN"}[row["sex"]], row["age"]+"G"
+    return row["month"].replace("-",""), resolve_region(row["region"],regions,aliases), {"남성":"MAN","여성":"WMAN"}[row["sex"]], age_code(row["age"])
 
 def aggregate_card(path, regions=None, aliases=None):
     regions = regions or REGIONS
@@ -224,7 +225,7 @@ def main():
         matched=0
         for row in observed:
             if row["view"]!="age_sex": continue
-            key=row["month"].replace("-",""),resolve_region(row["region"],regions,aliases),{"남성":"MAN","여성":"WMAN"}[row["sex"]],row["age"]+"G"
+            key=row["month"].replace("-",""),resolve_region(row["region"],regions,aliases),{"남성":"MAN","여성":"WMAN"}[row["sex"]],age_code(row["age"])
             if counts[key]!=row["count_reported_sum"]: raise ValueError("C3_month_count_mismatch")
             matched+=1
         if matched != len({(r["month"],r["region"],r["sex"],r["age"]) for r in observed if r["view"]=="age_sex"}):
@@ -238,6 +239,10 @@ def main():
         write_jsonl(details/"monthly_results.jsonl",monthly)
         write_jsonl(details/"threshold_sensitivity.jsonl",sensitivity)
         history=c3.make_agent_records(monthly,"data2",profile,c3cfg,False,run_id)
+        actual_c3 = [historical_key(row,regions,aliases) for row in history]
+        actual_c3 = [key for key in actual_c3 if key is not None]
+        if len(actual_c3) != len(set(actual_c3)) or set(actual_c3) != expected_link_keys(c3cfg,regions):
+            raise ValueError("C3_expected_link_key_set_mismatch")
         write_jsonl(out/"historical_reference.jsonl",history)
         stage(5,f"C3 실제 data2 재실행 완료. 원 월건수 {matched}셀 독립 대사 통과. 실행 {run_id}")
         coverage=Counter()

@@ -3,6 +3,7 @@ import argparse,csv,json
 from pathlib import Path
 from .common import read_jsonl,verify_bundle
 from .geography import validate_region_code, availability
+from .pipeline import historical_key
 
 def query(root,region_code=None,month=None,sex_code=None,age_code=None,candidate_only=False,offset=0,limit=20):
     if offset<0 or not 1<=limit<=100: raise ValueError("invalid_pagination")
@@ -21,6 +22,15 @@ def _query_verified(root,manifest,region_code=None,month=None,sex_code=None,age_
     filters=dict(region_code=region_code,month=month,sex_code=sex_code,age_code=age_code)
     observed=[r for r in read_jsonl(root/"behavior_evidence.jsonl") if all(v is None or r["key"][k]==v for k,v in filters.items())]
     rows=[r for r in observed if not candidate_only or r["rule"]["candidate"] is True or r["robust"]["candidate"] is True]
+    for row in rows:
+        reference_id = row["historical_reference_id"]
+        if reference_id is None:
+            continue
+        reference = history.get(reference_id)
+        regions = {row["key"]["region_code"]: row["region_name"]}
+        key = tuple(row["key"][name] for name in ("month", "region_code", "sex_code", "age_code"))
+        if reference is None or historical_key(reference, regions) != key:
+            raise ValueError("invalid_behavior_historical_reference")
     return {"contract_version":"final_activity_evidence_v1","run_id":manifest["run_id"],"quality_status":"hold","operational_alert_allowed":False,
             "availability":availability(observed,region_code,month),
             "total_matched":len(rows),"offset":offset,"next_offset":offset+limit if offset+limit<len(rows) else None,
