@@ -3,6 +3,7 @@ from collections import Counter
 from dataclasses import replace
 import hashlib
 import json
+import re
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -153,7 +154,7 @@ def test_dong_without_parent_activity_saves_real_i5_partial_report_without_asses
         assert len(report["activity_availability"]["missing_groups"]) == 10
         assert report["context_investigation_status"] == "not_applicable"
         assert "활동 범주를 판정하지 않았습니다" in report["markdown"]
-        assert "37.20/100" in report["markdown"]
+        assert "7.28/10" in report["markdown"]
         assert all(group["observation_status"] == "unavailable" for group in report["lifecycle_interpretation"]["groups"])
         assert client.post(PATH + "/" + report["report_id"] + "/investigate", json={}).status_code == 422
         saved = client.get(PATH + "/" + report["report_id"]).json()
@@ -374,7 +375,11 @@ def test_i5_display_in_report_ai_input_and_export(report_settings):
         assert '4.73/10' in exported.text
 
 
-def test_old_report_display_is_projected_without_database_rewrite(report_settings):
+@pytest.mark.parametrize('legacy_line', [
+    'I5: 35.00/100 · 지역 전체 인구구성 기준',
+    'I5: 35.00/100. 지역 전체 인구구성 참고값이며 선택한 성·연령 집단 점수가 아닙니다.',
+])
+def test_old_report_display_is_projected_without_database_rewrite(report_settings, legacy_line):
     from donghaeng_agent.analysis_report_store import AnalysisReportStore, encoded
     from donghaeng_agent.analysis_reports import render_analysis_report
     store = AnalysisReportStore(report_settings.investigation_db_path.with_name('analysis_reports.sqlite3'))
@@ -384,7 +389,7 @@ def test_old_report_display_is_projected_without_database_rewrite(report_setting
         for key in ('i5_z', 'i5_display_score', 'i5_display_clipped', 'i5_display_reference_version'):
             raw.pop(key, None)
         report['markdown'] = render_analysis_report(report)
-        report['markdown'] = __import__('re').sub(r'^I5 표시점수: .*$', 'I5: 35.00/100 · 지역 전체 인구구성 기준', report['markdown'], flags=__import__('re').MULTILINE)
+        report['markdown'] = re.sub(r'^I5 표시점수: .*$', legacy_line, report['markdown'], flags=re.MULTILINE)
         original = encoded(report)
         with store.connection(write=True) as db:
             db.execute('UPDATE analysis_reports SET data=? WHERE report_id=?', (original, report['report_id']))
